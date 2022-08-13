@@ -15,7 +15,7 @@ extension EventDetailView {
         }
         
         func checkIn(_ member: Member) {
-            visits.insert(.init(id: UUID(), member: member, checkedIn: Date(), eventId: event.id), at: 0)
+            visits.insert(.init(id: UUID(), member: member, checkInDate: Date(), eventId: event.id), at: 0)
         }
         
         func checkOut(_ member: Member) {

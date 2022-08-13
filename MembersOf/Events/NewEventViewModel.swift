@@ -39,7 +39,7 @@ extension NewEventView {
         }
         
         func create() -> Event {
-            .init(id: UUID(), name: name, team: teams[teamIndex], startedAt: nil, endedAt: nil, visits: [])
+            .init(id: UUID(), name: name, startDate: nil, endDate: nil, visits: [])
         }
     }
 }

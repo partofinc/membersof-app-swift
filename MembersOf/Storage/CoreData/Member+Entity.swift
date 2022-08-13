@@ -1,9 +1,3 @@
-//
-//  Member+Entity.swift
-//  MembersOf
-//
-//  Created by Ravil Khusainov on 8/11/22.
-//
 
 import Foundation
 import CoreData
@@ -44,13 +38,3 @@ extension Member: Storable {
     }
 }
 
-protocol Storable {
-    
-    associatedtype EntityType: NSManagedObject
-    static func fetchRequest() -> NSFetchRequest<EntityType>
-    
-    init(_ entity: EntityType)
-    
-    func entity(_ context: NSManagedObjectContext) -> EntityType
-    func find(in context: NSManagedObjectContext) -> EntityType?
-}

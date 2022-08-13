@@ -67,7 +67,6 @@ extension Storage {
         }
         
         deinit {
-            print("Deinit")
             cancel()
         }
         

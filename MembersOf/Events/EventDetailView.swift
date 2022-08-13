@@ -56,7 +56,7 @@ struct EventDetailView: View {
         .sheet(item: $sheet) { sheet in
             switch sheet {
             case .addMember:
-                SearchMembersView(viewModel: .init(team: viewModel.event.team)) { viewModel.checkIn($0) }
+                SearchMembersView(viewModel: .init(team: Mock.teams.first!)) { viewModel.checkIn($0) }
                     .presentationDetents([.large])
             }
         }
@@ -66,7 +66,7 @@ struct EventDetailView: View {
 struct EventDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", team: Mock.teams.first!, startedAt: nil, endedAt: nil, visits: [])))
+            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", startDate: nil, endDate: nil, visits: [])))
         }
     }
 }

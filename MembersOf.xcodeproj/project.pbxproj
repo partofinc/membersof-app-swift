@@ -12,6 +12,8 @@
 		F103BD4D289D259F0041D2EF /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD4C289D259F0041D2EF /* EventsViewModel.swift */; };
 		F103BD4F289D32F40041D2EF /* NewEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD4E289D32F40041D2EF /* NewEventView.swift */; };
 		F103BD51289D333C0041D2EF /* NewEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD50289D333C0041D2EF /* NewEventViewModel.swift */; };
+		F1447F7228A7E8CF002AF148 /* Event+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1447F7128A7E8CF002AF148 /* Event+Entity.swift */; };
+		F1447F7428A7E9A2002AF148 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1447F7328A7E9A2002AF148 /* Storable.swift */; };
 		F1487F86289D09D90079934A /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1487F85289D09D90079934A /* EventsView.swift */; };
 		F1487F89289D0BE90079934A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1487F88289D0BE90079934A /* ProfileView.swift */; };
 		F1589F7228A27C9900EE1E92 /* NewMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589F7128A27C9900EE1E92 /* NewMemberView.swift */; };
@@ -57,6 +59,8 @@
 		F103BD4C289D259F0041D2EF /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
 		F103BD4E289D32F40041D2EF /* NewEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventView.swift; sourceTree = "<group>"; };
 		F103BD50289D333C0041D2EF /* NewEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewModel.swift; sourceTree = "<group>"; };
+		F1447F7128A7E8CF002AF148 /* Event+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+Entity.swift"; sourceTree = "<group>"; };
+		F1447F7328A7E9A2002AF148 /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
 		F1487F85289D09D90079934A /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
 		F1487F88289D0BE90079934A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		F1589F7128A27C9900EE1E92 /* NewMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMemberView.swift; sourceTree = "<group>"; };
@@ -235,6 +239,8 @@
 			children = (
 				F1C6491728A50A6300811CAC /* CoreModel.xcdatamodeld */,
 				F1C6492228A50F3700811CAC /* Member+Entity.swift */,
+				F1447F7128A7E8CF002AF148 /* Event+Entity.swift */,
+				F1447F7328A7E9A2002AF148 /* Storable.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -324,8 +330,10 @@
 				F1C8314D289A621B004E34F9 /* TeamsViewModel.swift in Sources */,
 				F18E8700289936C800A001C1 /* Social.swift in Sources */,
 				F1B71D862899011E00AD2E2C /* MembershipsView.swift in Sources */,
+				F1447F7428A7E9A2002AF148 /* Storable.swift in Sources */,
 				F1487F86289D09D90079934A /* EventsView.swift in Sources */,
 				F1589F7228A27C9900EE1E92 /* NewMemberView.swift in Sources */,
+				F1447F7228A7E8CF002AF148 /* Event+Entity.swift in Sources */,
 				F1E25F1728A247F000B1511D /* EventRow.swift in Sources */,
 				F1C60BEB28A272D000F944BD /* SearchMembersView.swift in Sources */,
 				F1C8314F289A714B004E34F9 /* TeamRow.swift in Sources */,

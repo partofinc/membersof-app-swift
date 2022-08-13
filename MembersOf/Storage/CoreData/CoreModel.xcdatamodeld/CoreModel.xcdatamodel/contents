@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21277" systemVersion="22A5321d" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Event" representedClassName="EventEntity" syncable="YES">
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="visits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Visit" inverseName="event" inverseEntity="Visit"/>
+    </entity>
     <entity name="Member" representedClassName="MemberEntity" syncable="YES">
         <attribute name="firstName" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="lastName" attributeType="String"/>
+        <relationship name="visits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Visit" inverseName="member" inverseEntity="Visit"/>
+    </entity>
+    <entity name="Visit" representedClassName="VisitEntity" syncable="YES">
+        <attribute name="checkInDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="visits" inverseEntity="Event"/>
+        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="visits" inverseEntity="Member"/>
     </entity>
 </model>

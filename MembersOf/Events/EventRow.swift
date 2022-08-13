@@ -13,7 +13,7 @@ struct EventRow: View {
     
     var body: some View {
         VStack {
-            Text(event.team.name)
+            Text(event.name)
             Spacer()
         }
         .padding()
@@ -29,7 +29,7 @@ struct EventRow_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             HStack {
-                EventRow(event: .init(id: UUID(), name: "Open mat", team: Mock.teams.first!, startedAt: nil, endedAt: nil, visits: []))
+                EventRow(event: .init(id: UUID(), name: "Open mat", startDate: nil, endDate: nil, visits: []))
             }
         }
         .padding()
