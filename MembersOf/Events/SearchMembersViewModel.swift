@@ -14,12 +14,14 @@ extension SearchMembersView {
     final class ViewModel: ObservableObject {
         
         let team: Team
-        let storage: Storage = .shared
-        var membersFetcher: Storage.Fetcher<Member>?
-        var sort: [NSSortDescriptor] = [.init(keyPath: \Member.Entity.firstName, ascending: false)]
+        let event: Event
+        private let storage: Storage = .shared
+        private var membersFetcher: Storage.Fetcher<Member>?
+        private var sort: [NSSortDescriptor] = [.init(keyPath: \Member.Entity.firstName, ascending: false)]
         
-        init(team: Team) {
+        init(team: Team, event: Event) {
             self.team = team
+            self.event = event
             search()
         }
         
@@ -34,6 +36,12 @@ extension SearchMembersView {
                 .filter(with: .init(format: "firstName CONTAINS[cd] %@", pattern), skip: pattern.isEmpty)
                 .filter(with: .init(format: "lastName CONTAINS[cd] %@", pattern), type: .or, skip: pattern.isEmpty)
                 .run(sort: sort)
+        }
+        
+        func delete(_ member: Member) {
+            Task {
+                try await storage.delete(member)
+            }
         }
     }
 }

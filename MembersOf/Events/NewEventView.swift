@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NewEventView: View {
     
-    let create: (Event) -> Void
     @StateObject fileprivate var viewModel: ViewModel = .init()
     @Environment(\.dismiss) private var dismiss
     
@@ -19,7 +18,7 @@ struct NewEventView: View {
                 Text("Event")
                 Spacer()
                 Button("Create") {
-                    create(viewModel.create())
+                    viewModel.create()
                     dismiss()
                 }
             }
@@ -68,6 +67,6 @@ struct NewEventView: View {
 
 struct NewEventView_Previews: PreviewProvider {
     static var previews: some View {
-        NewEventView() {_ in}
+        NewEventView()
     }
 }

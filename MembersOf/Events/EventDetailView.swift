@@ -24,7 +24,7 @@ struct EventDetailView: View {
                     ForEach(viewModel.visits) { visit in
                         HStack {
                             Text(visit.member.fullName)
-                                    .font(.headline)
+                                .font(.headline)
                             Spacer()
                         }
                         .padding()
@@ -33,11 +33,11 @@ struct EventDetailView: View {
                                 .fill(Color.purple.opacity(0.7).gradient)
                                 .shadow(radius: 3)
                         )
-                        .swipeActions {
-                            Button {
-                                
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                viewModel.delete(visit)
                             } label: {
-                                Image(systemName: "trash")
+                                Label("Chedk Out", systemImage: "xmark")
                             }
                         }
                     }
@@ -46,7 +46,6 @@ struct EventDetailView: View {
             }
             Button {
                 sheet = .addMember
-//                viewModel.checkIn(.init(id: UUID(), firstName: "Ravil", lastName: "Khusainov"))
             } label: {
                 Label("Check in", systemImage: "plus")
             }
@@ -56,7 +55,7 @@ struct EventDetailView: View {
         .sheet(item: $sheet) { sheet in
             switch sheet {
             case .addMember:
-                SearchMembersView(viewModel: .init(team: Mock.teams.first!)) { viewModel.checkIn($0) }
+                SearchMembersView(viewModel: .init(team: Mock.teams.first!, event: viewModel.event))
                     .presentationDetents([.large])
             }
         }
@@ -66,7 +65,7 @@ struct EventDetailView: View {
 struct EventDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", startDate: nil, endDate: nil, visits: [])))
+            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: nil, endDate: nil)))
         }
     }
 }

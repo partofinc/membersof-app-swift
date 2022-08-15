@@ -6,7 +6,7 @@ import CoreData
 extension Event: Storable {
     
     static func fetchRequest() -> NSFetchRequest<Entity> {
-        return NSFetchRequest<Entity>(entityName: "Member")
+        return NSFetchRequest<Entity>(entityName: "Event")
     }
     
     @objc(EventEntity)
@@ -16,26 +16,30 @@ extension Event: Storable {
         @NSManaged public var name: String?
         @NSManaged public var startDate: Date?
         @NSManaged public var endDate: Date?
-//        @NSManaged public var visits: [Visit.Entity]?
+        @NSManaged public var createDate: Date?
+//        @NSManaged public var visits: Set<Visit.Entity>?
     }
     
     init(_ entity: Entity) {
         id = entity.id!
         name = entity.name!
-        startDate = entity.startDate!
-        endDate = entity.endDate!
-        visits = []
+        createDate = entity.createDate!
+        startDate = entity.startDate
+        endDate = entity.endDate
+//        visits = entity.visits == nil ? [] : entity.visits!.map(Visit.init)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
-        let result = find(in: context)
-        let entity = result == nil ? Entity(context: context) : result!
+        let entity = find(in: context) ?? Entity(context: context)
+        entity.id = id
+        entity.name = name
+        entity.startDate = startDate
+        entity.endDate = endDate
+        entity.createDate = createDate
         return entity
     }
     
     func find(in context: NSManagedObjectContext) -> Entity? {
-        let request = Event.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", id.uuidString)
-        return try? context.fetch(request).first
+        Event.first(in: context, key: "id", value: id.uuidString)
     }
 }

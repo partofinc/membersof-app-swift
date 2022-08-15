@@ -23,8 +23,7 @@ extension Member: Storable {
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
-        let result = find(in: context)
-        let e = result == nil ? Entity(context: context) : result!
+        let e = find(in: context) ?? Entity(context: context)
         e.id = id
         e.firstName = firstName
         e.lastName = lastName
@@ -32,9 +31,7 @@ extension Member: Storable {
     }
     
     func find(in context: NSManagedObjectContext) -> Entity? {
-        let request = Member.fetchRequest()
-        request.predicate = NSPredicate(format: "self.id == %@", id.uuidString)
-        return try? context.fetch(request).first
+        Member.first(in: context, key: "id", value: id.uuidString)
     }
 }
 

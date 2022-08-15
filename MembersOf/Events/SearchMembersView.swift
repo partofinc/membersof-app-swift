@@ -10,29 +10,21 @@ import SwiftUI
 struct SearchMembersView: View {
     
     @StateObject var viewModel: ViewModel
-    let select: (Member) -> Void
     
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
             List {
-                Button {
-//                    withAnimation {
-//                        viewModel.members.insert(.init(id: UUID(), firstName: "Animated", lastName: "me"), at: 0)
-//                    }
-                    viewModel.storage.save([Member(id: UUID(), firstName: "Later", lastName: "On")])
-//                    NewMemberView(viewModel: .init(team: viewModel.team)) { member in
-//                        select(member)
-//                        dismiss()
-//                    }
+                NavigationLink {
+                    NewMemberView(viewModel: .init(team: viewModel.team, event: viewModel.event), dismiss: dismiss)
                 } label: {
                     Label("New", systemImage: "plus")
                 }
                 ForEach(viewModel.members) { member in
                     NavigationLink {
                         MemberConfirmationView(viewModel: .init(member: member)) {
-                            select(member)
+//                            select(member)
                             dismiss()
                         }
                     } label: {
@@ -40,11 +32,10 @@ struct SearchMembersView: View {
                     }
                     .swipeActions {
                         Button(role: .destructive) {
-                            viewModel.storage.delete([member])
+                            viewModel.delete(member)
                         } label: {
                             Image(systemName: "trash")
                         }
-//                        .tint(.red)
                     }
                 }
             }
@@ -60,6 +51,6 @@ struct SearchMembersView: View {
 
 struct SearchMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchMembersView(viewModel: .init(team: Mock.teams.first!)) {_ in}
+        SearchMembersView(viewModel: .init(team: Mock.teams.first!, event: .init(id: UUID(), name: "Tested event", createDate: .now, startDate: nil, endDate: nil)))
     }
 }

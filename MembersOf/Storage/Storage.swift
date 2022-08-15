@@ -18,18 +18,26 @@ final class Storage {
         }
     }
     
-    func fetch<T: Storable>() -> Fetcher<T> {
+    func fetch<Entity: Storable>() -> Fetcher<Entity> {
         return Fetcher(container.viewContext)
     }
     
-    func save(_ entities: [some Storable]) {
-        update { context in
+    func find<Entity: Storable>(key: String, value: String) -> Entity? {
+        Entity.first(in: container.viewContext, key: key, value: value).map(Entity.init)
+    }
+    
+    func save(_ entities: [any Storable]) async throws {
+        try await update { context in
             _ = entities.map{$0.entity(context)}
         }
     }
     
-    func delete(_ entities: [some Storable]) {
-        update { context in
+    func save(_ entity: some Storable) async throws {
+        try await save([entity])
+    }
+    
+    func delete(_ entities: [any Storable]) async throws {
+        try await update { context in
             entities.forEach { value in
                 if let obj = value.find(in: context) {
                     context.delete(obj)
@@ -38,16 +46,30 @@ final class Storage {
         }
     }
     
-    fileprivate func update(_ perform: @escaping (NSManagedObjectContext) -> Void) {
+    func delete(_ entity: some Storable) async throws {
+        try await delete([entity])
+    }
+    
+    fileprivate func update(_ perform: @escaping (NSManagedObjectContext) -> Void) async throws {
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         context.parent = container.viewContext
-        Task {
-            await context.perform {
-                perform(context)
-                try? context.save()
+        var err: Error?
+        await context.perform {
+            perform(context)
+            do {
+                try context.save()
+            } catch {
+                err = error
             }
-            try? container.viewContext.save()
         }
+        if let err { throw err }
+        guard container.viewContext.hasChanges else { return }
+        do {
+            try self.container.viewContext.save()
+        } catch {
+            err = error
+        }
+        if let err { throw err }
     }
 }
 

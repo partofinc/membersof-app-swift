@@ -8,6 +8,7 @@ extension NewEventView {
     final class ViewModel: ObservableObject {
         
         let teams: [Team] = Mock.teams
+        fileprivate let storage: Storage = .shared
         
         @Published var teamIndex: Int = 0
         @Published var memberships: [Membership] = [
@@ -38,8 +39,10 @@ extension NewEventView {
             selectedMemberships.removeAll()
         }
         
-        func create() -> Event {
-            .init(id: UUID(), name: name, startDate: nil, endDate: nil, visits: [])
+        func create() {
+            Task {
+                try await self.storage.save(Event(id: UUID(), name: name, createDate: .now, startDate: nil, endDate: nil))
+            }
         }
     }
 }

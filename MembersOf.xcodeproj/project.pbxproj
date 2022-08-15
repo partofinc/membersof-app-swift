@@ -51,6 +51,7 @@
 		F1C83155289AEA37004E34F9 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C83154289AEA37004E34F9 /* Member.swift */; };
 		F1C83157289AEE59004E34F9 /* Supervisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C83156289AEE59004E34F9 /* Supervisor.swift */; };
 		F1E25F1728A247F000B1511D /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E25F1628A247F000B1511D /* EventRow.swift */; };
+		F1FA94B428AA1F4700EE949D /* Visit+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FA94B328AA1F4700EE949D /* Visit+Entity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		F1C83154289AEA37004E34F9 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F1C83156289AEE59004E34F9 /* Supervisor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supervisor.swift; sourceTree = "<group>"; };
 		F1E25F1628A247F000B1511D /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
+		F1FA94B328AA1F4700EE949D /* Visit+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit+Entity.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +242,7 @@
 				F1C6491728A50A6300811CAC /* CoreModel.xcdatamodeld */,
 				F1C6492228A50F3700811CAC /* Member+Entity.swift */,
 				F1447F7128A7E8CF002AF148 /* Event+Entity.swift */,
+				F1FA94B328AA1F4700EE949D /* Visit+Entity.swift */,
 				F1447F7328A7E9A2002AF148 /* Storable.swift */,
 			);
 			path = CoreData;
@@ -337,6 +340,7 @@
 				F1E25F1728A247F000B1511D /* EventRow.swift in Sources */,
 				F1C60BEB28A272D000F944BD /* SearchMembersView.swift in Sources */,
 				F1C8314F289A714B004E34F9 /* TeamRow.swift in Sources */,
+				F1FA94B428AA1F4700EE949D /* Visit+Entity.swift in Sources */,
 				F1C60BE728A252DB00F944BD /* EventDetailViewModel.swift in Sources */,
 				F1023370289BEFB80009B0B7 /* TeamBriefEditView.swift in Sources */,
 				F1C4958828A3A1D700B1E060 /* Subscription.swift in Sources */,

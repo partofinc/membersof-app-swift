@@ -13,6 +13,7 @@ extension NewMemberView {
     final class ViewModel: ObservableObject {
         
         let team: Team
+        let event: Event
         let storage: Storage = .shared
         
         @Published var firstName: String = ""
@@ -31,8 +32,9 @@ extension NewMemberView {
             firstName.isEmpty ? "New" : firstName
         }
         
-        init(team: Team) {
+        init(team: Team, event: Event) {
             self.team = team
+            self.event = event
         }
         
         var canConfirm: Bool {
@@ -40,8 +42,12 @@ extension NewMemberView {
         }
         
         func create() {
-            let member = Member(id: UUID(), firstName: firstName, lastName: lastName)
-            storage.save([member])
+            Task {
+                let member = Member(id: UUID(), firstName: firstName, lastName: lastName)
+                try await storage.save(member)
+                let visit = Event.Visit(id: UUID(), member: member, checkInDate: .now, eventId: event.id)
+                try await storage.save(visit)
+            }
         }
         
         func select(_ ship: Membership) {

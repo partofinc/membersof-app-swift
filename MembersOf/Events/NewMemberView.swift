@@ -10,9 +10,8 @@ import SwiftUI
 struct NewMemberView: View {
     
     @StateObject var viewModel: ViewModel
-    let create: (Member) -> Void
     
-    @Environment(\.dismiss) private var dismiss
+    var dismiss: DismissAction?
     
     var body: some View {
         VStack {
@@ -34,7 +33,7 @@ struct NewMemberView: View {
             }
             Button {
                 viewModel.create()
-//                create(viewModel.create())
+                dismiss?()
             } label: {
                 Label("Check In", systemImage: "checkmark")
             }
@@ -68,7 +67,7 @@ struct NewMemberView: View {
 struct NewMemberView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            NewMemberView(viewModel: .init(team: Mock.teams.first!)) {_ in}
+            NewMemberView(viewModel: .init(team: Mock.teams.first!, event: Event(id: UUID(), name: "Some", createDate: .now, startDate: nil, endDate: nil)), dismiss: nil)
         }
     }
 }

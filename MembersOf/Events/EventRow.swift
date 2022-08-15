@@ -29,7 +29,7 @@ struct EventRow_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             HStack {
-                EventRow(event: .init(id: UUID(), name: "Open mat", startDate: nil, endDate: nil, visits: []))
+                EventRow(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: nil, endDate: nil))
             }
         }
         .padding()

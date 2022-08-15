@@ -41,10 +41,11 @@ struct EventsView: View {
             .sheet(item: $sheet) { sheet in
                 switch sheet {
                 case .new:
-                    NewEventView { viewModel.create($0) }
+                    NewEventView()
                         .presentationDetents([.medium])
                 }
             }
+            .animation(.easeInOut, value: viewModel.events)
         }
     }
 }
