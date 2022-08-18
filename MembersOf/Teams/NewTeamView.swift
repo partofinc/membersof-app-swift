@@ -10,7 +10,7 @@ import SwiftUI
 struct NewTeamView: View {
     
     @StateObject var viewModel = ViewModel()
-    @Binding var team: Team?
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack {
@@ -18,7 +18,8 @@ struct NewTeamView: View {
                 Text("Team")
                 Spacer()
                 Button("Create") {
-                    team = viewModel.create()
+                    viewModel.create()
+                    dismiss()
                 }
             }
             .padding(.horizontal)
@@ -91,7 +92,7 @@ struct NewTeamView_Previews: PreviewProvider {
             .padding()
         }
         .sheet(isPresented: $creatingNew) {
-            NewTeamView(team: $team)
+            NewTeamView()
                 .presentationDetents([.fraction(0.6)])
         }
     }

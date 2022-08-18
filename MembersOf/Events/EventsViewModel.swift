@@ -9,9 +9,9 @@ extension EventsView {
         
         private let storage: Storage = .shared
         private var eventsFetcher: Storage.Fetcher<Event>?
-        private let sort: [NSSortDescriptor] = [
-            .init(keyPath: \Event.Entity.createDate, ascending: false),
-            .init(keyPath: \Event.Entity.startDate, ascending: false)
+        private let sort: [SortDescriptor<Event.Entity>] = [
+            .init(\.createDate, order: .reverse),
+            .init(\.startDate, order: .reverse)
         ]
         @Published var events: [Event] = []
         
@@ -19,6 +19,12 @@ extension EventsView {
             eventsFetcher = storage.fetch()
                 .assign(to: \.events, on: self)
                 .run(sort: sort)
+        }
+        
+        func delete(_ event: Event) {
+            Task {
+                try await self.storage.delete(event)
+            }
         }
     }
     

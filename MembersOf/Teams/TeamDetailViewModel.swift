@@ -16,18 +16,30 @@ extension TeamDetailView {
         @Published var crew: [Supervisor]
         
         @Published var socialMedias: [Social.Media]
-        @Published var newMedia: Social.Media?
-        @Published var newAccount: String = ""
+        @Published var media: Social.Media?
+        @Published var account: String = ""
+        
+        fileprivate let storage: Storage
+        fileprivate var socialFetcher: Storage.Fetcher<Social>?
+        fileprivate var crewFetcher: Storage.Fetcher<Supervisor>?
         
         init(team: Team) {
+            self.storage = .shared
             self.team = team
             self.name = team.name
             self.brief = team.brief
-            self.crew = team.crew
-            self.socials = team.social
+            self.crew = []//team.crew
+            self.socials = []//team.social
             self.socialMedias = .all
-            
             self.socialMedias.removeAll(where: {socials.map(\.media).contains($0)})
+            socialFetcher = storage.fetch()
+//                .filter(with: NSPredicate(format: "team.id == %@", team.id.uuidString))
+                .assign(to: \.socials, on: self)
+                .run(sort: [.init(\.order, order: .reverse)])
+            crewFetcher = storage.fetch()
+                .filter(with: NSPredicate(format: "team.id == %@", team.id.uuidString))
+                .assign(to: \.crew, on: self)
+                .run(sort: [.init(\.order)])
         }
         
         func update(_ brief: String) {
@@ -45,20 +57,27 @@ extension TeamDetailView {
         }
         
         func delete(_ social: Social) {
-            socials.removeAll(where: {$0 == social})
-            socialMedias.insert(social.media, at: 0)
+            Task {
+                try await storage.delete(social)
+            }
+//            socials.removeAll(where: {$0 == social})
+//            socialMedias.insert(social.media, at: 0)
         }
         
         func addSocial() {
-            guard let newMedia, newAccount.count > 2 else { return }
-            socials.append(.init(id: UUID(), media: newMedia, account: newAccount))
-            socialMedias.removeAll(where: {$0 == newMedia})
+            guard let media, account.count > 2 else { return }
+            let order = socials.last?.order ?? 0
+            let a = account
+            Task {
+                try await self.storage.save(Social(id: UUID(), media: media, account: a, order: order, memberId: nil, teamId: team.id))
+            }
+            socialMedias.removeAll(where: {$0 == media})
             discardSocial()
         }
         
         func discardSocial() {
-            newMedia = nil
-            newAccount = ""
+            media = nil
+            account = ""
         }
     }
     

@@ -23,10 +23,7 @@ struct SearchMembersView: View {
                 }
                 ForEach(viewModel.members) { member in
                     NavigationLink {
-                        MemberConfirmationView(viewModel: .init(member: member)) {
-//                            select(member)
-                            dismiss()
-                        }
+                        MemberConfirmationView(viewModel: .init(member: member, event: viewModel.event))
                     } label: {
                         Label(member.fullName, systemImage: "person")
                     }

@@ -63,6 +63,7 @@ struct TeamDetailView: View {
                     .presentationDetents([.medium])
             }
         }
+        .animation(.easeInOut, value: viewModel.socials)
     }
     
     @ViewBuilder
@@ -105,12 +106,12 @@ struct TeamDetailView: View {
                 Button("Cancel", role: .cancel) {}
             }
         }
-        if let media = viewModel.newMedia {
+        if let media = viewModel.media {
             HStack {
                 HStack {
                     Text(media.rawValue.capitalized)
                     Spacer()
-                    TextField("Account", text: $viewModel.newAccount)
+                    TextField("Account", text: $viewModel.account)
                         .multilineTextAlignment(.trailing)
                         .focused($addingSocial)
                         .keyboardType(.emailAddress)
@@ -140,7 +141,7 @@ struct TeamDetailView: View {
             Menu {
                 ForEach(viewModel.socialMedias) { media in
                     Button(media.rawValue.capitalized) {
-                        viewModel.newMedia = media
+                        viewModel.media = media
                         addingSocial = true
                     }
                 }

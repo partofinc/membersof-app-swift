@@ -3,42 +3,44 @@
 import Foundation
 import CoreData
 
-extension Event: Storable {
+extension Team: Storable {
     
     static func fetchRequest() -> NSFetchRequest<Entity> {
-        return NSFetchRequest<Entity>(entityName: "Event")
+        return NSFetchRequest<Entity>(entityName: "Team")
     }
-        
-    @objc(EventEntity)
+    
+    @objc(TeamEntity)
     final class Entity: NSManagedObject {
         
         @NSManaged public var id: UUID?
         @NSManaged public var name: String?
-        @NSManaged public var startDate: Date?
-        @NSManaged public var endDate: Date?
+        @NSManaged public var brief: String?
         @NSManaged public var createDate: Date?
+        @NSManaged public var social: Set<Social.Entity>?
+        @NSManaged public var crew: Set<Supervisor.Entity>?
     }
     
     init(_ entity: Entity) {
         id = entity.id!
         name = entity.name!
+        brief = entity.brief!
         createDate = entity.createDate!
-        startDate = entity.startDate
-        endDate = entity.endDate
-//        visits = entity.visits == nil ? [] : entity.visits!.map(Visit.init)
+        social = entity.social == nil ? [] : entity.social!.map(Social.init)
+        crew = entity.crew == nil ? [] : entity.crew!.map(Supervisor.init)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
         let entity = find(in: context) ?? Entity(context: context)
         entity.id = id
         entity.name = name
-        entity.startDate = startDate
-        entity.endDate = endDate
+        entity.brief = brief
         entity.createDate = createDate
+        entity.social = Set(social.map{$0.entity(context)})
+        entity.crew = Set(crew.map{$0.entity(context)})
         return entity
     }
     
     func find(in context: NSManagedObjectContext) -> Entity? {
-        Event.first(in: context, key: "id", value: id.uuidString)
+        Team.first(in: context, key: "id", value: id.uuidString)
     }
 }

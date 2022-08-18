@@ -16,9 +16,12 @@
 		F1447F7428A7E9A2002AF148 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1447F7328A7E9A2002AF148 /* Storable.swift */; };
 		F1487F86289D09D90079934A /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1487F85289D09D90079934A /* EventsView.swift */; };
 		F1487F89289D0BE90079934A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1487F88289D0BE90079934A /* ProfileView.swift */; };
+		F154BACA28ABB915008F8374 /* Team+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F154BAC928ABB915008F8374 /* Team+Entity.swift */; };
 		F1589F7228A27C9900EE1E92 /* NewMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589F7128A27C9900EE1E92 /* NewMemberView.swift */; };
 		F1589F7428A282A700EE1E92 /* MemberConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589F7328A282A700EE1E92 /* MemberConfirmationView.swift */; };
 		F159F061289BA3CF00375BE3 /* SupervisorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F159F060289BA3CF00375BE3 /* SupervisorView.swift */; };
+		F160721028ACC6BE00538A4F /* Social+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160720F28ACC6BE00538A4F /* Social+Entity.swift */; };
+		F160721228ACC9E700538A4F /* Supervisor+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160721128ACC9E700538A4F /* Supervisor+Entity.swift */; };
 		F16976E12893B94100AB778D /* MembersOfApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976E02893B94100AB778D /* MembersOfApp.swift */; };
 		F16976E32893B94100AB778D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976E22893B94100AB778D /* ContentView.swift */; };
 		F16976E52893B94500AB778D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F16976E42893B94500AB778D /* Assets.xcassets */; };
@@ -29,6 +32,7 @@
 		F16976F92893BC5D00AB778D /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976F82893BC5D00AB778D /* Mock.swift */; };
 		F18E8700289936C800A001C1 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18E86FF289936C800A001C1 /* Social.swift */; };
 		F1954F3528A2B87900B8D3C5 /* NewMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1954F3428A2B87900B8D3C5 /* NewMemberViewModel.swift */; };
+		F1ABE21728AD045E00798E5D /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABE21628AD045E00798E5D /* Fetcher.swift */; };
 		F1B71D832898FD2F00AD2E2C /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D822898FD2F00AD2E2C /* Membership.swift */; };
 		F1B71D862899011E00AD2E2C /* MembershipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D852899011E00AD2E2C /* MembershipsView.swift */; };
 		F1B71D882899017800AD2E2C /* MembershipsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D872899017800AD2E2C /* MembershipsViewModel.swift */; };
@@ -64,9 +68,12 @@
 		F1447F7328A7E9A2002AF148 /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
 		F1487F85289D09D90079934A /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
 		F1487F88289D0BE90079934A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		F154BAC928ABB915008F8374 /* Team+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Team+Entity.swift"; sourceTree = "<group>"; };
 		F1589F7128A27C9900EE1E92 /* NewMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMemberView.swift; sourceTree = "<group>"; };
 		F1589F7328A282A700EE1E92 /* MemberConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberConfirmationView.swift; sourceTree = "<group>"; };
 		F159F060289BA3CF00375BE3 /* SupervisorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupervisorView.swift; sourceTree = "<group>"; };
+		F160720F28ACC6BE00538A4F /* Social+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Social+Entity.swift"; sourceTree = "<group>"; };
+		F160721128ACC9E700538A4F /* Supervisor+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Supervisor+Entity.swift"; sourceTree = "<group>"; };
 		F16976DD2893B94100AB778D /* MembersOf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MembersOf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F16976E02893B94100AB778D /* MembersOfApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersOfApp.swift; sourceTree = "<group>"; };
 		F16976E22893B94100AB778D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -79,6 +86,7 @@
 		F16976F82893BC5D00AB778D /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		F18E86FF289936C800A001C1 /* Social.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Social.swift; sourceTree = "<group>"; };
 		F1954F3428A2B87900B8D3C5 /* NewMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMemberViewModel.swift; sourceTree = "<group>"; };
+		F1ABE21628AD045E00798E5D /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
 		F1B71D822898FD2F00AD2E2C /* Membership.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Membership.swift; sourceTree = "<group>"; };
 		F1B71D852899011E00AD2E2C /* MembershipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipsView.swift; sourceTree = "<group>"; };
 		F1B71D872899017800AD2E2C /* MembershipsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipsViewModel.swift; sourceTree = "<group>"; };
@@ -232,6 +240,7 @@
 			children = (
 				F1C6491628A50A2800811CAC /* CoreData */,
 				F1C6491428A50A1F00811CAC /* Storage.swift */,
+				F1ABE21628AD045E00798E5D /* Fetcher.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -243,6 +252,9 @@
 				F1C6492228A50F3700811CAC /* Member+Entity.swift */,
 				F1447F7128A7E8CF002AF148 /* Event+Entity.swift */,
 				F1FA94B328AA1F4700EE949D /* Visit+Entity.swift */,
+				F154BAC928ABB915008F8374 /* Team+Entity.swift */,
+				F160720F28ACC6BE00538A4F /* Social+Entity.swift */,
+				F160721128ACC9E700538A4F /* Supervisor+Entity.swift */,
 				F1447F7328A7E9A2002AF148 /* Storable.swift */,
 			);
 			path = CoreData;
@@ -336,19 +348,23 @@
 				F1447F7428A7E9A2002AF148 /* Storable.swift in Sources */,
 				F1487F86289D09D90079934A /* EventsView.swift in Sources */,
 				F1589F7228A27C9900EE1E92 /* NewMemberView.swift in Sources */,
+				F160721228ACC9E700538A4F /* Supervisor+Entity.swift in Sources */,
 				F1447F7228A7E8CF002AF148 /* Event+Entity.swift in Sources */,
 				F1E25F1728A247F000B1511D /* EventRow.swift in Sources */,
 				F1C60BEB28A272D000F944BD /* SearchMembersView.swift in Sources */,
 				F1C8314F289A714B004E34F9 /* TeamRow.swift in Sources */,
+				F160721028ACC6BE00538A4F /* Social+Entity.swift in Sources */,
 				F1FA94B428AA1F4700EE949D /* Visit+Entity.swift in Sources */,
 				F1C60BE728A252DB00F944BD /* EventDetailViewModel.swift in Sources */,
 				F1023370289BEFB80009B0B7 /* TeamBriefEditView.swift in Sources */,
+				F1ABE21728AD045E00798E5D /* Fetcher.swift in Sources */,
 				F1C4958828A3A1D700B1E060 /* Subscription.swift in Sources */,
 				F1C83153289A8EF3004E34F9 /* TeamDetailViewModel.swift in Sources */,
 				F1B71D8B2899238C00AD2E2C /* NewTeamView.swift in Sources */,
 				F1B71D882899017800AD2E2C /* MembershipsViewModel.swift in Sources */,
 				F16976E12893B94100AB778D /* MembersOfApp.swift in Sources */,
 				F1C60BED28A272E200F944BD /* SearchMembersViewModel.swift in Sources */,
+				F154BACA28ABB915008F8374 /* Team+Entity.swift in Sources */,
 				F103BD4B289D20DF0041D2EF /* Event.swift in Sources */,
 				F1C83157289AEE59004E34F9 /* Supervisor.swift in Sources */,
 				F1487F89289D0BE90079934A /* ProfileView.swift in Sources */,

@@ -11,7 +11,7 @@ struct TeamsView: View {
     
     @StateObject var viewModel = ViewModel()
     @State private var path: [Team] = []
-    @State private var newTeam: Team?
+    @State private var creatingNew: Bool = false
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -32,22 +32,18 @@ struct TeamsView: View {
                 }
                 Spacer()
                 Button {
-                    viewModel.creatingNew.toggle()
+                    creatingNew.toggle()
                 } label: {
                     Label("New", systemImage: "plus")
                 }
                 .padding()
             }
-            .sheet(isPresented: $viewModel.creatingNew) {
-                NewTeamView(team: $newTeam)
+            .sheet(isPresented: $creatingNew) {
+                NewTeamView()
                     .presentationDetents([.medium, .large])
             }
-            .onChange(of: newTeam) { team in
-                guard let team else { return }
-                viewModel.add(team)
-                path = [team]
-            }
             .navigationTitle("Teams")
+            .animation(.easeInOut, value: viewModel.teams)
         }
     }
 }

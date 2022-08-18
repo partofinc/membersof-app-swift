@@ -3,39 +3,38 @@
 import Foundation
 import CoreData
 
-
-extension Event.Visit: Storable {
+extension Supervisor: Storable {
     
     static func fetchRequest() -> NSFetchRequest<Entity> {
-        return NSFetchRequest<Entity>(entityName: "Visit")
+        return NSFetchRequest<Entity>(entityName: "Supervisor")
     }
     
-    @objc(VisitEntity)
+    @objc(SupervisorEntity)
     final class Entity: NSManagedObject {
         
         @NSManaged public var id: UUID?
+        @NSManaged public var role: String?
+        @NSManaged public var order: Int32
         @NSManaged public var member: Member.Entity?
-        @NSManaged public var event: Event.Entity?
-        @NSManaged public var checkInDate: Date?
     }
     
     init(_ entity: Entity) {
         id = entity.id!
-        checkInDate = entity.checkInDate!
-        eventId = entity.event!.id!
+        role = .init(rawValue: entity.role!)!
+        order = Int(entity.order)
         member = .init(entity.member!)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
         let entity = find(in: context) ?? Entity(context: context)
         entity.id = id
-        entity.checkInDate = checkInDate
-        entity.event = Event.first(in: context, key: "id", value: eventId.uuidString)
+        entity.role = role.rawValue
+        entity.order = .init(order)
         entity.member = member.entity(context)
         return entity
     }
     
     func find(in context: NSManagedObjectContext) -> Entity? {
-        Event.Visit.first(in: context, key: "id", value: id.uuidString)
+        Supervisor.first(in: context, key: "id", value: id.uuidString)
     }
 }

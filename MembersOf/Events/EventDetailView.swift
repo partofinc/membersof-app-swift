@@ -59,6 +59,7 @@ struct EventDetailView: View {
                     .presentationDetents([.large])
             }
         }
+        .animation(.easeInOut, value: viewModel.visits)
     }
 }
 

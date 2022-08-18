@@ -7,15 +7,17 @@ extension TeamsView {
     
     @MainActor
     final class ViewModel: ObservableObject {
+                
+        @Published var teams: [Team] = []
         
-        @Published var creatingNew: Bool = false
+        fileprivate let storage: Storage
+        fileprivate var teamsFetcher: Storage.Fetcher<Team>?
         
-        @Published var teams: [Team] = Mock.teams
-        
-        
-        func add(_ team: Team) {
-            creatingNew = false
-            teams.insert(team, at: 0)
+        init(storage: Storage = .shared) {
+            self.storage = storage
+            teamsFetcher = storage.fetch()
+                .assign(to: \.teams, on: self)
+                .run(sort: [.init(\.createDate)])
         }
     }
 }

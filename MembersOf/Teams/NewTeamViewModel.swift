@@ -21,8 +21,16 @@ extension NewTeamView {
         @Published var media: Social.Media = .instagram
         @Published var account: String = ""
         
+        private let storage: Storage = .shared
+        private var me: Member?
+        
+        init() {
+            me = storage.find(key: "firstName", value: "Ravil")
+        }
+        
         func addSocial() {
-            socials.append(.init(id: UUID(), media: media, account: account))
+            let order = socials.last?.order ?? 0
+            socials.append(.init(id: UUID(), media: media, account: account, order: order, memberId: nil, teamId: nil))
             
             account = ""
             
@@ -39,21 +47,24 @@ extension NewTeamView {
             account = ""
         }
         
-        func create() -> Team {
-            .init(
+        func create() {
+            guard let me else { return }
+            let supervisor = Supervisor(id: UUID(), role: .owner, order: 0, member: me)
+            let team = Team(
                 id: UUID(),
                 name: name,
                 brief: brief,
+                createDate: .now,
                 social: socials,
-                crew: [
-                    .init(
-                        id: UUID(),
-                        role: .owner,
-                        order: 0,
-                        member: .init(id: UUID(), firstName: "Ravil", lastName: "Khusainov")
-                    )
-                ]
+                crew: [supervisor]
             )
+            Task {
+                do {
+                    try await storage.save(team)
+                } catch {
+                    print(error)
+                }
+            }
         }
     }
 }

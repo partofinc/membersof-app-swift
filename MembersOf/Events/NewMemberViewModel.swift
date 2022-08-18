@@ -44,7 +44,6 @@ extension NewMemberView {
         func create() {
             Task {
                 let member = Member(id: UUID(), firstName: firstName, lastName: lastName)
-                try await storage.save(member)
                 let visit = Event.Visit(id: UUID(), member: member, checkInDate: .now, eventId: event.id)
                 try await storage.save(visit)
             }

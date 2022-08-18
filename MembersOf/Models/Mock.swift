@@ -9,16 +9,17 @@ enum Mock {
             id: UUID(),
             name: "Team Strela Kazan",
             brief: "The strongest jiu jitsu team in kazan. Lead by the great black belt Yanis Yanakidis",
+            createDate: .now,
             social: [
-                .init(id: UUID(), media: .instagram, account: "teamstrelakzn"),
-                .init(id: UUID(), media: .telegram, account: "teamstrelakzn")
+                .init(id: UUID(), media: .instagram, account: "teamstrelakzn", order: 0, memberId: nil, teamId: nil),
+                .init(id: UUID(), media: .telegram, account: "teamstrelakzn", order: 1, memberId: nil, teamId: nil)
             ],
             crew: [
                 .init(id: UUID(), role: .owner, order: 0, member: members[1])
             ]
         ),
-        .init(id: UUID(), name: "Bars Profi Kazan", brief: "", social: [], crew: []),
-        .init(id: UUID(), name: "Kimura Jiu-Jitsu Alanya", brief: "", social: [], crew: [])
+        .init(id: UUID(), name: "Bars Profi Kazan", brief: "", createDate: .now, social: [], crew: []),
+        .init(id: UUID(), name: "Kimura Jiu-Jitsu Alanya", brief: "", createDate: .now, social: [], crew: [])
     ]
     
     static let members: [Member] = [

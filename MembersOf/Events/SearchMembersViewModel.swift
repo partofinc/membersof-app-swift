@@ -17,7 +17,7 @@ extension SearchMembersView {
         let event: Event
         private let storage: Storage = .shared
         private var membersFetcher: Storage.Fetcher<Member>?
-        private var sort: [NSSortDescriptor] = [.init(keyPath: \Member.Entity.firstName, ascending: false)]
+        private var sort: [SortDescriptor<Member.Entity>] = [.init(\.firstName)]
         
         init(team: Team, event: Event) {
             self.team = team

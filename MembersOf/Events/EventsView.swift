@@ -22,6 +22,13 @@ struct EventsView: View {
                             .onTapGesture {
                                 path = [event]
                             }
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    viewModel.delete(event)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
                     }
                 }
                 .navigationDestination(for: Event.self) {

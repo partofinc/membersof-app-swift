@@ -10,8 +10,8 @@ extension EventDetailView {
         let event: Event
         fileprivate let storage: Storage = .shared
         fileprivate var visitsFetcher: Storage.Fetcher<Event.Visit>?
-        fileprivate var sort: [NSSortDescriptor] = [
-            .init(keyPath: \Event.Visit.Entity.checkInDate, ascending: false)
+        fileprivate var sort: [SortDescriptor<Event.Visit.Entity>] = [
+            .init(\.checkInDate, order: .reverse)
         ]
         @Published var visits: [Event.Visit] = []
         
@@ -22,10 +22,6 @@ extension EventDetailView {
                 .filter(with: NSPredicate(format: "event.id == %@", event.id.uuidString))
                 .run(sort: sort)
         }
-        
-//        func checkIn(_ member: Member) {
-//            visits.insert(.init(id: UUID(), member: member, checkInDate: Date(), eventId: event.id), at: 0)
-//        }
         
         func delete(_ visit: Event.Visit) {
             Task {
