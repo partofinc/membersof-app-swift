@@ -13,10 +13,15 @@ extension MembershipsView {
     @MainActor
     final class ViewModel: ObservableObject {
         
-        @Published var memberships: [Membership] = []
+        @Published fileprivate(set) var memberships: [Membership] = []
+        private let storage: Storage
+        private var membershipsFetcher: Storage.Fetcher<Membership>?
                 
-        func create(_ membership: Membership) {
-            memberships.insert(membership, at: 0)
+        init() {
+            storage = .shared
+            membershipsFetcher = storage.fetch()
+                .assign(to: \.memberships, on: self)
+                .run(sort: [.init(\.createDate)])
         }
     }
 }

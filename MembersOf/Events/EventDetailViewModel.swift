@@ -19,7 +19,7 @@ extension EventDetailView {
             self.event = event
             visitsFetcher = storage.fetch()
                 .assign(to: \.visits, on: self)
-                .filter(with: NSPredicate(format: "event.id == %@", event.id.uuidString))
+                .filter(by: \.event!.id!, value: event.id)
                 .run(sort: sort)
         }
         

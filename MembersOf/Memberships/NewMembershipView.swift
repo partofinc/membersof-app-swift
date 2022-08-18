@@ -9,9 +9,8 @@ import SwiftUI
 
 struct NewMembershipView: View {
     
-    let create: (Membership) -> Void
-    @StateObject var viewModel = ViewModel()
-    @Environment(\.dismiss) var dismiss
+    @StateObject fileprivate var viewModel = ViewModel()
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
@@ -19,7 +18,7 @@ struct NewMembershipView: View {
                 Text("Membership")
                 Spacer()
                 Button("Create") {
-                    create(viewModel.create())
+                    viewModel.create()
                     dismiss()
                 }
             }
@@ -32,9 +31,9 @@ struct NewMembershipView: View {
                     TextField(viewModel.autoName, text: $viewModel.name)
                         .multilineTextAlignment(.trailing)
                 }
-                Picker("Team", selection: $viewModel.clubTag) {
-                    ForEach(0..<viewModel.clubs.count, id: \.self) { idx in
-                        Text(viewModel.clubs[idx].name).tag(idx)
+                Picker("Team", selection: $viewModel.teamIdx) {
+                    ForEach(0..<viewModel.teams.count, id: \.self) { idx in
+                        Text(viewModel.teams[idx].name).tag(idx)
                     }
                 }
                 Picker("Period", selection: $viewModel.period) {
@@ -82,7 +81,7 @@ struct NewMembershipView_Previews: PreviewProvider {
             .padding()
         }
         .sheet(isPresented: $creatingNew) {
-            NewMembershipView {_ in}
+            NewMembershipView()
                 .presentationDetents([.fraction(0.6)])
         }
     }

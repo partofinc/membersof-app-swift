@@ -82,7 +82,7 @@ struct SupervisorView: View {
         }
         
         func save() -> Supervisor {
-            .init(id: supervisor.id, role: role, order: supervisor.order, member: supervisor.member)
+            .init(id: supervisor.id, role: role, order: supervisor.order, member: supervisor.member, teamId: nil)
         }
     }
 }

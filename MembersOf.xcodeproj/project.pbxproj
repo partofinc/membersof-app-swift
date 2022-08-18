@@ -32,6 +32,7 @@
 		F16976F92893BC5D00AB778D /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976F82893BC5D00AB778D /* Mock.swift */; };
 		F18E8700289936C800A001C1 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18E86FF289936C800A001C1 /* Social.swift */; };
 		F1954F3528A2B87900B8D3C5 /* NewMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1954F3428A2B87900B8D3C5 /* NewMemberViewModel.swift */; };
+		F1A14DA628AE569A001F00E3 /* Membership+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */; };
 		F1ABE21728AD045E00798E5D /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABE21628AD045E00798E5D /* Fetcher.swift */; };
 		F1B71D832898FD2F00AD2E2C /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D822898FD2F00AD2E2C /* Membership.swift */; };
 		F1B71D862899011E00AD2E2C /* MembershipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D852899011E00AD2E2C /* MembershipsView.swift */; };
@@ -86,6 +87,7 @@
 		F16976F82893BC5D00AB778D /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		F18E86FF289936C800A001C1 /* Social.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Social.swift; sourceTree = "<group>"; };
 		F1954F3428A2B87900B8D3C5 /* NewMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMemberViewModel.swift; sourceTree = "<group>"; };
+		F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Membership+Entity.swift"; sourceTree = "<group>"; };
 		F1ABE21628AD045E00798E5D /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
 		F1B71D822898FD2F00AD2E2C /* Membership.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Membership.swift; sourceTree = "<group>"; };
 		F1B71D852899011E00AD2E2C /* MembershipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipsView.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				F154BAC928ABB915008F8374 /* Team+Entity.swift */,
 				F160720F28ACC6BE00538A4F /* Social+Entity.swift */,
 				F160721128ACC9E700538A4F /* Supervisor+Entity.swift */,
+				F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */,
 				F1447F7328A7E9A2002AF148 /* Storable.swift */,
 			);
 			path = CoreData;
@@ -368,6 +371,7 @@
 				F103BD4B289D20DF0041D2EF /* Event.swift in Sources */,
 				F1C83157289AEE59004E34F9 /* Supervisor.swift in Sources */,
 				F1487F89289D0BE90079934A /* ProfileView.swift in Sources */,
+				F1A14DA628AE569A001F00E3 /* Membership+Entity.swift in Sources */,
 				F1589F7428A282A700EE1E92 /* MemberConfirmationView.swift in Sources */,
 				F1C83155289AEA37004E34F9 /* Member.swift in Sources */,
 				F103BD4F289D32F40041D2EF /* NewEventView.swift in Sources */,

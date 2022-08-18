@@ -15,7 +15,7 @@ enum Mock {
                 .init(id: UUID(), media: .telegram, account: "teamstrelakzn", order: 1, memberId: nil, teamId: nil)
             ],
             crew: [
-                .init(id: UUID(), role: .owner, order: 0, member: members[1])
+                .init(id: UUID(), role: .owner, order: 0, member: members[1], teamId: nil)
             ]
         ),
         .init(id: UUID(), name: "Bars Profi Kazan", brief: "", createDate: .now, social: [], crew: []),

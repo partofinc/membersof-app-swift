@@ -49,7 +49,7 @@ extension NewTeamView {
         
         func create() {
             guard let me else { return }
-            let supervisor = Supervisor(id: UUID(), role: .owner, order: 0, member: me)
+            let supervisor = Supervisor(id: UUID(), role: .owner, order: 0, member: me, teamId: nil)
             let team = Team(
                 id: UUID(),
                 name: name,

@@ -41,7 +41,7 @@ struct MembershipsView: View {
             }
             .navigationTitle("Memberships")
             .sheet(isPresented: $creatingNew) {
-                NewMembershipView { viewModel.create($0) }
+                NewMembershipView()
                     .presentationDetents([.medium])
             }
         }

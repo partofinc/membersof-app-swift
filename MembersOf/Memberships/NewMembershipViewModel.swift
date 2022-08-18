@@ -11,8 +11,8 @@ extension NewMembershipView {
         @Published var name: String = ""
         @Published var autoName: String = "Unlimited"
         
-        @Published var clubTag: Int = 0
-        let clubs: [Team] = Mock.teams
+        @Published var teamIdx: Int = 0
+        @Published var teams: [Team] = []
         
         @Published var period: Membership.Period = .unlimited
         let periods: [Membership.Period] = [
@@ -31,6 +31,16 @@ extension NewMembershipView {
         
         @Published var price: String = ""
         
+        private let storage: Storage
+        private var teamsFetcher: Storage.Fetcher<Team>?
+        
+        init() {
+            storage = .shared
+            teamsFetcher = storage.fetch()
+                .assign(to: \.teams, on: self)
+                .run(sort: [.init(\.name)])
+        }
+        
         func calculatePeriod() {
             guard period != .unlimited else {
                 periodText = nil
@@ -48,8 +58,19 @@ extension NewMembershipView {
             visitsText = "\(visits) Visits"
         }
         
-        func create() -> Membership {
-            .init(id: UUID(), name: name, clubId: clubs[clubTag].id, visits: visits, period: period, length: length)
+        func create() {
+            Task {
+                let membership = Membership(
+                    id: UUID(),
+                    name: name,
+                    visits: visits,
+                    period: period,
+                    length: length,
+                    createDate: .now,
+                    teamId: teams[teamIdx].id
+                )
+                try await self.storage.save(membership)
+            }
         }
     }
 }

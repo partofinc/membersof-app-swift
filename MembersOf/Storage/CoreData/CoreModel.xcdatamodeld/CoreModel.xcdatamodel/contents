@@ -17,7 +17,12 @@
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="member" inverseEntity="Visit"/>
     </entity>
     <entity name="Membership" representedClassName="MembershipEntity" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="length" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="period" attributeType="String"/>
+        <attribute name="visits" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="memberships" inverseEntity="Team"/>
     </entity>
     <entity name="Social" representedClassName="SocialEntity" syncable="YES">

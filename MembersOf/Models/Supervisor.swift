@@ -8,6 +8,7 @@ public struct Supervisor: Codable, Hashable, Identifiable {
     public let role: Role
     public let order: Int
     public let member: Member
+    public let teamId: UUID?
 }
 
 public extension Supervisor {

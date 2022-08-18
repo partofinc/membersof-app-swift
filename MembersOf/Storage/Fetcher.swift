@@ -13,16 +13,15 @@ extension Storage {
         private let subject: PassthroughSubject<[T.EntityType], Error> = .init()
         private var canceler: AnyCancellable?
         private var compoundPredicate: NSCompoundPredicate?
+        private var filter: Filter<T.EntityType, UUID>?
         
         init(_ context: NSManagedObjectContext) {
             self.context = context
             super.init()
-            NotificationCenter.default.addObserver(self, selector: #selector(refetchIfNeeded), name: .NSManagedObjectContextDidSave, object: nil)
         }
         
         deinit {
             cancel()
-            NotificationCenter.default.removeObserver(self)
         }
         
         func filter(with predicate: NSPredicate, type: NSCompoundPredicate.LogicalType = .and, skip: Bool = false) -> Self {
@@ -32,13 +31,18 @@ extension Storage {
             return self
         }
         
+        func filter(by path: KeyPath<T.EntityType, UUID>, value: UUID) -> Self {
+            self.filter = .init(path: path, value: value)
+            return self
+        }
+        
         func assign<Root>(
             to keyPath: ReferenceWritableKeyPath<Root, [T]>,
             on object: Root,
             in queue: DispatchQueue = .main,
             failure: @escaping (Error) -> Void = {_ in}) -> Self {
                 canceler = subject.eraseToAnyPublisher()
-                    .map({$0.map(T.init)})
+//                    .map({$0.map(T.init)})
                     .sink { comp in
                         switch comp {
                         case .failure(let error):
@@ -46,9 +50,10 @@ extension Storage {
                         default:
                             break
                         }
-                    } receiveValue: { res in
+                    } receiveValue: { value in
+                        let result = self.filter == nil ? value : value.filter(self.filter!.isIncluded)
                         queue.async {
-                            object[keyPath: keyPath] = res
+                            object[keyPath: keyPath] = result.map(T.init)
                         }
                     }
                 return self
@@ -56,7 +61,7 @@ extension Storage {
         
         func sink(receiveValue: @escaping ([T]) -> Void, failure: @escaping (Error) -> Void) -> Self {
             canceler = subject.eraseToAnyPublisher()
-                .map({$0.map(T.init)})
+//                .map({$0.map(T.init)})
                 .sink(receiveCompletion: {
                     switch $0 {
                     case .failure(let error):
@@ -64,7 +69,10 @@ extension Storage {
                     default:
                         break
                     }
-                }, receiveValue: receiveValue)
+                }, receiveValue: { value in
+                    let result = self.filter == nil ? value : value.filter(self.filter!.isIncluded)
+                    receiveValue(result.map(T.init))
+                })
             return self
         }
         
@@ -89,28 +97,20 @@ extension Storage {
             return self
         }
         
-        @objc func refetchIfNeeded(_ notification: Notification) {
-            guard let inserted = notification.userInfo?[NSInsertedObjectsKey] as? T.EntityType else { return }
-            do {
-                try self.controller.performFetch()
-                if let obj = self.controller.fetchedObjects {
-                    self.subject.send(obj)
-                }
-            } catch {
-                self.subject.send(completion: .failure(error))
-            }
-        }
-        
         func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
             if let obj = self.controller.fetchedObjects {
                 self.subject.send(obj)
             }
         }
+    }
+    
+    struct Filter<Element, Value: Equatable> {
         
-//        func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith diff: CollectionDifference<NSManagedObjectID>) {
-//            if let obj = self.controller.fetchedObjects {
-//                self.subject.send(obj)
-//            }
-//        }
+        let path: KeyPath<Element, Value>
+        let value: Value
+        
+        func isIncluded(_ entity: Element) -> Bool {
+            entity[keyPath: path] == value
+        }
     }
 }

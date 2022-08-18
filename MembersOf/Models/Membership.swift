@@ -6,16 +6,17 @@ public struct Membership: Codable, Hashable, Equatable, Identifiable {
     
     public let id: UUID
     public let name: String
-    public let clubId: UUID
     public let visits: Int
     public let period: Period
     public let length: Int
+    public let createDate: Date
+    public let teamId: UUID?
 }
 
 
 public extension Membership {
     
-    enum Period: String, Codable, Hashable, Identifiable {
+    enum Period: String, Codable, Hashable, Identifiable, CaseIterable {
         
         case unlimited
         case day
