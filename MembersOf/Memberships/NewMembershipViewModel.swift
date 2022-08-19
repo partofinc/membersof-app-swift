@@ -12,7 +12,9 @@ extension NewMembershipView {
         @Published var autoName: String = "Unlimited"
         
         @Published var teamIdx: Int = 0
-        @Published var teams: [Team] = []
+        @Published var teams: [Team] = [
+            .init(id: UUID(), name: "Loading...", brief: "", createDate: .now, social: [], crew: [])
+        ]
         
         @Published var period: Membership.Period = .unlimited
         let periods: [Membership.Period] = [
@@ -38,7 +40,7 @@ extension NewMembershipView {
             storage = .shared
             teamsFetcher = storage.fetch()
                 .assign(to: \.teams, on: self)
-                .run(sort: [.init(\.name)])
+                .run(sort: [.init(\.createDate, order: .reverse)])
         }
         
         func calculatePeriod() {

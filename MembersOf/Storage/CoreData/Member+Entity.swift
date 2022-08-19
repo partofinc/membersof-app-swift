@@ -11,14 +11,14 @@ extension Member: Storable {
     @objc(MemberEntity)
     final class Entity: NSManagedObject {
         
-        @NSManaged public var id: UUID?
-        @NSManaged public var firstName: String?
+        @NSManaged public var id: UUID
+        @NSManaged public var firstName: String
         @NSManaged public var lastName: String?
     }
     
     init(_ entity: Entity) {
-        id = entity.id!
-        firstName = entity.firstName!
+        id = entity.id
+        firstName = entity.firstName
         lastName = entity.lastName!
     }
     

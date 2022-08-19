@@ -17,7 +17,7 @@ extension TeamsView {
             self.storage = storage
             teamsFetcher = storage.fetch()
                 .assign(to: \.teams, on: self)
-                .run(sort: [.init(\.createDate)])
+                .run(sort: [.init(\.createDate, order: .reverse)])
         }
     }
 }

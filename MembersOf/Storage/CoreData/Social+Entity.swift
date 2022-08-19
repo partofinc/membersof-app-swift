@@ -12,18 +12,18 @@ extension Social: Storable {
     @objc(SocialEntity)
     final class Entity: NSManagedObject {
         
-        @NSManaged public var id: UUID?
-        @NSManaged public var media: String?
-        @NSManaged public var account: String?
+        @NSManaged public var id: UUID
+        @NSManaged public var media: String
+        @NSManaged public var account: String
         @NSManaged public var order: Int32
         @NSManaged public var team: Team.Entity?
         @NSManaged public var member: Member.Entity?
     }
     
     init(_ entity: Entity) {
-        id = entity.id!
-        media = .init(rawValue: entity.media!)!
-        account = entity.account!
+        id = entity.id
+        media = .init(rawValue: entity.media)!
+        account = entity.account
         order = Int(entity.order)
         memberId = entity.member?.id
         teamId = entity.team?.id

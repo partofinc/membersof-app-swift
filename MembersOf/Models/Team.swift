@@ -12,4 +12,10 @@ public struct Team: Codable, Hashable, Identifiable {
     public let crew: [Supervisor]
 }
 
+extension Team {
+    static var loading: Self {
+        .init(id: UUID(), name: "Loading...", brief: "", createDate: .now, social: [], crew: [])
+    }
+}
+
 

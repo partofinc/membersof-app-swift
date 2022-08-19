@@ -44,6 +44,7 @@ struct MembershipsView: View {
                 NewMembershipView()
                     .presentationDetents([.medium])
             }
+            .animation(.easeInOut, value: viewModel.memberships)
         }
     }
 }

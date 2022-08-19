@@ -114,10 +114,10 @@ struct TeamDetailView: View {
                     TextField("Account", text: $viewModel.account)
                         .multilineTextAlignment(.trailing)
                         .focused($addingSocial)
-                        .keyboardType(.emailAddress)
-                        .submitLabel(.done)
+//                        .keyboardType(.emailAddress)
+//                        .submitLabel(.done)
                         .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
+//                        .textInputAutocapitalization(.never)
                         .onSubmit {
                             viewModel.addSocial()
                         }

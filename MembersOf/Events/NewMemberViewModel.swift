@@ -14,27 +14,33 @@ extension NewMemberView {
         
         let team: Team
         let event: Event
-        let storage: Storage = .shared
         
         @Published var firstName: String = ""
         @Published var lastName: String = ""
         @Published var membership: Membership?
         @Published var memberships: [Membership] = [
-//            .init(id: UUID(), name: "ONE time", clubId: UUID(), visits: 1, period: .unlimited, length: 0),
-//            .init(id: UUID(), name: "Monthly (12 visits)", clubId: UUID(), visits: 12, period: .month, length: 1),
-//            .init(id: UUID(), name: "Monthly (Unlimited)", clubId: UUID(), visits: 0, period: .month, length: 1)
+            //            .init(id: UUID(), name: "ONE time", clubId: UUID(), visits: 1, period: .unlimited, length: 0),
+            //            .init(id: UUID(), name: "Monthly (12 visits)", clubId: UUID(), visits: 12, period: .month, length: 1),
+            //            .init(id: UUID(), name: "Monthly (Unlimited)", clubId: UUID(), visits: 0, period: .month, length: 1)
         ]
         @Published var starting: Date = .now
         @Published var visits: Int = 0
         @Published var payment: String = ""
         
-        var title: String {
-            firstName.isEmpty ? "New" : firstName
-        }
+        fileprivate let storage: Storage = .shared
+        fileprivate var membershipsFetcher: Storage.Fetcher<Membership>?
         
         init(team: Team, event: Event) {
             self.team = team
             self.event = event
+            membershipsFetcher = storage.fetch()
+                .assign(to: \.memberships, on: self)
+                .filter(by: \.team.id, value: team.id)
+                .run(sort: [.init(\.createDate, order: .reverse)])
+        }
+        
+        var title: String {
+            firstName.isEmpty ? "New" : firstName
         }
         
         var canConfirm: Bool {
@@ -44,7 +50,7 @@ extension NewMemberView {
         func create() {
             Task {
                 let member = Member(id: UUID(), firstName: firstName, lastName: lastName)
-                let visit = Event.Visit(id: UUID(), member: member, checkInDate: .now, eventId: event.id)
+                let visit = Visit(id: UUID(), member: member, checkInDate: .now, eventId: event.id)
                 try await storage.save(visit)
             }
         }

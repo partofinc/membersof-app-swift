@@ -55,6 +55,7 @@
 		F1C83153289A8EF3004E34F9 /* TeamDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C83152289A8EF3004E34F9 /* TeamDetailViewModel.swift */; };
 		F1C83155289AEA37004E34F9 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C83154289AEA37004E34F9 /* Member.swift */; };
 		F1C83157289AEE59004E34F9 /* Supervisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C83156289AEE59004E34F9 /* Supervisor.swift */; };
+		F1D8B22328AF8FDE001A551D /* Visit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D8B22228AF8FDE001A551D /* Visit.swift */; };
 		F1E25F1728A247F000B1511D /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E25F1628A247F000B1511D /* EventRow.swift */; };
 		F1FA94B428AA1F4700EE949D /* Visit+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FA94B328AA1F4700EE949D /* Visit+Entity.swift */; };
 /* End PBXBuildFile section */
@@ -110,6 +111,7 @@
 		F1C83152289A8EF3004E34F9 /* TeamDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailViewModel.swift; sourceTree = "<group>"; };
 		F1C83154289AEA37004E34F9 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F1C83156289AEE59004E34F9 /* Supervisor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supervisor.swift; sourceTree = "<group>"; };
+		F1D8B22228AF8FDE001A551D /* Visit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visit.swift; sourceTree = "<group>"; };
 		F1E25F1628A247F000B1511D /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
 		F1FA94B328AA1F4700EE949D /* Visit+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit+Entity.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -204,6 +206,7 @@
 				F1C83154289AEA37004E34F9 /* Member.swift */,
 				F1C83156289AEE59004E34F9 /* Supervisor.swift */,
 				F103BD4A289D20DF0041D2EF /* Event.swift */,
+				F1D8B22228AF8FDE001A551D /* Visit.swift */,
 				F1C60BE828A254B700F944BD /* Schedule.swift */,
 				F1C4958728A3A1D700B1E060 /* Subscription.swift */,
 			);
@@ -374,6 +377,7 @@
 				F1A14DA628AE569A001F00E3 /* Membership+Entity.swift in Sources */,
 				F1589F7428A282A700EE1E92 /* MemberConfirmationView.swift in Sources */,
 				F1C83155289AEA37004E34F9 /* Member.swift in Sources */,
+				F1D8B22328AF8FDE001A551D /* Visit.swift in Sources */,
 				F103BD4F289D32F40041D2EF /* NewEventView.swift in Sources */,
 				F103BD4D289D259F0041D2EF /* EventsViewModel.swift in Sources */,
 				F16976F52893BAFD00AB778D /* NewMembershipView.swift in Sources */,

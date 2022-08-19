@@ -12,20 +12,21 @@ extension Event: Storable {
     @objc(EventEntity)
     final class Entity: NSManagedObject {
         
-        @NSManaged public var id: UUID?
-        @NSManaged public var name: String?
+        @NSManaged public var id: UUID
+        @NSManaged public var name: String
         @NSManaged public var startDate: Date?
         @NSManaged public var endDate: Date?
-        @NSManaged public var createDate: Date?
+        @NSManaged public var createDate: Date
+        @NSManaged public var team: Team.Entity
     }
     
     init(_ entity: Entity) {
-        id = entity.id!
-        name = entity.name!
-        createDate = entity.createDate!
+        id = entity.id
+        name = entity.name
+        createDate = entity.createDate
         startDate = entity.startDate
         endDate = entity.endDate
-//        visits = entity.visits == nil ? [] : entity.visits!.map(Visit.init)
+        team = .init(entity.team)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
@@ -35,6 +36,7 @@ extension Event: Storable {
         entity.startDate = startDate
         entity.endDate = endDate
         entity.createDate = createDate
+        entity.team = team.entity(context)
         return entity
     }
     

@@ -12,19 +12,19 @@ extension Team: Storable {
     @objc(TeamEntity)
     final class Entity: NSManagedObject {
         
-        @NSManaged public var id: UUID?
-        @NSManaged public var name: String?
-        @NSManaged public var brief: String?
-        @NSManaged public var createDate: Date?
+        @NSManaged public var id: UUID
+        @NSManaged public var name: String
+        @NSManaged public var brief: String
+        @NSManaged public var createDate: Date
         @NSManaged public var social: Set<Social.Entity>?
         @NSManaged public var crew: Set<Supervisor.Entity>?
     }
     
     init(_ entity: Entity) {
-        id = entity.id!
-        name = entity.name!
-        brief = entity.brief!
-        createDate = entity.createDate!
+        id = entity.id
+        name = entity.name
+        brief = entity.brief
+        createDate = entity.createDate
         social = entity.social == nil ? [] : entity.social!.map(Social.init)
         crew = entity.crew == nil ? [] : entity.crew!.map(Supervisor.init)
     }

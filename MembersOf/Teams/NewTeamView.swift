@@ -1,5 +1,5 @@
 //
-//  NewClubView.swift
+//  NewTeamView.swift
 //  MembersOf
 //
 //  Created by Ravil Khusainov on 8/2/22.

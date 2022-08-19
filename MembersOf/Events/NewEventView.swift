@@ -62,6 +62,12 @@ struct NewEventView: View {
                 }
             }
         }
+        .onChange(of: viewModel.teamIndex) { _ in
+            viewModel.teamChanged()
+        }
+        .onChange(of: viewModel.teams) { _ in
+            viewModel.teamChanged()
+        }
     }
 }
 

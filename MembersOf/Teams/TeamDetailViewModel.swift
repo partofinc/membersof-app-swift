@@ -28,18 +28,16 @@ extension TeamDetailView {
             self.team = team
             self.name = team.name
             self.brief = team.brief
-            self.crew = []//team.crew
-            self.socials = []//team.social
+            self.crew = team.crew
+            self.socials = team.social
             self.socialMedias = .all
             self.socialMedias.removeAll(where: {socials.map(\.media).contains($0)})
             socialFetcher = storage.fetch()
-//                .filter(with: NSPredicate(format: "team.id == %@", team.id.uuidString))
-                .filter(by: \.team!.id!, value: team.id)
+                .filter(by: \.team!.id, value: team.id)
                 .assign(to: \.socials, on: self)
                 .run(sort: [.init(\.order, order: .reverse)])
             crewFetcher = storage.fetch()
-//                .filter(with: NSPredicate(format: "team.id == %@", team.id.uuidString))
-                .filter(by: \.team!.id!, value: team.id)
+                .filter(by: \.team.id, value: team.id)
                 .assign(to: \.crew, on: self)
                 .run(sort: [.init(\.order)])
         }

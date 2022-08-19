@@ -25,7 +25,7 @@ struct MemberConfirmationView: View {
             }
             .padding()
         }
-        .navigationBarTitleDisplayMode(.inline)
+//        .navigationBarTitleDisplayMode(.inline)
     }
     
     @ViewBuilder
@@ -36,7 +36,9 @@ struct MemberConfirmationView: View {
                     .frame(width: 40,height: 40)
                 VStack(alignment: .leading) {
                     Text(viewModel.member.firstName)
-                    Text(viewModel.member.lastName)
+                    if let lastName = viewModel.member.lastName {
+                        Text(lastName)
+                    }
                 }
                 .font(.headline)
             }
@@ -79,7 +81,7 @@ struct MemberConfirmationView: View {
             Spacer()
             TextField("350", text: $viewModel.payment)
                 .multilineTextAlignment(.trailing)
-                .keyboardType(.numberPad)
+//                .keyboardType(.numberPad)
         }
     }
     
@@ -144,7 +146,7 @@ extension MemberConfirmationView {
         
         func checkIn() {
             Task {
-                try await self.storage.save(Event.Visit(id: UUID(), member: member, checkInDate: .now, eventId: event.id))
+                try await self.storage.save(Visit(id: UUID(), member: member, checkInDate: .now, eventId: event.id))
             }
         }
     }
@@ -153,14 +155,14 @@ extension MemberConfirmationView {
 struct MemberConfirmationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            MemberConfirmationView(viewModel: .init(member: .init(id: UUID(), firstName: "Dinar", lastName: "Ibragimov"), event: .init(id: UUID(), name: "name", createDate: .now, startDate: nil, endDate: nil)))
+            MemberConfirmationView(viewModel: .init(member: .init(id: UUID(), firstName: "Dinar", lastName: "Ibragimov"), event: .init(id: UUID(), name: "name", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!)))
         }
         
         NavigationStack {
             MemberConfirmationView(
                 viewModel: .init(
                     member: .init(id: UUID(), firstName: "Runar", lastName: "Kalimullin"),
-                    event: .init(id: UUID(), name: "name", createDate: .now, startDate: nil, endDate: nil),
+                    event: .init(id: UUID(), name: "name", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!),
                     subscription: .init(id: UUID(), member: .init(id: UUID(), firstName: "Runar", lastName: "Kalimullin"), membership: .init(id: UUID(), name: "Monthly 30 visits", visits: 30, period: .month, length: 1, createDate: .now, teamId: nil), startedAt: .now.addingTimeInterval(-44444), expiresAt: .now.addingTimeInterval(66696), visits: 7)
                 )
             )

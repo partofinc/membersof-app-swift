@@ -12,19 +12,19 @@ extension Supervisor: Storable {
     @objc(SupervisorEntity)
     final class Entity: NSManagedObject {
         
-        @NSManaged public var id: UUID?
-        @NSManaged public var role: String?
+        @NSManaged public var id: UUID
+        @NSManaged public var role: String
         @NSManaged public var order: Int32
-        @NSManaged public var member: Member.Entity?
-        @NSManaged public var team: Team.Entity?
+        @NSManaged public var member: Member.Entity
+        @NSManaged public var team: Team.Entity
     }
     
     init(_ entity: Entity) {
-        id = entity.id!
-        role = .init(rawValue: entity.role!)!
+        id = entity.id
+        role = .init(rawValue: entity.role)!
         order = Int(entity.order)
-        member = .init(entity.member!)
-        teamId = entity.team?.id
+        member = .init(entity.member)
+        teamId = entity.team.id
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
@@ -33,8 +33,8 @@ extension Supervisor: Storable {
         entity.role = role.rawValue
         entity.order = .init(order)
         entity.member = member.entity(context)
-        if let teamId {
-            entity.team = Team.first(in: context, key: "id", value: teamId.uuidString)
+        if let teamId, let team = Team.first(in: context, key: "id", value: teamId.uuidString) {
+            entity.team = team
         }
         return entity
     }

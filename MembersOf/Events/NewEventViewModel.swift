@@ -7,17 +7,23 @@ extension NewEventView {
     @MainActor
     final class ViewModel: ObservableObject {
         
-        let teams: [Team] = Mock.teams
-        fileprivate let storage: Storage = .shared
-        
+        @Published fileprivate(set) var teams: [Team] = [.loading]
         @Published var teamIndex: Int = 0
-        @Published var memberships: [Membership] = [
-//            .init(id: UUID(), name: "ONE time", clubId: UUID(), visits: 1, period: .unlimited, length: 0),
-//            .init(id: UUID(), name: "Monthly (12 visits)", clubId: UUID(), visits: 12, period: .month, length: 1),
-//            .init(id: UUID(), name: "Monthly (Unlimited)", clubId: UUID(), visits: 0, period: .month, length: 1)
-        ]
-        @Published var selectedMemberships: [UUID] = []
+        
+        @Published fileprivate(set) var memberships: [Membership] = []
+        @Published fileprivate(set) var selectedMemberships: [UUID] = []
         @Published var name: String = ""
+        
+        fileprivate let storage: Storage
+        fileprivate var teamsFetcher: Storage.Fetcher<Team>?
+        fileprivate var membershipsFetcher: Storage.Fetcher<Membership>?
+        
+        init() {
+            storage = .shared
+            teamsFetcher = storage.fetch()
+                .assign(to: \.teams, on: self)
+                .run(sort: [.init(\.createDate)])
+        }
         
         func isSelected(_ membership: Membership) -> Bool {
             selectedMemberships.contains(membership.id)
@@ -39,9 +45,17 @@ extension NewEventView {
             selectedMemberships.removeAll()
         }
         
+        func teamChanged() {
+            membershipsFetcher = storage.fetch()
+                .assign(to: \.memberships, on: self)
+                .filter(by: \.team.id, value: teams[teamIndex].id)
+                .run(sort: [.init(\.createDate)])
+            selectedMemberships.removeAll()
+        }
+        
         func create() {
             Task {
-                try await self.storage.save(Event(id: UUID(), name: name, createDate: .now, startDate: nil, endDate: nil))
+                try await self.storage.save(Event(id: UUID(), name: name, createDate: .now, startDate: nil, endDate: nil, team: teams[teamIndex]))
             }
         }
     }

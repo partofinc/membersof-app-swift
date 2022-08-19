@@ -6,12 +6,14 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="memberships" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Membership" inverseName="events" inverseEntity="Membership"/>
+        <relationship name="team" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="events" inverseEntity="Team"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="event" inverseEntity="Visit"/>
     </entity>
     <entity name="Member" representedClassName="MemberEntity" syncable="YES">
         <attribute name="firstName" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="lastName" attributeType="String"/>
+        <attribute name="lastName" optional="YES" attributeType="String"/>
         <relationship name="management" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Supervisor" inverseName="member" inverseEntity="Supervisor"/>
         <relationship name="social" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Social" inverseName="member" inverseEntity="Social"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="member" inverseEntity="Visit"/>
@@ -23,6 +25,7 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="period" attributeType="String"/>
         <attribute name="visits" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="memberships" inverseEntity="Event"/>
         <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="memberships" inverseEntity="Team"/>
     </entity>
     <entity name="Social" representedClassName="SocialEntity" syncable="YES">
@@ -38,8 +41,8 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="role" attributeType="String"/>
-        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="management" inverseEntity="Member"/>
-        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="crew" inverseEntity="Team"/>
+        <relationship name="member" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="management" inverseEntity="Member"/>
+        <relationship name="team" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="crew" inverseEntity="Team"/>
     </entity>
     <entity name="Team" representedClassName="TeamEntity" syncable="YES">
         <attribute name="brief" attributeType="String"/>
@@ -47,13 +50,14 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="crew" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Supervisor" inverseName="team" inverseEntity="Supervisor"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="team" inverseEntity="Event"/>
         <relationship name="memberships" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Membership" inverseName="team" inverseEntity="Membership"/>
         <relationship name="social" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Social" inverseName="team" inverseEntity="Social"/>
     </entity>
     <entity name="Visit" representedClassName="VisitEntity" syncable="YES">
         <attribute name="checkInDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="visits" inverseEntity="Event"/>
-        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="visits" inverseEntity="Member"/>
+        <relationship name="event" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="visits" inverseEntity="Event"/>
+        <relationship name="member" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="visits" inverseEntity="Member"/>
     </entity>
 </model>

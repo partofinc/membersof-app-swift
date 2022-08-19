@@ -21,7 +21,7 @@ extension MembershipsView {
             storage = .shared
             membershipsFetcher = storage.fetch()
                 .assign(to: \.memberships, on: self)
-                .run(sort: [.init(\.createDate)])
+                .run(sort: [.init(\.createDate, order: .reverse)])
         }
     }
 }
