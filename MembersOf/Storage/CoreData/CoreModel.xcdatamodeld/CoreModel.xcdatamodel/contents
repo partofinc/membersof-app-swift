@@ -26,7 +26,14 @@
         <attribute name="period" attributeType="String"/>
         <attribute name="visits" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="memberships" inverseEntity="Event"/>
+        <relationship name="pricing" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Price" inverseName="membership" inverseEntity="Price"/>
         <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="memberships" inverseEntity="Team"/>
+    </entity>
+    <entity name="Price" representedClassName="Price" syncable="YES" codeGenerationType="class">
+        <attribute name="currency" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="value" attributeType="Decimal" defaultValueString="0.0"/>
+        <relationship name="membership" maxCount="1" deletionRule="Nullify" destinationEntity="Membership" inverseName="pricing" inverseEntity="Membership"/>
     </entity>
     <entity name="Social" representedClassName="SocialEntity" syncable="YES">
         <attribute name="account" attributeType="String"/>

@@ -42,7 +42,6 @@ extension Membership: Storable {
         if let teamId, let team = Team.first(in: context, key: "id", value: teamId.uuidString) {
             entity.team = team
         }
-        print(entity)
         return entity
     }
     

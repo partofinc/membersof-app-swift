@@ -26,8 +26,7 @@ public extension Social {
 }
 
 extension Array where Element == Social.Media {
-    static var all: [Element] {
-        [
+    static var all: [Element] {[
             .instagram,
             .telegram,
             .twitter,
