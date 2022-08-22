@@ -92,7 +92,7 @@ struct MemberConfirmationView: View {
         HStack {
             Text("Expires")
             Spacer()
-            Text(subscription.expiresAt!.formatted(date: .abbreviated, time: .omitted))
+            Text(subscription.endDate!.formatted(date: .abbreviated, time: .omitted))
         }
         HStack {
             Text("Visits")
@@ -163,7 +163,7 @@ struct MemberConfirmationView_Previews: PreviewProvider {
                 viewModel: .init(
                     member: .init(id: UUID(), firstName: "Runar", lastName: "Kalimullin"),
                     event: .init(id: UUID(), name: "name", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!),
-                    subscription: .init(id: UUID(), member: .init(id: UUID(), firstName: "Runar", lastName: "Kalimullin"), membership: .init(id: UUID(), name: "Monthly 30 visits", visits: 30, period: .month, length: 1, createDate: .now, teamId: nil), startedAt: .now.addingTimeInterval(-44444), expiresAt: .now.addingTimeInterval(66696), visits: 7)
+                    subscription: .init(id: UUID(), member: .init(id: UUID(), firstName: "Runar", lastName: "Kalimullin"), membership: .init(id: UUID(), name: "Monthly 30 visits", visits: 30, period: .month, length: 1, createDate: .now, teamId: nil, pricing: []), startDate: .now.addingTimeInterval(-44444), endDate: .now.addingTimeInterval(66696), visits: 7)
                 )
             )
         }

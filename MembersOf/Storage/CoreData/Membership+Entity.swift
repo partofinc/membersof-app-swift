@@ -19,6 +19,7 @@ extension Membership: Storable {
         @NSManaged public var visits: Int32
         @NSManaged public var createDate: Date
         @NSManaged public var team: Team.Entity
+        @NSManaged public var pricing: Set<Price.Entity>?
     }
     
     init(_ entity: Entity) {
@@ -29,6 +30,7 @@ extension Membership: Storable {
         visits = .init(entity.visits)
         createDate = entity.createDate
         teamId = entity.team.id
+        pricing = entity.pricing == nil ? [] : entity.pricing!.map(Price.init)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
@@ -41,6 +43,9 @@ extension Membership: Storable {
         entity.createDate = createDate
         if let teamId, let team = Team.first(in: context, key: "id", value: teamId.uuidString) {
             entity.team = team
+        }
+        if !pricing.isEmpty {
+            entity.pricing = Set(pricing.map({$0.entity(context)}))
         }
         return entity
     }

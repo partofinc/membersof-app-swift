@@ -12,7 +12,7 @@ public struct Subscription: Codable, Hashable, Identifiable {
     public let id: UUID
     public let member: Member
     public let membership: Membership
-    public let startedAt: Date
-    public let expiresAt: Date?
+    public let startDate: Date
+    public let endDate: Date?
     public let visits: Int
 }

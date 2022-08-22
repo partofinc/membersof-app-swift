@@ -38,14 +38,14 @@ struct NewTeamView: View {
                             Text(social.media.rawValue.capitalized)
                             Spacer()
                             Text(social.account)
-                            Button {
+                            Button(role: .destructive) {
                                 viewModel.remove(social)
                             } label: {
                                 Image(systemName: "trash")
                                     .font(.title2)
                             }
                             .buttonStyle(.plain)
-                            .foregroundColor(.red)
+//                            .foregroundColor(.red)
                         }
                     }
                     if !viewModel.medias.isEmpty {

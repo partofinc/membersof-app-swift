@@ -31,7 +31,19 @@ extension NewMembershipView {
         @Published var visits: Int = 0
         @Published var visitsText: String = "Unlimited visits"
         
-        @Published var price: String = ""
+        @Published var price: Decimal?
+        @Published var priceCurrency: Currency?
+        @Published var pricing: [Price] = []
+        
+        @Published var defaultCurrency: Currency? = .default
+        
+        private let priceFormatter: NumberFormatter = {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.locale = .autoupdatingCurrent
+            formatter.maximumFractionDigits = 2
+            return formatter
+        }()
         
         private let storage: Storage
         private var teamsFetcher: Storage.Fetcher<Team>?
@@ -41,6 +53,7 @@ extension NewMembershipView {
             teamsFetcher = storage.fetch()
                 .assign(to: \.teams, on: self)
                 .run(sort: [.init(\.createDate, order: .reverse)])
+            
         }
         
         func calculatePeriod() {
@@ -60,6 +73,33 @@ extension NewMembershipView {
             visitsText = "\(visits) Visits"
         }
         
+        func fromat(_ price: Price) -> String {
+            priceFormatter.currencyCode = price.currency
+            return priceFormatter.string(for: price.value)!
+        }
+        
+        func add(_ currency: Currency) {
+            priceCurrency = currency
+        }
+        
+        func addPrice() {
+            guard let currncy = priceCurrency?.code, let price else { return }
+            let p = Price(id: UUID(), currency: currncy, value: price)
+            priceCurrency = nil
+            self.price = 0
+            if let defaultCurrency, defaultCurrency.code == currncy {
+                self.defaultCurrency = nil
+            }
+            pricing.append(p)
+        }
+        
+        func delete(_ price: Price) {
+            pricing.removeAll(where: {$0 == price})
+            if let def = Currency.default, def.code == price.currency {
+                defaultCurrency = def
+            }
+        }
+        
         func create() {
             Task {
                 let membership = Membership(
@@ -69,11 +109,22 @@ extension NewMembershipView {
                     period: period,
                     length: length,
                     createDate: .now,
-                    teamId: teams[teamIdx].id
+                    teamId: teams[teamIdx].id,
+                    pricing: self.pricing
                 )
                 try await self.storage.save(membership)
             }
         }
+    }
+}
+
+extension Currency {
+    static var `default`: Self? {
+        let locale = Locale.current
+        guard let currency = locale.currency?.identifier,
+              let symbol = locale.currencySymbol,
+                let name = locale.localizedString(forCurrencyCode: currency) else { return nil }
+        return .init(code: currency, symbol: symbol, name: name)
     }
 }
 

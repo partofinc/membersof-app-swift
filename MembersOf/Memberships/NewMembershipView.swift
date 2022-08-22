@@ -11,6 +11,7 @@ struct NewMembershipView: View {
     
     @StateObject fileprivate var viewModel = ViewModel()
     @Environment(\.dismiss) private var dismiss
+    @State private var choosingCurrency = false
     
     var body: some View {
         VStack {
@@ -49,18 +50,66 @@ struct NewMembershipView: View {
                 Stepper(viewModel.visitsText, value: $viewModel.visits, in: 0...10000, onEditingChanged: { _ in
                     viewModel.calculateVisits()
                 })
-                HStack {
-                    Text("Price")
-                    if !viewModel.price.isEmpty {
-                        Text("$")
-                    }
-                    TextField("Free", text: $viewModel.price)
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.trailing)
-                }
+                pricing
             }
             .onChange(of: viewModel.period) { _ in
                 viewModel.calculatePeriod()
+            }
+            .sheet(isPresented: $choosingCurrency) {
+                NavigationStack {
+                    CurrencySelectionView { currency in
+                        viewModel.add(currency)
+                    }
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var pricing: some View {
+        Section("Pricing") {
+            ForEach(viewModel.pricing) { price in
+                HStack {
+                    Text(viewModel.fromat(price))
+                    Spacer()
+                    Button(role: .destructive) {
+                        viewModel.delete(price)
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                }
+            }
+            if let currency = viewModel.priceCurrency {
+                HStack {
+                    Text(currency.symbol)
+                    TextField("0.00", value: $viewModel.price, format: Decimal.FormatStyle.init(locale: .current))
+                        .keyboardType(.decimalPad)
+                    Button {
+                        viewModel.addPrice()
+                    } label: {
+                        Image(systemName: "checkmark.circle")
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundColor(.accentColor)
+                    .disabled(viewModel.price == nil)
+                }
+            } else if let currency = viewModel.defaultCurrency {
+                Menu {
+                    Button(currency.display) {
+                        viewModel.add(currency)
+                    }
+                    Button("Other") {
+                        choosingCurrency.toggle()
+                    }
+                } label: {
+                    Label("Add", systemImage: "plus")
+                }
+            } else {
+                Button {
+                    choosingCurrency.toggle()
+                } label: {
+                    Label("Add", systemImage: "plus")
+                }
             }
         }
     }

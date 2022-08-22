@@ -20,6 +20,10 @@
 		F1589F7228A27C9900EE1E92 /* NewMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589F7128A27C9900EE1E92 /* NewMemberView.swift */; };
 		F1589F7428A282A700EE1E92 /* MemberConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589F7328A282A700EE1E92 /* MemberConfirmationView.swift */; };
 		F159F061289BA3CF00375BE3 /* SupervisorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F159F060289BA3CF00375BE3 /* SupervisorView.swift */; };
+		F15FB69D28B3589E00BE15C3 /* Price+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15FB69C28B3589E00BE15C3 /* Price+Entity.swift */; };
+		F15FB69F28B358AB00BE15C3 /* Price.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15FB69E28B358AB00BE15C3 /* Price.swift */; };
+		F15FB6A128B359C100BE15C3 /* Subscription+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15FB6A028B359C100BE15C3 /* Subscription+Entity.swift */; };
+		F15FB6A328B3687E00BE15C3 /* CurrencySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15FB6A228B3687D00BE15C3 /* CurrencySelectionView.swift */; };
 		F160721028ACC6BE00538A4F /* Social+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160720F28ACC6BE00538A4F /* Social+Entity.swift */; };
 		F160721228ACC9E700538A4F /* Supervisor+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160721128ACC9E700538A4F /* Supervisor+Entity.swift */; };
 		F16976E12893B94100AB778D /* MembersOfApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976E02893B94100AB778D /* MembersOfApp.swift */; };
@@ -74,6 +78,10 @@
 		F1589F7128A27C9900EE1E92 /* NewMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMemberView.swift; sourceTree = "<group>"; };
 		F1589F7328A282A700EE1E92 /* MemberConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberConfirmationView.swift; sourceTree = "<group>"; };
 		F159F060289BA3CF00375BE3 /* SupervisorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupervisorView.swift; sourceTree = "<group>"; };
+		F15FB69C28B3589E00BE15C3 /* Price+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Price+Entity.swift"; sourceTree = "<group>"; };
+		F15FB69E28B358AB00BE15C3 /* Price.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Price.swift; sourceTree = "<group>"; };
+		F15FB6A028B359C100BE15C3 /* Subscription+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Subscription+Entity.swift"; sourceTree = "<group>"; };
+		F15FB6A228B3687D00BE15C3 /* CurrencySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySelectionView.swift; sourceTree = "<group>"; };
 		F160720F28ACC6BE00538A4F /* Social+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Social+Entity.swift"; sourceTree = "<group>"; };
 		F160721128ACC9E700538A4F /* Supervisor+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Supervisor+Entity.swift"; sourceTree = "<group>"; };
 		F16976DD2893B94100AB778D /* MembersOf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MembersOf.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,6 +217,7 @@
 				F1D8B22228AF8FDE001A551D /* Visit.swift */,
 				F1C60BE828A254B700F944BD /* Schedule.swift */,
 				F1C4958728A3A1D700B1E060 /* Subscription.swift */,
+				F15FB69E28B358AB00BE15C3 /* Price.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -216,10 +225,11 @@
 		F1B71D84289900E900AD2E2C /* Memberships */ = {
 			isa = PBXGroup;
 			children = (
-				F16976F42893BAFD00AB778D /* NewMembershipView.swift */,
-				F16976F62893BB1200AB778D /* NewMembershipViewModel.swift */,
 				F1B71D852899011E00AD2E2C /* MembershipsView.swift */,
 				F1B71D872899017800AD2E2C /* MembershipsViewModel.swift */,
+				F16976F42893BAFD00AB778D /* NewMembershipView.swift */,
+				F16976F62893BB1200AB778D /* NewMembershipViewModel.swift */,
+				F15FB6A228B3687D00BE15C3 /* CurrencySelectionView.swift */,
 			);
 			path = Memberships;
 			sourceTree = "<group>";
@@ -261,6 +271,8 @@
 				F160720F28ACC6BE00538A4F /* Social+Entity.swift */,
 				F160721128ACC9E700538A4F /* Supervisor+Entity.swift */,
 				F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */,
+				F15FB69C28B3589E00BE15C3 /* Price+Entity.swift */,
+				F15FB6A028B359C100BE15C3 /* Subscription+Entity.swift */,
 				F1447F7328A7E9A2002AF148 /* Storable.swift */,
 			);
 			path = CoreData;
@@ -341,6 +353,7 @@
 				F16976E32893B94100AB778D /* ContentView.swift in Sources */,
 				F1C6491528A50A1F00811CAC /* Storage.swift in Sources */,
 				F1B71D8D289924EF00AD2E2C /* NewTeamViewModel.swift in Sources */,
+				F15FB69F28B358AB00BE15C3 /* Price.swift in Sources */,
 				F1C8314B289A620A004E34F9 /* TeamsView.swift in Sources */,
 				F103BD51289D333C0041D2EF /* NewEventViewModel.swift in Sources */,
 				F1C60BE928A254B700F944BD /* Schedule.swift in Sources */,
@@ -356,6 +369,7 @@
 				F1589F7228A27C9900EE1E92 /* NewMemberView.swift in Sources */,
 				F160721228ACC9E700538A4F /* Supervisor+Entity.swift in Sources */,
 				F1447F7228A7E8CF002AF148 /* Event+Entity.swift in Sources */,
+				F15FB69D28B3589E00BE15C3 /* Price+Entity.swift in Sources */,
 				F1E25F1728A247F000B1511D /* EventRow.swift in Sources */,
 				F1C60BEB28A272D000F944BD /* SearchMembersView.swift in Sources */,
 				F1C8314F289A714B004E34F9 /* TeamRow.swift in Sources */,
@@ -367,6 +381,7 @@
 				F1C4958828A3A1D700B1E060 /* Subscription.swift in Sources */,
 				F1C83153289A8EF3004E34F9 /* TeamDetailViewModel.swift in Sources */,
 				F1B71D8B2899238C00AD2E2C /* NewTeamView.swift in Sources */,
+				F15FB6A328B3687E00BE15C3 /* CurrencySelectionView.swift in Sources */,
 				F1B71D882899017800AD2E2C /* MembershipsViewModel.swift in Sources */,
 				F16976E12893B94100AB778D /* MembersOfApp.swift in Sources */,
 				F1C60BED28A272E200F944BD /* SearchMembersViewModel.swift in Sources */,
@@ -375,6 +390,7 @@
 				F1C83157289AEE59004E34F9 /* Supervisor.swift in Sources */,
 				F1487F89289D0BE90079934A /* ProfileView.swift in Sources */,
 				F1A14DA628AE569A001F00E3 /* Membership+Entity.swift in Sources */,
+				F15FB6A128B359C100BE15C3 /* Subscription+Entity.swift in Sources */,
 				F1589F7428A282A700EE1E92 /* MemberConfirmationView.swift in Sources */,
 				F1C83155289AEA37004E34F9 /* Member.swift in Sources */,
 				F1D8B22328AF8FDE001A551D /* Visit.swift in Sources */,
