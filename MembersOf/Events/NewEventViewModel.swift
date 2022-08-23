@@ -55,7 +55,17 @@ extension NewEventView {
         
         func create() {
             Task {
-                try await self.storage.save(Event(id: UUID(), name: name, createDate: .now, startDate: nil, endDate: nil, team: teams[teamIndex]))
+                try await self.storage.save(
+                    Event(
+                        id: UUID(),
+                        name: name,
+                        createDate: .now,
+                        startDate: nil,
+                        endDate: nil,
+                        team: teams[teamIndex],
+                        memberships: self.memberships.filter({self.selectedMemberships.contains($0.id)})
+                    )
+                )
             }
         }
     }

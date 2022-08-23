@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+//import SwiftUI
 
 extension NewTeamView {
     
@@ -22,10 +23,13 @@ extension NewTeamView {
         @Published var account: String = ""
         
         private let storage: Storage = .shared
-        private var me: Member?
+        private var me: Member = .local
+        
+        @LightStorage(key: .userId)
+        private var userId: String?
         
         init() {
-            me = storage.find(key: "firstName", value: "Ravil")
+            restoreUser()
         }
         
         func addSocial() {
@@ -48,7 +52,6 @@ extension NewTeamView {
         }
         
         func create() {
-            guard let me else { return }
             let supervisor = Supervisor(id: UUID(), role: .owner, order: 0, member: me, teamId: nil)
             let team = Team(
                 id: UUID(),
@@ -65,6 +68,12 @@ extension NewTeamView {
                     print(error)
                 }
             }
+        }
+        
+        private func restoreUser() {
+            guard let userId else { return }
+            guard let user: Member = storage.find(key: "id", value: userId) else { return }
+            me = user
         }
     }
 }

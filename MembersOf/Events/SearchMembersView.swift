@@ -23,7 +23,7 @@ struct SearchMembersView: View {
                 }
                 ForEach(viewModel.members) { member in
                     NavigationLink {
-                        MemberConfirmationView(viewModel: .init(member: member, event: viewModel.event))
+                        MemberConfirmationView(viewModel: .init(member: member, event: viewModel.event), dismiss: dismiss)
                     } label: {
                         Label(member.fullName, systemImage: "person")
                     }
@@ -48,6 +48,6 @@ struct SearchMembersView: View {
 
 struct SearchMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchMembersView(viewModel: .init(team: Mock.teams.first!, event: .init(id: UUID(), name: "Tested event", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!)))
+        SearchMembersView(viewModel: .init(team: Mock.teams.first!, event: .init(id: UUID(), name: "Tested event", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
     }
 }

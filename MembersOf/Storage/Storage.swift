@@ -68,3 +68,29 @@ extension NSManagedObjectContext {
     }
 }
 
+@propertyWrapper
+class StorageBacked<Value: Storable> {
+    
+    let key: String
+    let value: String
+    let defaultValue: Value
+    let storage: Storage = .shared
+    
+    init(key: String, value: String, defaultValue: Value) {
+        self.key = key
+        self.value = value
+        self.defaultValue = defaultValue
+    }
+    
+    var wrappedValue: Value {
+        get {
+            storage.find(key: key, value: value) ?? defaultValue
+        }
+        set {
+            Task {
+                try await storage.save(newValue)
+            }
+        }
+    }
+}
+

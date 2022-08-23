@@ -11,9 +11,10 @@ struct MembershipsView: View {
     
     @StateObject var viewModel = ViewModel()
     @State private var creatingNew: Bool = false
+    @State private var path: [Membership] = []
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             VStack {
                 ScrollView {
                     VStack {
@@ -28,9 +29,15 @@ struct MembershipsView: View {
                                     .fill(Color.orange.opacity(0.4).gradient)
                                     .shadow(radius: 5)
                             )
+                            .onTapGesture {
+                                path = [ship]
+                            }
                         }
                     }
                     .padding()
+                    .navigationDestination(for: Membership.self) { ship in
+                        MembershipDetailView(viewModel: .init(ship))
+                    }
                 }
                 Button {
                     creatingNew.toggle()

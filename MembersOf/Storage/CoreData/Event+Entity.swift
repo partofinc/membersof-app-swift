@@ -18,6 +18,7 @@ extension Event: Storable {
         @NSManaged public var endDate: Date?
         @NSManaged public var createDate: Date
         @NSManaged public var team: Team.Entity
+        @NSManaged public var memberships: Set<Membership.Entity>?
     }
     
     init(_ entity: Entity) {
@@ -27,6 +28,7 @@ extension Event: Storable {
         startDate = entity.startDate
         endDate = entity.endDate
         team = .init(entity.team)
+        memberships = entity.memberships == nil ? [] : entity.memberships!.map(Membership.init)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
@@ -37,6 +39,7 @@ extension Event: Storable {
         entity.endDate = endDate
         entity.createDate = createDate
         entity.team = team.entity(context)
+        entity.memberships = Set(memberships.map{$0.entity(context)})
         return entity
     }
     

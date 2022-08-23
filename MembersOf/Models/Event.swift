@@ -9,5 +9,6 @@ public struct Event: Codable, Hashable, Identifiable {
     public let startDate: Date?
     public let endDate: Date?
     public let team: Team
+    public let memberships: [Membership]
 }
 

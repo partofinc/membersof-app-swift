@@ -42,11 +42,12 @@ extension Storage {
             in queue: DispatchQueue = .main,
             failure: @escaping (Error) -> Void = {_ in}) -> Self {
                 canceler = subject.eraseToAnyPublisher()
-//                    .map({$0.map(T.init)})
                     .sink { comp in
                         switch comp {
                         case .failure(let error):
-                            failure(error)
+                            queue.async {
+                                failure(error)
+                            }
                         default:
                             break
                         }
@@ -59,19 +60,26 @@ extension Storage {
                 return self
             }
         
-        func sink(receiveValue: @escaping ([T]) -> Void, failure: @escaping (Error) -> Void) -> Self {
+        func sink(
+            receiveValue: @escaping ([T]) -> Void,
+            in queue: DispatchQueue = .main,
+            failure: @escaping (Error) -> Void = {_ in}) -> Self {
             canceler = subject.eraseToAnyPublisher()
-//                .map({$0.map(T.init)})
                 .sink(receiveCompletion: {
                     switch $0 {
                     case .failure(let error):
-                        failure(error)
+                        queue.async {
+                            failure(error)
+                        }
                     default:
                         break
                     }
                 }, receiveValue: { value in
                     let result = self.filter == nil ? value : value.filter(self.filter!.isIncluded)
-                    receiveValue(result.map(T.init))
+                    let mapped = result.map(T.init)
+                    queue.async {
+                        receiveValue(mapped)
+                    }
                 })
             return self
         }

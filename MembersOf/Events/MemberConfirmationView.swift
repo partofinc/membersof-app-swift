@@ -10,7 +10,7 @@ import SwiftUI
 struct MemberConfirmationView: View {
     
     @StateObject var viewModel: ViewModel
-//    let dismiss: DismissAction?
+    let dismiss: DismissAction?
     
     var body: some View {
         VStack {
@@ -20,12 +20,12 @@ struct MemberConfirmationView: View {
             }
             Button {
                 viewModel.checkIn()
+                dismiss?()
             } label: {
                 Label("Check In", systemImage: "checkmark")
             }
             .padding()
         }
-//        .navigationBarTitleDisplayMode(.inline)
     }
     
     @ViewBuilder
@@ -114,23 +114,35 @@ extension MemberConfirmationView {
         
         let member: Member
         let event: Event
+        
         fileprivate let storage: Storage = .shared
-        let subscription: Subscription?
-        let memberships: [Membership] = [
-//            .init(id: UUID(), name: "ONE time", clubId: UUID(), visits: 1, period: .unlimited, length: 0),
-//            .init(id: UUID(), name: "Monthly (12 visits)", clubId: UUID(), visits: 12, period: .month, length: 1),
-//            .init(id: UUID(), name: "Monthly (Unlimited)", clubId: UUID(), visits: 0, period: .month, length: 1)
-        ]
+        fileprivate var membershipsFetcher: Storage.Fetcher<Membership>?
+        fileprivate var subscriptionsFetcher: Storage.Fetcher<Subscription>?
+        
+        @Published var subscription: Subscription?
         
         @Published var starting: Date = .now
         @Published var visits: Int = 0
         @Published var payment: String = ""
         @Published var membership: Membership?
+        @Published var memberships: [Membership] = []
         
-        init(member: Member, event: Event, subscription: Subscription? = nil) {
+        init(member: Member, event: Event) {
             self.member = member
             self.event = event
-            self.subscription = subscription
+            
+            membershipsFetcher = storage.fetch()
+                .filter(by: \.team.id, value: event.team.id)
+                .assign(to: \.memberships, on: self)
+                .run(sort: [.init(\.createDate, order: .reverse)])
+            
+            subscriptionsFetcher = storage.fetch()
+                .filter(with: .init(format: "member.id == %@", member.id.uuidString))
+                .filter(with: .init(format: "membership.team.id == %@", event.team.id.uuidString))
+                .sink(receiveValue: { [unowned self] subs in
+                    self.subscription = subs.last
+                })
+                .run(sort: [.init(\.startDate)])
         }
         
         func select(_ ship: Membership) {
@@ -155,16 +167,12 @@ extension MemberConfirmationView {
 struct MemberConfirmationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            MemberConfirmationView(viewModel: .init(member: .init(id: UUID(), firstName: "Dinar", lastName: "Ibragimov"), event: .init(id: UUID(), name: "name", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!)))
-        }
-        
-        NavigationStack {
             MemberConfirmationView(
                 viewModel: .init(
                     member: .init(id: UUID(), firstName: "Runar", lastName: "Kalimullin"),
-                    event: .init(id: UUID(), name: "name", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!),
-                    subscription: .init(id: UUID(), member: .init(id: UUID(), firstName: "Runar", lastName: "Kalimullin"), membership: .init(id: UUID(), name: "Monthly 30 visits", visits: 30, period: .month, length: 1, createDate: .now, teamId: nil, pricing: []), startDate: .now.addingTimeInterval(-44444), endDate: .now.addingTimeInterval(66696), visits: 7)
-                )
+                    event: .init(id: UUID(), name: "name", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])
+                ),
+                dismiss: nil
             )
         }
     }

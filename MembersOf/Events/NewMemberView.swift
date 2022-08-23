@@ -67,7 +67,7 @@ struct NewMemberView: View {
 struct NewMemberView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            NewMemberView(viewModel: .init(team: Mock.teams.first!, event: Event(id: UUID(), name: "Some", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!)), dismiss: nil)
+            NewMemberView(viewModel: .init(team: Mock.teams.first!, event: Event(id: UUID(), name: "Some", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])), dismiss: nil)
         }
     }
 }

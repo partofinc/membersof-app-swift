@@ -26,11 +26,13 @@ extension SearchMembersView {
         }
         
         @Published var pattern: String = ""
-        @Published var members: [Member] = [
-            .init(id: UUID(), firstName: "Fedoretto", lastName: "Sukhovinskiy-Ivanov-Drago-Tyson")
-        ]
+        @Published var members: [Member] = []
         
         func search() {
+            guard !pattern.isEmpty else {
+                members = []
+                return
+            }
             membersFetcher = storage.fetch()
                 .assign(to: \.members, on: self)
                 .filter(with: .init(format: "firstName CONTAINS[cd] %@", pattern), skip: pattern.isEmpty)

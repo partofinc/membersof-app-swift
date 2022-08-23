@@ -66,7 +66,7 @@ struct EventDetailView: View {
 struct EventDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!)))
+            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
         }
     }
 }

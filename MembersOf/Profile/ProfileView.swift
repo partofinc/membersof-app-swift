@@ -6,32 +6,57 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct ProfileView: View {
     
-    let storage: Storage = .shared
-    @State var me: Member?
+    @StateObject private var viewModel: ViewModel = .init()
+    @State private var edit: Bool = false
     
     var body: some View {
         NavigationStack {
-            VStack {
-                if let me {
-                    Text(me.fullName)
+            Group {
+                if let me = viewModel.me {
+                    List {
+                        Text(me.fullName)
+                            .font(.title2)
+                    }
                 } else {
-                    Button {
-                        let member = Member(id: UUID(), firstName: "Ravil", lastName: "Khusainov")
-                        me = member
-                        Task {
-                            try await storage.save(member)
+                    VStack {
+                        SignInWithAppleButton { request in
+                            request.requestedScopes = [.fullName, .email]
+                        } onCompletion: { result in
+                            
                         }
-                    } label: {
-                        Text("Create me")
+                        .frame(height: 44)
+                        Button {
+                            
+                        } label: {
+                            Text("G Sign In with google")
+                        }
+                        .frame(height: 44)
                     }
                 }
             }
+            .padding()
             .navigationTitle("Profile")
+            .toolbar {
+                ToolbarItem {
+                    if viewModel.me != nil {
+                        if edit {
+                            Button("Save") {
+                                
+                            }
+                        } else {
+                            Button("Edit") {
+                                edit.toggle()
+                            }
+                        }
+                    }
+                }
+            }
             .task {
-                me = storage.find(key: "firstName", value: "Ravil")
+                viewModel.fetch()
             }
         }
     }
