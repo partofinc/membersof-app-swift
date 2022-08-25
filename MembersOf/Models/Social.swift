@@ -23,6 +23,10 @@ public extension Social {
         
         public var id: Self { self }
     }
+    
+    var title: String {
+        account + "(\(media.rawValue))"
+    }
 }
 
 extension Array where Element == Social.Media {

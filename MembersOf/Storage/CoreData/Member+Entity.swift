@@ -19,7 +19,7 @@ extension Member: Storable {
     init(_ entity: Entity) {
         id = entity.id
         firstName = entity.firstName
-        lastName = entity.lastName!
+        lastName = entity.lastName
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

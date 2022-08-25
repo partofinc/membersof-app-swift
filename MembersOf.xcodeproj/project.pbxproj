@@ -42,6 +42,7 @@
 		F1ABC48D28B4AA600075E3F9 /* MembershipDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABC48C28B4AA600075E3F9 /* MembershipDetailView.swift */; };
 		F1ABC48F28B4AA700075E3F9 /* MembershipDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABC48E28B4AA700075E3F9 /* MembershipDetailViewModel.swift */; };
 		F1ABE21728AD045E00798E5D /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABE21628AD045E00798E5D /* Fetcher.swift */; };
+		F1B651C728B6431100044E98 /* ExitDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B651C628B6431100044E98 /* ExitDialogView.swift */; };
 		F1B71D832898FD2F00AD2E2C /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D822898FD2F00AD2E2C /* Membership.swift */; };
 		F1B71D862899011E00AD2E2C /* MembershipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D852899011E00AD2E2C /* MembershipsView.swift */; };
 		F1B71D882899017800AD2E2C /* MembershipsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D872899017800AD2E2C /* MembershipsViewModel.swift */; };
@@ -106,6 +107,7 @@
 		F1ABC48C28B4AA600075E3F9 /* MembershipDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipDetailView.swift; sourceTree = "<group>"; };
 		F1ABC48E28B4AA700075E3F9 /* MembershipDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipDetailViewModel.swift; sourceTree = "<group>"; };
 		F1ABE21628AD045E00798E5D /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
+		F1B651C628B6431100044E98 /* ExitDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitDialogView.swift; sourceTree = "<group>"; };
 		F1B71D822898FD2F00AD2E2C /* Membership.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Membership.swift; sourceTree = "<group>"; };
 		F1B71D852899011E00AD2E2C /* MembershipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipsView.swift; sourceTree = "<group>"; };
 		F1B71D872899017800AD2E2C /* MembershipsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipsViewModel.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 			children = (
 				F1487F88289D0BE90079934A /* ProfileView.swift */,
 				F133060328B507CF0043C487 /* ProfileViewModel.swift */,
+				F1B651C628B6431100044E98 /* ExitDialogView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				F1ABC48F28B4AA700075E3F9 /* MembershipDetailViewModel.swift in Sources */,
 				F1487F86289D09D90079934A /* EventsView.swift in Sources */,
 				F1589F7228A27C9900EE1E92 /* NewMemberView.swift in Sources */,
+				F1B651C728B6431100044E98 /* ExitDialogView.swift in Sources */,
 				F160721228ACC9E700538A4F /* Supervisor+Entity.swift in Sources */,
 				F1447F7228A7E8CF002AF148 /* Event+Entity.swift in Sources */,
 				F15FB69D28B3589E00BE15C3 /* Price+Entity.swift in Sources */,
