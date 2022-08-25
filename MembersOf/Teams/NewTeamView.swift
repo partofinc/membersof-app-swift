@@ -10,7 +10,9 @@ import SwiftUI
 struct NewTeamView: View {
     
     @StateObject var viewModel = ViewModel()
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
+    @FocusState private var addingSocial
+    @FocusState private var editingName
     
     var body: some View {
         VStack {
@@ -21,58 +23,70 @@ struct NewTeamView: View {
                     viewModel.create()
                     dismiss()
                 }
+                .disabled(viewModel.name.count < 3)
             }
             .padding(.horizontal)
             .frame(height: 44)
             .font(.headline)
             Form {
-                HStack {
-                    Text("Name")
-                    TextField("", text: $viewModel.name)
-                        .multilineTextAlignment(.trailing)
+                Section {
+                    TextField("Name", text: $viewModel.name)
+                        .focused($editingName)
+                    TextEditor(text: $viewModel.brief)
+                } footer: {
+                    Text("Briefly describe yor team")
                 }
-                TextEditor(text: $viewModel.brief)
                 Section("social media") {
                     ForEach(viewModel.socials) { social in
                         HStack {
                             Text(social.media.rawValue.capitalized)
                             Spacer()
                             Text(social.account)
-                            Button(role: .destructive) {
+                            Button {
                                 viewModel.remove(social)
                             } label: {
                                 Image(systemName: "trash")
-                                    .font(.title2)
                             }
                             .buttonStyle(.plain)
-//                            .foregroundColor(.red)
+                            .foregroundColor(.red)
                         }
                     }
-                    if !viewModel.medias.isEmpty {
+                    if let media = viewModel.media {
                         HStack {
-                            Picker("", selection: $viewModel.media) {
-                                ForEach(viewModel.medias) {
-                                    Text($0.rawValue.capitalized)
-                                }
-                            }
-                            .labelsHidden()
+                            Text(media.rawValue)
                             TextField("Account", text: $viewModel.account)
+                                .textContentType(.nickname)
                                 .keyboardType(.emailAddress)
                                 .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled()
                                 .multilineTextAlignment(.trailing)
+                                .focused($addingSocial)
                             Button {
                                 viewModel.addSocial()
                             } label: {
                                 Image(systemName: "checkmark.circle")
-                                    .font(.title2)
                             }
                             .buttonStyle(.plain)
                             .foregroundColor(.accentColor)
                             .disabled(viewModel.account.count < 3)
                         }
+                    } else if !viewModel.medias.isEmpty {
+                        Menu {
+                            ForEach(viewModel.medias) { media in
+                                Button(media.rawValue) {
+                                    viewModel.media = media
+                                    addingSocial.toggle()
+                                }
+                            }
+                        } label: {
+                            Label("Add", systemImage: "plus")
+                        }
                     }
                 }
             }
+        }
+        .onAppear {
+            editingName.toggle()
         }
     }
 }

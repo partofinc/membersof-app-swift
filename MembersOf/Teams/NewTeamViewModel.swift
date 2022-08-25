@@ -19,7 +19,7 @@ extension NewTeamView {
         
         @Published var socials: [Social] = []
         @Published var medias: [Social.Media] = .all
-        @Published var media: Social.Media = .instagram
+        @Published var media: Social.Media?
         @Published var account: String = ""
         
         private let storage: Storage = .shared
@@ -33,22 +33,19 @@ extension NewTeamView {
         }
         
         func addSocial() {
+            guard let media else { return }
             let order = socials.last?.order ?? 0
-            socials.append(.init(id: UUID(), media: media, account: account, order: order, memberId: nil, teamId: nil))
+            socials.append(.init(id: UUID(), media: media, account: account, order: order + 1, memberId: nil, teamId: nil))
             
             account = ""
+            self.media = nil
             
             medias.removeAll(where: {$0 == media})
-            if let m = medias.first {
-                media = m
-            }
         }
         
         func remove(_ social: Social) {
             socials.removeAll(where: {$0.id == social.id})
             medias.insert(social.media, at: 0)
-            media = social.media
-            account = ""
         }
         
         func create() {
