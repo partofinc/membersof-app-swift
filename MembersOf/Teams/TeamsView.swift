@@ -17,7 +17,7 @@ struct TeamsView: View {
         NavigationStack(path: $path) {
             VStack {
                 ScrollView {
-                    VStack(alignment: .leading) {
+                    LazyVStack(alignment: .leading) {
                         ForEach(viewModel.teams) { team in
                             TeamRow(team: team)
                                 .onTapGesture {

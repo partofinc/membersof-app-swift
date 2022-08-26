@@ -95,43 +95,36 @@ struct ProfileView: View {
                 }
                 Section("Social media") {
                     ForEach(viewModel.social) { media in
-                        HStack {
-                            Text(media.media.rawValue)
-                            Spacer()
-                            Text(media.account)
-                                .font(.headline)
-                            Button(role: .destructive) {
-                                deletingSocial = media
-                                deleteSocialMedia.toggle()
-                            } label: {
-                                Image(systemName: "trash")
-                            }
-                            .buttonStyle(.plain)
-                            .foregroundColor(.red)
+                        SocialMediaRow(media, edit: $edit) {
+                            deletingSocial = media
+                            deleteSocialMedia.toggle()
                         }
                     }
                     if let media = viewModel.addingMedia {
-                        HStack {
-                            Text(media.rawValue)
-                            Spacer()
-                            TextField("Account", text: $viewModel.addingAccount)
-                                .multilineTextAlignment(.trailing)
-                                .keyboardType(.emailAddress)
-                                .textContentType(.nickname)
-                                .autocorrectionDisabled()
-                                .autocapitalization(.none)
-                            #if os(iOS)
-                                .focused($addingSocial)
-                            #endif
-                            Button {
-                                viewModel.addSocial()
-                            } label: {
-                                Image(systemName: "checkmark.circle")
-                            }
-                            .buttonStyle(.plain)
-                            .foregroundColor(.accentColor)
-                            .disabled(viewModel.addingAccount.count < 3)
+                        NewSocialMediaRow(media: media, account: $viewModel.addingAccount) {
+                            viewModel.addSocial()
                         }
+//                        HStack {
+//                            Text(media.rawValue)
+//                            Spacer()
+//                            TextField("Account", text: $viewModel.addingAccount)
+//                                .multilineTextAlignment(.trailing)
+//                                .keyboardType(.emailAddress)
+//                                .textContentType(.nickname)
+//                                .autocorrectionDisabled()
+//                                .autocapitalization(.none)
+//                            #if os(iOS)
+//                                .focused($addingSocial)
+//                            #endif
+//                            Button {
+//                                viewModel.addSocial()
+//                            } label: {
+//                                Image(systemName: "checkmark.circle")
+//                            }
+//                            .buttonStyle(.plain)
+//                            .foregroundColor(.accentColor)
+//                            .disabled(viewModel.addingAccount.count < 3)
+//                        }
                     } else if !viewModel.missingMedia.isEmpty {
                         Menu {
                             ForEach(viewModel.missingMedia) { media in

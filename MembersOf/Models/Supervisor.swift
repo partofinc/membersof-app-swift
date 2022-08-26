@@ -13,7 +13,7 @@ public struct Supervisor: Codable, Hashable, Identifiable {
 
 public extension Supervisor {
     
-    enum Role: String, Codable, Hashable, Identifiable, CaseIterable {
+    enum Role: String, Codable, Hashable, Identifiable {
         
         case owner
         case admin
@@ -21,4 +21,13 @@ public extension Supervisor {
         
         public var id: Self { self }
     }
+}
+
+
+extension Array where Element == Supervisor.Role {
+    static var all: Self {[
+        .owner,
+        .admin,
+        .manager
+    ]}
 }

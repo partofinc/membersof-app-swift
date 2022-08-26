@@ -7,43 +7,41 @@
 
 import SwiftUI
 
-struct TeamBriefEditView: View {
+struct TextEditDialogView: View {
     
-    @State var brief: String
+    let title: LocalizedStringKey
+    @State var text: String
     let save: (String) -> Void
-    @Environment(\.dismiss) var dismiss
+    
+    @Environment(\.dismiss) private var dismiss
     @FocusState private var focus
     
     var body: some View {
         VStack {
             HStack {
-                Text("Brief")
+                Text(title)
                 Spacer()
-                Button("Save") {
-                    save(brief)
+                Button("Done") {
+                    save(text)
                     dismiss()
                 }
             }
             .padding(.horizontal)
             .frame(height: 44)
             .font(.headline)
-            TextEditor(text: $brief)
+            TextEditor(text: $text)
+                .font(.headline)
                 .focused($focus)
                 .padding()
-                .task {
-                    do {
-                        try await Task.sleep(nanoseconds: 100_000_000)
-                    focus = true
-                } catch {
-                    
-                }
-            }
+        }
+        .onAppear {
+            focus = true
         }
     }
 }
 
 struct TeamBriefEditView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamBriefEditView(brief: "Some text") {_ in}
+        TextEditDialogView(title: "Here I am", text: "Some text") {_ in}
     }
 }

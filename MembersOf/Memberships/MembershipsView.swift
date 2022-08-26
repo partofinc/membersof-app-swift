@@ -17,7 +17,7 @@ struct MembershipsView: View {
         NavigationStack(path: $path) {
             VStack {
                 ScrollView {
-                    VStack {
+                    LazyVStack {
                         ForEach(viewModel.memberships) { ship in
                             HStack {
                                 Text(ship.name)

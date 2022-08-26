@@ -33,17 +33,21 @@ extension TeamDetailView {
             self.socialMedias = .all
             self.socialMedias.removeAll(where: {socials.map(\.media).contains($0)})
             socialFetcher = storage.fetch()
-                .filter(by: \.team!.id, value: team.id)
+//                .filter(by: \.team!.id, value: team.id)
                 .assign(to: \.socials, on: self)
-                .run(sort: [.init(\.order, order: .reverse)])
+                .run(sort: [.init(\.order)])
             crewFetcher = storage.fetch()
                 .filter(by: \.team.id, value: team.id)
                 .assign(to: \.crew, on: self)
                 .run(sort: [.init(\.order)])
         }
         
-        func update(_ brief: String) {
+        func update(brief: String) {
             self.brief = brief
+        }
+        
+        func update(name: String) {
+            self.name = name
         }
         
         func update(_ supervisor: Supervisor) {
@@ -53,15 +57,15 @@ extension TeamDetailView {
         }
         
         func delete(_ supervisor: Supervisor) {
-            
+            Task {
+                try await storage.delete(supervisor)
+            }
         }
         
         func delete(_ social: Social) {
             Task {
                 try await storage.delete(social)
             }
-//            socials.removeAll(where: {$0 == social})
-//            socialMedias.insert(social.media, at: 0)
         }
         
         func addSocial() {
@@ -69,7 +73,7 @@ extension TeamDetailView {
             let order = socials.last?.order ?? 0
             let a = account
             Task {
-                try await self.storage.save(Social(id: UUID(), media: media, account: a, order: order, memberId: nil, teamId: team.id))
+                try await self.storage.save(Social(id: UUID(), media: media, account: a, order: order + 1, memberId: nil, teamId: team.id))
             }
             socialMedias.removeAll(where: {$0 == media})
             discardSocial()
@@ -83,15 +87,21 @@ extension TeamDetailView {
     
     enum Sheet: Identifiable {
         
+        case name
         case brief
         case supervisor(Supervisor)
+        case newSupervisor
         
         var id: Int {
             switch self {
+            case .name:
+                return 0
             case .brief:
                 return 1
             case .supervisor:
                 return 2
+            case .newSupervisor:
+                return 3
             }
         }
     }

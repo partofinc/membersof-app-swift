@@ -44,7 +44,7 @@ extension ProfileView {
             socialFetcher = storage.fetch()
                 .assign(to: \.social, on: self)
 //                .filter(with: .init(format: "member.id == %@", userId))
-                .filter(by: \.member!.id, value: .init(uuidString: userId)!)
+//                .filter(by: \.member!.id, value: .init(uuidString: userId)!)
                 .run(sort: [.init(\.order)])
         }
         

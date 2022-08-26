@@ -7,11 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F1023370289BEFB80009B0B7 /* TeamBriefEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F102336F289BEFB80009B0B7 /* TeamBriefEditView.swift */; };
+		F1023370289BEFB80009B0B7 /* TextEditDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F102336F289BEFB80009B0B7 /* TextEditDialogView.swift */; };
 		F103BD4B289D20DF0041D2EF /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD4A289D20DF0041D2EF /* Event.swift */; };
 		F103BD4D289D259F0041D2EF /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD4C289D259F0041D2EF /* EventsViewModel.swift */; };
 		F103BD4F289D32F40041D2EF /* NewEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD4E289D32F40041D2EF /* NewEventView.swift */; };
 		F103BD51289D333C0041D2EF /* NewEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD50289D333C0041D2EF /* NewEventViewModel.swift */; };
+		F12A85E828B8A6210041B85B /* SocialMediaRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12A85E728B8A6210041B85B /* SocialMediaRow.swift */; };
+		F12A85EA28B8E0810041B85B /* NewSupervisorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12A85E928B8E0810041B85B /* NewSupervisorView.swift */; };
+		F12A85EC28B8F13D0041B85B /* Invite.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12A85EB28B8F13D0041B85B /* Invite.swift */; };
+		F12A85EE28B8F7D00041B85B /* NewSupervisorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12A85ED28B8F7D00041B85B /* NewSupervisorViewModel.swift */; };
+		F12A85F028B8FA680041B85B /* Invite+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12A85EF28B8FA680041B85B /* Invite+Entity.swift */; };
 		F133060228B4FC400043C487 /* LightStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F133060128B4FC400043C487 /* LightStorage.swift */; };
 		F133060428B507CF0043C487 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F133060328B507CF0043C487 /* ProfileViewModel.swift */; };
 		F1447F7228A7E8CF002AF148 /* Event+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1447F7128A7E8CF002AF148 /* Event+Entity.swift */; };
@@ -70,11 +75,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F102336F289BEFB80009B0B7 /* TeamBriefEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBriefEditView.swift; sourceTree = "<group>"; };
+		F102336F289BEFB80009B0B7 /* TextEditDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditDialogView.swift; sourceTree = "<group>"; };
 		F103BD4A289D20DF0041D2EF /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F103BD4C289D259F0041D2EF /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
 		F103BD4E289D32F40041D2EF /* NewEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventView.swift; sourceTree = "<group>"; };
 		F103BD50289D333C0041D2EF /* NewEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewModel.swift; sourceTree = "<group>"; };
+		F12A85E728B8A6210041B85B /* SocialMediaRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaRow.swift; sourceTree = "<group>"; };
+		F12A85E928B8E0810041B85B /* NewSupervisorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSupervisorView.swift; sourceTree = "<group>"; };
+		F12A85EB28B8F13D0041B85B /* Invite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invite.swift; sourceTree = "<group>"; };
+		F12A85ED28B8F7D00041B85B /* NewSupervisorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSupervisorViewModel.swift; sourceTree = "<group>"; };
+		F12A85EF28B8FA680041B85B /* Invite+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Invite+Entity.swift"; sourceTree = "<group>"; };
 		F133060128B4FC400043C487 /* LightStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStorage.swift; sourceTree = "<group>"; };
 		F133060328B507CF0043C487 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		F1447F7128A7E8CF002AF148 /* Event+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+Entity.swift"; sourceTree = "<group>"; };
@@ -145,6 +155,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F12A85E628B8A5F10041B85B /* Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				F12A85E728B8A6210041B85B /* SocialMediaRow.swift */,
+				F102336F289BEFB80009B0B7 /* TextEditDialogView.swift */,
+			);
+			path = Reusable;
+			sourceTree = "<group>";
+		};
 		F1487F84289D09C90079934A /* Events */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,6 +212,7 @@
 		F16976DF2893B94100AB778D /* MembersOf */ = {
 			isa = PBXGroup;
 			children = (
+				F12A85E628B8A5F10041B85B /* Reusable */,
 				F1C6491328A509E600811CAC /* Storage */,
 				F1487F87289D0BCF0079934A /* Profile */,
 				F1487F84289D09C90079934A /* Events */,
@@ -230,6 +250,7 @@
 				F1C60BE828A254B700F944BD /* Schedule.swift */,
 				F1C4958728A3A1D700B1E060 /* Subscription.swift */,
 				F15FB69E28B358AB00BE15C3 /* Price.swift */,
+				F12A85EB28B8F13D0041B85B /* Invite.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -259,7 +280,8 @@
 				F1C83150289A872E004E34F9 /* TeamDetailView.swift */,
 				F1C83152289A8EF3004E34F9 /* TeamDetailViewModel.swift */,
 				F159F060289BA3CF00375BE3 /* SupervisorView.swift */,
-				F102336F289BEFB80009B0B7 /* TeamBriefEditView.swift */,
+				F12A85E928B8E0810041B85B /* NewSupervisorView.swift */,
+				F12A85ED28B8F7D00041B85B /* NewSupervisorViewModel.swift */,
 			);
 			path = Teams;
 			sourceTree = "<group>";
@@ -288,6 +310,7 @@
 				F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */,
 				F15FB69C28B3589E00BE15C3 /* Price+Entity.swift */,
 				F15FB6A028B359C100BE15C3 /* Subscription+Entity.swift */,
+				F12A85EF28B8FA680041B85B /* Invite+Entity.swift */,
 				F1447F7328A7E9A2002AF148 /* Storable.swift */,
 			);
 			path = CoreData;
@@ -364,6 +387,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1C60BE528A252BC00F944BD /* EventDetailView.swift in Sources */,
+				F12A85EA28B8E0810041B85B /* NewSupervisorView.swift in Sources */,
 				F1ABC48D28B4AA600075E3F9 /* MembershipDetailView.swift in Sources */,
 				F1954F3528A2B87900B8D3C5 /* NewMemberViewModel.swift in Sources */,
 				F16976E32893B94100AB778D /* ContentView.swift in Sources */,
@@ -372,6 +396,7 @@
 				F15FB69F28B358AB00BE15C3 /* Price.swift in Sources */,
 				F1C8314B289A620A004E34F9 /* TeamsView.swift in Sources */,
 				F103BD51289D333C0041D2EF /* NewEventViewModel.swift in Sources */,
+				F12A85F028B8FA680041B85B /* Invite+Entity.swift in Sources */,
 				F1C60BE928A254B700F944BD /* Schedule.swift in Sources */,
 				F159F061289BA3CF00375BE3 /* SupervisorView.swift in Sources */,
 				F1C83151289A872E004E34F9 /* TeamDetailView.swift in Sources */,
@@ -384,6 +409,7 @@
 				F133060228B4FC400043C487 /* LightStorage.swift in Sources */,
 				F1ABC48F28B4AA700075E3F9 /* MembershipDetailViewModel.swift in Sources */,
 				F1487F86289D09D90079934A /* EventsView.swift in Sources */,
+				F12A85EC28B8F13D0041B85B /* Invite.swift in Sources */,
 				F1589F7228A27C9900EE1E92 /* NewMemberView.swift in Sources */,
 				F1B651C728B6431100044E98 /* ExitDialogView.swift in Sources */,
 				F160721228ACC9E700538A4F /* Supervisor+Entity.swift in Sources */,
@@ -395,7 +421,7 @@
 				F160721028ACC6BE00538A4F /* Social+Entity.swift in Sources */,
 				F1FA94B428AA1F4700EE949D /* Visit+Entity.swift in Sources */,
 				F1C60BE728A252DB00F944BD /* EventDetailViewModel.swift in Sources */,
-				F1023370289BEFB80009B0B7 /* TeamBriefEditView.swift in Sources */,
+				F1023370289BEFB80009B0B7 /* TextEditDialogView.swift in Sources */,
 				F1ABE21728AD045E00798E5D /* Fetcher.swift in Sources */,
 				F1C4958828A3A1D700B1E060 /* Subscription.swift in Sources */,
 				F1C83153289A8EF3004E34F9 /* TeamDetailViewModel.swift in Sources */,
@@ -404,6 +430,7 @@
 				F1B71D882899017800AD2E2C /* MembershipsViewModel.swift in Sources */,
 				F16976E12893B94100AB778D /* MembersOfApp.swift in Sources */,
 				F133060428B507CF0043C487 /* ProfileViewModel.swift in Sources */,
+				F12A85EE28B8F7D00041B85B /* NewSupervisorViewModel.swift in Sources */,
 				F1C60BED28A272E200F944BD /* SearchMembersViewModel.swift in Sources */,
 				F154BACA28ABB915008F8374 /* Team+Entity.swift in Sources */,
 				F103BD4B289D20DF0041D2EF /* Event.swift in Sources */,
@@ -417,6 +444,7 @@
 				F103BD4F289D32F40041D2EF /* NewEventView.swift in Sources */,
 				F103BD4D289D259F0041D2EF /* EventsViewModel.swift in Sources */,
 				F16976F52893BAFD00AB778D /* NewMembershipView.swift in Sources */,
+				F12A85E828B8A6210041B85B /* SocialMediaRow.swift in Sources */,
 				F16976F72893BB1200AB778D /* NewMembershipViewModel.swift in Sources */,
 				F1C6492328A50F3700811CAC /* Member+Entity.swift in Sources */,
 				F1B71D832898FD2F00AD2E2C /* Membership.swift in Sources */,

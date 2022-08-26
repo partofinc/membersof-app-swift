@@ -12,7 +12,7 @@ struct SupervisorView: View {
     @StateObject var viewModel: ViewModel
     let save: (Supervisor) -> Void
     let delete: (Supervisor) -> Void
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @State private var removalConfirmation = false
     
     var body: some View {
@@ -34,20 +34,10 @@ struct SupervisorView: View {
                     Text(viewModel.supervisor.member.fullName)
                         .font(.title2)
                     Picker("Role", selection: $viewModel.role) {
-                        ForEach(Supervisor.Role.allCases) { role in
+                        ForEach([Supervisor.Role].all) { role in
                             Text(role.rawValue.capitalized)
                         }
                     }
-//                    Button {
-//                        
-//                    } label: {
-//                        Label("Telegram", systemImage: "paperplane")
-//                    }
-//                    Button {
-//                        
-//                    } label: {
-//                        Label("Instagram", systemImage: "paperplane")
-//                    }
                 }
                 Button {
                     removalConfirmation = true

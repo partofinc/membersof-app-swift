@@ -12,7 +12,8 @@ struct TeamDetailView: View {
     @StateObject var viewModel: ViewModel
     @State var subscribed = false
     @State private var sheet: Sheet?
-    @State private var confirmSocialRemoval = false
+    @State private var removingSocial = false
+    @State private var socialToRemove: Social?
     @FocusState private var addingSocial: Bool
     
     var body: some View {
@@ -30,9 +31,7 @@ struct TeamDetailView: View {
                 socialMedia
                 subscription
                 Group {
-                    paymentSection
-                    crewSection
-                    notesSection
+                    crew
                 }
                 .disabled(!subscribed)
                 .opacity(subscribed ? 1 : 0.5)
@@ -41,25 +40,33 @@ struct TeamDetailView: View {
             .padding()
         }
         .scrollDismissesKeyboard(.immediately)
-        .navigationTitle(viewModel.team.name)
+        .navigationTitle(viewModel.name)
         .toolbar {
             ToolbarItem {
                 Button {
-                    
+                    sheet = .name
                 } label: {
-                    Image(systemName: "pencil")
+                    Image(systemName: "square.and.pencil")
                 }
             }
         }
         .sheet(item: $sheet) { sheet in
             switch sheet {
+            case .name:
+                TextEditDialogView(title: "Name", text: viewModel.name) {
+                    viewModel.update(name: $0)
+                }
+                .presentationDetents([.medium])
             case .brief:
-                TeamBriefEditView(brief: viewModel.brief) {
-                    viewModel.update($0)
+                TextEditDialogView(title: "Description", text: viewModel.brief) {
+                    viewModel.update(brief: $0)
                 }
                 .presentationDetents([.medium])
             case .supervisor(let supervisor):
                 SupervisorView(viewModel: .init(supervisor), save: {viewModel.update($0)}, delete: {viewModel.delete($0)})
+                    .presentationDetents([.medium])
+            case .newSupervisor:
+                NewSupervisorView(viewModel: .init(viewModel.team))
                     .presentationDetents([.medium])
             }
         }
@@ -72,40 +79,23 @@ struct TeamDetailView: View {
             .font(.title2)
             .padding(.top)
         ForEach(viewModel.socials) { social in
-            HStack {
-                Button {
-                    
-                } label: {
-                    HStack {
-                        Text(social.media.rawValue.capitalized)
-                        Spacer()
-                        Text(social.account)
-                            .font(.headline)
-                    }
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.blue.opacity(0.4).gradient)
-                            .shadow(radius: 3)
-                    )
-                    
-                }
-                .foregroundColor(.black)
-                Button(role: .destructive) {
-                    confirmSocialRemoval = true
-                } label: {
-                    Image(systemName: "trash")
-                        .font(.headline)
-                }
+            SocialMediaRow(social, style: .fancy, edit: .constant(true)) {
+                socialToRemove = social
+                removingSocial = true
             }
             .padding(.bottom, 5)
-            .confirmationDialog("\(social.media.rawValue.capitalized) - \(social.account)", isPresented: $confirmSocialRemoval, titleVisibility: .visible) {
+        }
+        .confirmationDialog(
+            socialToRemove == nil ? "" : socialToRemove!.title,
+            isPresented: $removingSocial,
+            titleVisibility: .visible,
+            presenting: socialToRemove,
+            actions: { social in
                 Button("Delete", role: .destructive) {
                     viewModel.delete(social)
                 }
                 Button("Cancel", role: .cancel) {}
-            }
-        }
+        })
         if let media = viewModel.media {
             HStack {
                 HStack {
@@ -114,10 +104,10 @@ struct TeamDetailView: View {
                     TextField("Account", text: $viewModel.account)
                         .multilineTextAlignment(.trailing)
                         .focused($addingSocial)
-//                        .keyboardType(.emailAddress)
-//                        .submitLabel(.done)
+                        .keyboardType(.emailAddress)
+                        .submitLabel(.done)
                         .autocorrectionDisabled()
-//                        .textInputAutocapitalization(.never)
+                        .textInputAutocapitalization(.never)
                         .onSubmit {
                             viewModel.addSocial()
                         }
@@ -159,7 +149,7 @@ struct TeamDetailView: View {
             .font(.title2)
             .padding(.top)
         HStack {
-            Text("Tire")
+            Text("Tier")
             Spacer()
             Text(subscribed ? "$5/Month" : "Free")
                 .font(.headline)
@@ -224,7 +214,7 @@ struct TeamDetailView: View {
     }
     
     @ViewBuilder
-    private var crewSection: some View {
+    private var crew: some View {
         Text("Crew")
             .font(.title2)
             .padding(.top)
@@ -249,7 +239,7 @@ struct TeamDetailView: View {
             .foregroundColor(.white)
         }
         Button {
-            
+            sheet = .newSupervisor
         } label: {
             Label("Add", systemImage: "plus")
                 .font(.headline)
