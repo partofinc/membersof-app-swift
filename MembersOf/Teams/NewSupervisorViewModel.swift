@@ -29,7 +29,10 @@ extension NewSupervisorView {
         }
         
         func save() {
-            
+            Task {
+                let invite = Invite(id: id, createDate: .now, name: name.isEmpty ? nil : name, role: role, teamId: team.id)
+                try await self.storage.save(invite)
+            }
         }
     }
 }

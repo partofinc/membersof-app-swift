@@ -21,13 +21,23 @@ extension Invite: Storable {
     
     init(_ entity: Entity) {
         id = entity.id
+        createDate = entity.createDate
+        name = entity.name
+        role = entity.role == nil ? nil : .init(rawValue: entity.role!)
+        teamId = entity.team?.id
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
-        
+        let entity = find(in: context) ?? Entity(context: context)
+        entity.id = id
+        entity.createDate = createDate
+        entity.name = name
+        entity.role = role?.rawValue
+        entity.team = teamId == nil ? nil : Team.first(in: context, key: "id", value: teamId!.uuidString)
+        return entity
     }
     
     func find(in context: NSManagedObjectContext) -> Entity? {
-        
+        Invite.first(in: context, key: "id", value: id.uuidString)
     }
 }

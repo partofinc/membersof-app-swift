@@ -14,6 +14,7 @@ extension TeamDetailView {
         @Published var brief: String
         @Published var socials: [Social]
         @Published var crew: [Supervisor]
+        @Published var invites: [Invite] = []
         
         @Published var socialMedias: [Social.Media]
         @Published var media: Social.Media?
@@ -22,6 +23,7 @@ extension TeamDetailView {
         fileprivate let storage: Storage
         fileprivate var socialFetcher: Storage.Fetcher<Social>?
         fileprivate var crewFetcher: Storage.Fetcher<Supervisor>?
+        fileprivate var inviteFetcher: Storage.Fetcher<Invite>?
         
         init(team: Team) {
             self.storage = .shared
@@ -40,6 +42,9 @@ extension TeamDetailView {
                 .filter(by: \.team.id, value: team.id)
                 .assign(to: \.crew, on: self)
                 .run(sort: [.init(\.order)])
+            inviteFetcher = storage.fetch()
+                .assign(to: \.invites, on: self)
+                .run(sort: [.init(\.createDate)])
         }
         
         func update(brief: String) {

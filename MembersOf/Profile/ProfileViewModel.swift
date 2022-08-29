@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 extension ProfileView {
     
@@ -27,20 +28,26 @@ extension ProfileView {
                 lastName = me.lastName ?? ""
             }
         }
+        @Published var deletingSocial: Social?
+        var socialConfirmationTitle: String { deletingSocial?.title ?? "" }
+        var signedIn: Bool { signer.signedIn }
         
-        @Published var firstName: String = "Name"
-        @Published var lastName: String = "Lastname"
-        
-        @LightStorage(key: .userId)
-        var userId: String?
+        var firstName: String = "Name"
+        var lastName: String = "Lastname"
         
         fileprivate let storage: Storage = .shared
+        private let signer: Signer = .shared
         private var socialFetcher: Storage.Fetcher<Social>?
+        private var memberFetcher: AnyCancellable?
+        
+        init() {
+            memberFetcher = signer.me
+                .eraseToAnyPublisher()
+                .assign(to: \.me, on: self)
+            fetch()
+        }
         
         func fetch() {
-            guard let userId else { return }
-            guard let member: Member = storage.find(key: "id", value: userId) else { return }
-            me = member
             socialFetcher = storage.fetch()
                 .assign(to: \.social, on: self)
 //                .filter(with: .init(format: "member.id == %@", userId))
@@ -68,28 +75,28 @@ extension ProfileView {
         }
         
         func save() {
-            guard let userId else { return }
             let member = Member(
-                id: UUID(uuidString: userId)!,
+                id: me.id,
                 firstName: firstName.trimmingCharacters(in: .whitespacesAndNewlines),
                 lastName: lastName.isEmpty ? nil : lastName.trimmingCharacters(in: .whitespacesAndNewlines)
             )
             guard me != member else { return }
-            me = member
             Task {
                 try await self.storage.save(member)
             }
         }
         
         func signOut() {
-            userId = nil
-            me = .local
+            signer.signOut()
         }
         
         func singIn(_ member: Member) {
-            me = member
-            userId = member.id.uuidString
-            fetch()
+            Task {
+                try await self.storage.save(member)
+                DispatchQueue.main.async {
+                    self.signer.signIn(member)
+                }
+            }
         }
         
         private func calculateMedia() {

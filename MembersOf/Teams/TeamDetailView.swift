@@ -236,7 +236,27 @@ struct TeamDetailView: View {
                         .shadow(radius: 3)
                 )
             }
-            .foregroundColor(.white)
+            .buttonStyle(.plain)
+        }
+        ForEach(viewModel.invites) { invite in
+            Button {
+                
+            } label: {
+                HStack {
+                    Text(invite.title)
+                        .font(.headline)
+                    Spacer()
+                    Text(invite.role!.rawValue.capitalized)
+                        .font(.body)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.purple.opacity(0.4).gradient)
+                        .shadow(radius: 3)
+                )
+            }
+            .buttonStyle(.plain)
         }
         Button {
             sheet = .newSupervisor

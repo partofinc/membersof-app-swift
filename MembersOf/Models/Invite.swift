@@ -12,6 +12,13 @@ public struct Invite: Codable, Identifiable, Hashable {
     public let id: UUID
     public let createDate: Date
     public let name: String?
-    public let role: String?
-    public let teamId: String?
+    public let role: Supervisor.Role?
+    public let teamId: UUID?
+}
+
+extension Invite {
+    var title: String {
+        let name = self.name ?? "Noname"
+        return name + "(Pending)"
+    }
 }

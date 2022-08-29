@@ -9,21 +9,21 @@ import SwiftUI
 
 struct ExitDialogView: View {
     
-//    @Binding var detents: [PresentationDetent]
-    
+    @StateObject var viewModel: ViewModel = .init()
+    @Environment(\.dismiss) private var dismiss
+        
     var body: some View {
         List {
             Section {
-                Button("Sign Out"){}
+                Button("Sign Out"){
+                    viewModel.signOut()
+                    dismiss()
+                }
             } header: {
                 Text("")
             } footer: {
                 Button(role: .destructive) {
-//                    if detents.contains(.large) {
-//                        detents = [.fraction(0.3)]
-//                    } else {
-//                        detents = [.large]
-//                    }
+
                 } label: {
                     HStack {
                         Spacer()
@@ -33,6 +33,19 @@ struct ExitDialogView: View {
                 }
                 .padding()
             }
+        }
+    }
+}
+
+extension ExitDialogView {
+    
+    @MainActor
+    final class ViewModel: ObservableObject {
+        
+        private let signer: Signer = .shared
+        
+        func signOut() {
+            signer.signOut()
         }
     }
 }
