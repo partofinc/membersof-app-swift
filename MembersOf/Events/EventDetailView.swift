@@ -55,7 +55,7 @@ struct EventDetailView: View {
         .sheet(item: $sheet) { sheet in
             switch sheet {
             case .addMember:
-                SearchMembersView(viewModel: .init(team: Mock.teams.first!, event: viewModel.event))
+                SearchMembersView(viewModel: .init(viewModel.event))
                     .presentationDetents([.large])
             }
         }

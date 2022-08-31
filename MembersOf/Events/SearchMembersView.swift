@@ -17,13 +17,17 @@ struct SearchMembersView: View {
         NavigationStack {
             List {
                 NavigationLink {
-                    NewMemberView(viewModel: .init(team: viewModel.team, event: viewModel.event), dismiss: dismiss)
+                    NewMemberView(viewModel: .init(viewModel.event)) {
+                        dismiss()
+                    }
                 } label: {
                     Label("New", systemImage: "plus")
                 }
                 ForEach(viewModel.members) { member in
                     NavigationLink {
-                        MemberConfirmationView(viewModel: .init(member: member, event: viewModel.event), dismiss: dismiss)
+                        MemberConfirmationView(viewModel: .init(member: member, event: viewModel.event)) {
+                            dismiss()
+                        }
                     } label: {
                         Label(member.fullName, systemImage: "person")
                     }
@@ -48,6 +52,6 @@ struct SearchMembersView: View {
 
 struct SearchMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchMembersView(viewModel: .init(team: Mock.teams.first!, event: .init(id: UUID(), name: "Tested event", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
+        SearchMembersView(viewModel: .init(.init(id: UUID(), name: "Tested event", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
     }
 }

@@ -13,14 +13,12 @@ extension SearchMembersView {
     @MainActor
     final class ViewModel: ObservableObject {
         
-        let team: Team
         let event: Event
         private let storage: Storage = .shared
         private var membersFetcher: Storage.Fetcher<Member>?
         private var sort: [SortDescriptor<Member.Entity>] = [.init(\.firstName)]
         
-        init(team: Team, event: Event) {
-            self.team = team
+        init(_ event: Event) {
             self.event = event
             search()
         }

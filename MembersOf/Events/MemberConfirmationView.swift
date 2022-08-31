@@ -10,7 +10,7 @@ import SwiftUI
 struct MemberConfirmationView: View {
     
     @StateObject var viewModel: ViewModel
-    let dismiss: DismissAction?
+    let dismiss: () -> Void
     
     var body: some View {
         VStack {
@@ -20,7 +20,7 @@ struct MemberConfirmationView: View {
             }
             Button {
                 viewModel.checkIn()
-                dismiss?()
+                dismiss()
             } label: {
                 Label("Check In", systemImage: "checkmark")
             }
@@ -81,7 +81,7 @@ struct MemberConfirmationView: View {
             Spacer()
             TextField("350", text: $viewModel.payment)
                 .multilineTextAlignment(.trailing)
-//                .keyboardType(.numberPad)
+                .keyboardType(.numberPad)
         }
     }
     
@@ -171,9 +171,8 @@ struct MemberConfirmationView_Previews: PreviewProvider {
                 viewModel: .init(
                     member: .init(id: UUID(), firstName: "Runar", lastName: "Kalimullin"),
                     event: .init(id: UUID(), name: "name", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])
-                ),
-                dismiss: nil
-            )
+                )
+            ){}
         }
     }
 }

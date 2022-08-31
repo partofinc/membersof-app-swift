@@ -12,7 +12,6 @@ extension NewMemberView {
     @MainActor
     final class ViewModel: ObservableObject {
         
-        let team: Team
         let event: Event
         
         @Published var firstName: String = ""
@@ -26,12 +25,11 @@ extension NewMemberView {
         fileprivate let storage: Storage = .shared
         fileprivate var membershipsFetcher: Storage.Fetcher<Membership>?
         
-        init(team: Team, event: Event) {
-            self.team = team
+        init(_ event: Event) {
             self.event = event
             membershipsFetcher = storage.fetch()
                 .assign(to: \.memberships, on: self)
-                .filter(by: {$0.team.id == team.id})
+                .filter(by: {$0.team.id == event.team.id})
                 .run(sort: [.init(\.createDate, order: .reverse)])
         }
         

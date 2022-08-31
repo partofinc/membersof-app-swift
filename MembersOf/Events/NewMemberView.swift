@@ -11,7 +11,7 @@ struct NewMemberView: View {
     
     @StateObject var viewModel: ViewModel
     
-    var dismiss: DismissAction?
+    var dismiss: () -> Void
     
     var body: some View {
         VStack {
@@ -33,7 +33,7 @@ struct NewMemberView: View {
             }
             Button {
                 viewModel.create()
-                dismiss?()
+                dismiss()
             } label: {
                 Label("Check In", systemImage: "checkmark")
             }
@@ -59,7 +59,7 @@ struct NewMemberView: View {
             Spacer()
             TextField("350", text: $viewModel.payment)
                 .multilineTextAlignment(.trailing)
-//                .keyboardType(.numberPad)
+                .keyboardType(.numberPad)
         }
     }
 }
@@ -67,7 +67,7 @@ struct NewMemberView: View {
 struct NewMemberView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            NewMemberView(viewModel: .init(team: Mock.teams.first!, event: Event(id: UUID(), name: "Some", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])), dismiss: nil)
+            NewMemberView(viewModel: .init(Event(id: UUID(), name: "Some", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: []))) {}
         }
     }
 }
