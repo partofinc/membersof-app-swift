@@ -13,7 +13,7 @@ extension Storage {
         private let subject: PassthroughSubject<[T.EntityType], Error> = .init()
         private var canceler: AnyCancellable?
         private var compoundPredicate: NSCompoundPredicate?
-        private var filter: Filter<T.EntityType, UUID>?
+        private var filters: [(T.EntityType) -> Bool] = []
         
         init(_ context: NSManagedObjectContext) {
             self.context = context
@@ -31,8 +31,8 @@ extension Storage {
             return self
         }
         
-        func filter(by path: KeyPath<T.EntityType, UUID>, value: UUID) -> Self {
-            self.filter = .init(path: path, value: value)
+        func filter(by check: @escaping (T.EntityType) -> Bool) -> Self {
+            filters.append(check)
             return self
         }
         
@@ -51,10 +51,10 @@ extension Storage {
                         default:
                             break
                         }
-                    } receiveValue: { value in
-                        let result = self.filter == nil ? value : value.filter(self.filter!.isIncluded)
+                    } receiveValue: { [unowned self] value in
+                        let result = self.filtered(value)
                         queue.async {
-                            object[keyPath: keyPath] = result.map(T.init)
+                            object[keyPath: keyPath] = result
                         }
                     }
                 return self
@@ -74,11 +74,10 @@ extension Storage {
                     default:
                         break
                     }
-                }, receiveValue: { value in
-                    let result = self.filter == nil ? value : value.filter(self.filter!.isIncluded)
-                    let mapped = result.map(T.init)
+                }, receiveValue: { [unowned self] value in
+                    let result = self.filtered(value)
                     queue.async {
-                        receiveValue(mapped)
+                        receiveValue(result)
                     }
                 })
             return self
@@ -105,20 +104,20 @@ extension Storage {
             return self
         }
         
+        private func filtered(_ result: [T.EntityType]) -> [T] {
+            result.filter({ entity in
+                for check in filters {
+                    guard check(entity) else { return false }
+                    continue
+                }
+                return true
+            }).map(T.init)
+        }
+        
         func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
             if let obj = self.controller.fetchedObjects {
                 self.subject.send(obj)
             }
-        }
-    }
-    
-    struct Filter<Element, Value: Equatable> {
-        
-        let path: KeyPath<Element, Value>
-        let value: Value
-        
-        func isIncluded(_ entity: Element) -> Bool {
-            entity[keyPath: path] == value
         }
     }
 }

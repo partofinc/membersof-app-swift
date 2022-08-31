@@ -19,7 +19,7 @@ extension EventDetailView {
             self.event = event
             visitsFetcher = storage.fetch()
                 .assign(to: \.visits, on: self)
-                .filter(by: \.event.id, value: event.id)
+                .filter(by: {$0.event.id == event.id})
                 .run(sort: sort)
         }
         

@@ -48,7 +48,7 @@ extension NewEventView {
         func teamChanged() {
             membershipsFetcher = storage.fetch()
                 .assign(to: \.memberships, on: self)
-                .filter(by: \.team.id, value: teams[teamIndex].id)
+                .filter(by: {$0.team.id == self.teams[self.teamIndex].id})
                 .run(sort: [.init(\.createDate)])
             selectedMemberships.removeAll()
         }

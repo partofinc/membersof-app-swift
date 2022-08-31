@@ -34,9 +34,9 @@ final class Signer {
     }
     
     private func fetch() {
-        guard let userId else { return }
+        guard let userId, let id = UUID(uuidString: userId) else { return }
         fetcher = storage.fetch()
-            .filter(by: \.id, value: .init(uuidString: userId)!)
+            .filter(by: {$0.id == id})
             .sink(receiveValue: { [unowned self] users in
                 if let first = users.first {
                     self.me.send(first)

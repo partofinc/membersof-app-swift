@@ -132,7 +132,7 @@ extension MemberConfirmationView {
             self.event = event
             
             membershipsFetcher = storage.fetch()
-                .filter(by: \.team.id, value: event.team.id)
+                .filter(by: {$0.team.id == event.team.id})
                 .assign(to: \.memberships, on: self)
                 .run(sort: [.init(\.createDate, order: .reverse)])
             

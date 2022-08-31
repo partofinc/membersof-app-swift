@@ -26,6 +26,7 @@ extension ProfileView {
             didSet {
                 firstName = me.firstName
                 lastName = me.lastName ?? ""
+                fetch()
             }
         }
         @Published var deletingSocial: Social?
@@ -44,14 +45,13 @@ extension ProfileView {
             memberFetcher = signer.me
                 .eraseToAnyPublisher()
                 .assign(to: \.me, on: self)
-            fetch()
+//            fetch()
         }
         
         func fetch() {
             socialFetcher = storage.fetch()
                 .assign(to: \.social, on: self)
-//                .filter(with: .init(format: "member.id == %@", userId))
-//                .filter(by: \.member!.id, value: .init(uuidString: userId)!)
+                .filter(by: {$0.member?.id == self.me.id})
                 .run(sort: [.init(\.order)])
         }
         

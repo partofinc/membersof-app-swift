@@ -31,7 +31,7 @@ extension NewMemberView {
             self.event = event
             membershipsFetcher = storage.fetch()
                 .assign(to: \.memberships, on: self)
-                .filter(by: \.team.id, value: team.id)
+                .filter(by: {$0.team.id == team.id})
                 .run(sort: [.init(\.createDate, order: .reverse)])
         }
         
