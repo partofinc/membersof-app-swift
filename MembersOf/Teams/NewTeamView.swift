@@ -16,18 +16,6 @@ struct NewTeamView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Text("Team")
-                Spacer()
-                Button("Create") {
-                    viewModel.create()
-                    dismiss()
-                }
-                .disabled(viewModel.name.count < 3)
-            }
-            .padding(.horizontal)
-            .frame(height: 44)
-            .font(.headline)
             Form {
                 Section {
                     TextField("Name", text: $viewModel.name)
@@ -88,6 +76,18 @@ struct NewTeamView: View {
         .onAppear {
             editingName.toggle()
         }
+        .navigationTitle("Team")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem {
+                Button("Create") {
+                    viewModel.create()
+                    dismiss()
+                }
+//                .disabled(!viewModel.canCreate)
+            }
+        }
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

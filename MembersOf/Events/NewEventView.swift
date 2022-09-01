@@ -14,27 +14,44 @@ struct NewEventView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Text("Event")
-                Spacer()
-                Button("Create") {
-                    viewModel.create()
-                    dismiss()
-                }
-            }
-            .padding(.horizontal)
-            .frame(height: 44)
-            .font(.headline)
             Form {
-                HStack {
-                    Text("Name")
-                    TextField("No name", text: $viewModel.name)
-                        .multilineTextAlignment(.trailing)
+                Section {
+                    TextField("Name", text: $viewModel.name)
+                    DatePicker("Start", selection: $viewModel.startDate)
+                        .onChange(of: viewModel.startDate) { _ in
+                            viewModel.calculateDuration()
+                        }
+                    if viewModel.endDefined {
+                        DatePicker("End", selection: $viewModel.startDate)
+                            .onChange(of: viewModel.startDate) { _ in
+                                viewModel.calculateDuration()
+                            }
+                        Stepper(viewModel.durationTitle, value: $viewModel.duration)
+                    } else {
+                        Button {
+                            viewModel.endDefined.toggle()
+                        } label: {
+                            Label("End", systemImage: "plus")
+                        }
+                    }
                 }
                 Section {
-                    Picker("Team", selection: $viewModel.teamIndex) {
-                        ForEach(0..<viewModel.teams.count, id: \.self) { idx in
-                            Text(viewModel.teams[idx].name).tag(idx)
+                    if viewModel.teams.isEmpty {
+                        NavigationLink {
+                            NewTeamView()
+                        } label: {
+                            HStack {
+                                Text("Team")
+                                Spacer()
+                                Text("New")
+                                    .foregroundColor(.accentColor)
+                            }
+                        }
+                    } else {
+                        Picker("Team", selection: $viewModel.teamIndex) {
+                            ForEach(0..<viewModel.teams.count, id: \.self) { idx in
+                                Text(viewModel.teams[idx].name).tag(idx)
+                            }
                         }
                     }
                     HStack {
@@ -59,6 +76,11 @@ struct NewEventView: View {
                             Label(ship.name, systemImage: viewModel.isSelected(ship) ? "checkmark.circle.fill" : "circle")
                         }
                     }
+                    NavigationLink {
+                        NewMembershipView(viewModel: .init(viewModel.selectedTeam))
+                    } label: {
+                        Label("Add", systemImage: "plus")
+                    }
                 }
             }
         }
@@ -68,6 +90,18 @@ struct NewEventView: View {
         .onChange(of: viewModel.teams) { _ in
             viewModel.teamChanged()
         }
+        .navigationTitle("Event")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem {
+                Button("Create") {
+                    viewModel.create()
+                    dismiss()
+                }
+                .disabled(!viewModel.canCreate)
+            }
+        }
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

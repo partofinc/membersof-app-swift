@@ -16,26 +16,29 @@ struct EventsView: View {
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
-                HStack {
-                    ForEach(viewModel.events) { event in
-                        EventRow(event: event)
-                            .onTapGesture {
-                                path = [event]
-                            }
-                            .contextMenu {
-                                Button(role: .destructive) {
-                                    viewModel.delete(event)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
+                ScrollView(.horizontal) {
+                    LazyHStack {
+                        ForEach(viewModel.events) { event in
+                            EventRow(event: event)
+                                .frame(minWidth: 150)
+                                .onTapGesture {
+                                    path = [event]
                                 }
-                            }
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        viewModel.delete(event)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
+                        }
                     }
+                    .padding()
                 }
                 .navigationDestination(for: Event.self) {
                     EventDetailView(viewModel: .init(event: $0))
                 }
-                .frame(height: 100)
-                .padding()
+                .frame(height: 150)
                 Spacer()
                 Button {
                     sheet = .new
@@ -48,8 +51,10 @@ struct EventsView: View {
             .sheet(item: $sheet) { sheet in
                 switch sheet {
                 case .new:
-                    NewEventView()
-                        .presentationDetents([.medium])
+                    NavigationStack {
+                        NewEventView()
+                    }
+                    .presentationDetents([.medium, .large])
                 }
             }
             .animation(.easeInOut, value: viewModel.events)

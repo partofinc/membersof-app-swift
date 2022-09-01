@@ -7,22 +7,36 @@ extension NewEventView {
     @MainActor
     final class ViewModel: ObservableObject {
         
-        @Published fileprivate(set) var teams: [Team] = [.loading]
+        @Published private(set) var teams: [Team] = [.loading]
         @Published var teamIndex: Int = 0
         
-        @Published fileprivate(set) var memberships: [Membership] = []
-        @Published fileprivate(set) var selectedMemberships: [UUID] = []
+        @Published private(set) var memberships: [Membership] = []
+        @Published private(set) var selectedMemberships: [UUID] = []
         @Published var name: String = ""
         
-        fileprivate let storage: Storage
-        fileprivate var teamsFetcher: Storage.Fetcher<Team>?
-        fileprivate var membershipsFetcher: Storage.Fetcher<Membership>?
+        @Published var startDate: Date = .now
+        @Published var endDate: Date = .now.addingTimeInterval(2000000)
+        @Published var endDefined: Bool = false
+        @Published var durationTitle: String = ""
+        @Published var duration: Double = 1.0
+        
+        private let storage: Storage = .shared
+        private var teamsFetcher: Storage.Fetcher<Team>?
+        private var membershipsFetcher: Storage.Fetcher<Membership>?
+        
+        var canCreate: Bool {
+            name.count > 2 && !selectedMemberships.isEmpty
+        }
+        
+        var selectedTeam: Team? {
+            teams.isEmpty ? nil : teams[teamIndex]
+        }
         
         init() {
-            storage = .shared
             teamsFetcher = storage.fetch()
                 .assign(to: \.teams, on: self)
                 .run(sort: [.init(\.createDate)])
+            calculateDuration()
         }
         
         func isSelected(_ membership: Membership) -> Bool {
@@ -67,6 +81,10 @@ extension NewEventView {
                     )
                 )
             }
+        }
+        
+        func calculateDuration() {
+            
         }
     }
 }

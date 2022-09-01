@@ -8,13 +8,13 @@ extension NewMembershipView {
     @MainActor
     final class ViewModel: ObservableObject {
         
+        let team: Team?
+        
         @Published var name: String = ""
         @Published var autoName: String = "Unlimited"
         
         @Published var teamIdx: Int = 0
-        @Published var teams: [Team] = [
-            .init(id: UUID(), name: "Loading...", brief: "", createDate: .now, social: [], crew: [])
-        ]
+        @Published var teams: [Team] = [.loading]
         
         @Published var period: Membership.Period = .unlimited
         let periods: [Membership.Period] = [
@@ -42,18 +42,23 @@ extension NewMembershipView {
             formatter.numberStyle = .currency
             formatter.locale = .autoupdatingCurrent
             formatter.maximumFractionDigits = 2
+            formatter.minimumFractionDigits = 0
             return formatter
         }()
         
-        private let storage: Storage
+        private let storage: Storage = .shared
         private var teamsFetcher: Storage.Fetcher<Team>?
         
-        init() {
-            storage = .shared
+        var canCreate: Bool {
+            guard let team = teams.first else { return false }
+            return name.count > 2 && team != .loading
+        }
+        
+        init(_ team: Team? = nil) {
+            self.team = team
             teamsFetcher = storage.fetch()
                 .assign(to: \.teams, on: self)
                 .run(sort: [.init(\.createDate, order: .reverse)])
-            
         }
         
         func calculatePeriod() {
@@ -101,6 +106,7 @@ extension NewMembershipView {
         }
         
         func create() {
+            let team = self.team ?? teams[teamIdx]
             Task {
                 let membership = Membership(
                     id: UUID(),
@@ -109,7 +115,7 @@ extension NewMembershipView {
                     period: period,
                     length: length,
                     createDate: .now,
-                    teamId: teams[teamIdx].id,
+                    teamId: team.id,
                     pricing: self.pricing
                 )
                 try await self.storage.save(membership)

@@ -9,32 +9,29 @@ import SwiftUI
 
 struct NewMembershipView: View {
     
-    @StateObject fileprivate var viewModel = ViewModel()
+    @StateObject var viewModel: ViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var choosingCurrency = false
     
     var body: some View {
         VStack {
-            HStack {
-                Text("Membership")
-                Spacer()
-                Button("Create") {
-                    viewModel.create()
-                    dismiss()
-                }
-            }
-            .padding(.horizontal)
-            .frame(height: 44)
-            .font(.headline)
             Form {
                 HStack {
                     Text("Name")
                     TextField(viewModel.autoName, text: $viewModel.name)
                         .multilineTextAlignment(.trailing)
                 }
-                Picker("Team", selection: $viewModel.teamIdx) {
-                    ForEach(0..<viewModel.teams.count, id: \.self) { idx in
-                        Text(viewModel.teams[idx].name).tag(idx)
+                if let team = viewModel.team {
+                    HStack {
+                        Text("Team")
+                        Spacer()
+                        Text(team.name)
+                    }
+                } else {
+                    Picker("Team", selection: $viewModel.teamIdx) {
+                        ForEach(0..<viewModel.teams.count, id: \.self) { idx in
+                            Text(viewModel.teams[idx].name).tag(idx)
+                        }
                     }
                 }
                 Picker("Period", selection: $viewModel.period) {
@@ -63,6 +60,18 @@ struct NewMembershipView: View {
                 }
             }
         }
+        .navigationTitle("Membership")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem {
+                Button("Create") {
+                    viewModel.create()
+                    dismiss()
+                }
+                .disabled(!viewModel.canCreate)
+            }
+        }
+        .toolbarBackground(.visible, for: .navigationBar)
     }
     
     @ViewBuilder
@@ -130,7 +139,7 @@ struct NewMembershipView_Previews: PreviewProvider {
             .padding()
         }
         .sheet(isPresented: $creatingNew) {
-            NewMembershipView()
+            NewMembershipView(viewModel: .init())
                 .presentationDetents([.fraction(0.6)])
         }
     }

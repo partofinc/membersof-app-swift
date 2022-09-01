@@ -39,7 +39,9 @@ struct TeamsView: View {
                 .padding()
             }
             .sheet(isPresented: $creatingNew) {
-                NewTeamView()
+                NavigationStack {
+                    NewTeamView()
+                }
                     .presentationDetents([.medium, .large])
             }
             .navigationTitle("Teams")

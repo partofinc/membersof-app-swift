@@ -48,8 +48,10 @@ struct MembershipsView: View {
             }
             .navigationTitle("Memberships")
             .sheet(isPresented: $creatingNew) {
-                NewMembershipView()
-                    .presentationDetents([.medium])
+                NavigationStack {
+                    NewMembershipView(viewModel: .init(nil))
+                }
+                .presentationDetents([.medium])
             }
             .animation(.easeInOut, value: viewModel.memberships)
         }
