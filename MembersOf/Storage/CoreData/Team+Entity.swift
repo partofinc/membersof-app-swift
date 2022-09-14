@@ -44,3 +44,10 @@ extension Team: Storable {
         Team.first(in: context, key: "id", value: id.uuidString)
     }
 }
+
+extension Team.Entity {
+    func accessable(by member: Member) -> Bool {
+        guard let crew else { return false }
+        return crew.contains(where: {$0.member.id == member.id})
+    }
+}

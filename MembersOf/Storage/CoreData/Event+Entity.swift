@@ -14,7 +14,7 @@ extension Event: Storable {
         
         @NSManaged public var id: UUID
         @NSManaged public var name: String
-        @NSManaged public var startDate: Date?
+        @NSManaged public var startDate: Date
         @NSManaged public var endDate: Date?
         @NSManaged public var createDate: Date
         @NSManaged public var team: Team.Entity

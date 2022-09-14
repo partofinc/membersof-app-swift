@@ -28,8 +28,7 @@ extension TeamsView {
             teamsFetcher = storage.fetch()
                 .assign(to: \.teams, on: self)
                 .filter(by: { [unowned self] team in
-                    guard let crew = team.crew else { return false }
-                    return crew.contains(where: {$0.member.id == self.me.id})
+                    team.accessable(by: me)
                 })
                 .run(sort: [.init(\.createDate, order: .reverse)])
         }

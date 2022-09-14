@@ -84,7 +84,7 @@ struct NewTeamView: View {
                     viewModel.create()
                     dismiss()
                 }
-//                .disabled(!viewModel.canCreate)
+                .disabled(!viewModel.canCreate)
             }
         }
         .toolbarBackground(.visible, for: .navigationBar)

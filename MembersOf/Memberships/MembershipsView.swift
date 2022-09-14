@@ -49,7 +49,7 @@ struct MembershipsView: View {
             .navigationTitle("Memberships")
             .sheet(isPresented: $creatingNew) {
                 NavigationStack {
-                    NewMembershipView(viewModel: .init(nil))
+                    NewMembershipView(viewModel: .init())
                 }
                 .presentationDetents([.medium])
             }

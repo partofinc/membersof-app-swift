@@ -28,6 +28,10 @@ extension NewTeamView {
         @LightStorage(key: .userId)
         private var userId: String?
         
+        var canCreate: Bool {
+            !name.isEmpty && !brief.isEmpty
+        }
+        
         init() {
             restoreUser()
         }

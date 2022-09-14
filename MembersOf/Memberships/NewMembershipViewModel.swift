@@ -56,6 +56,7 @@ extension NewMembershipView {
         
         init(_ team: Team? = nil) {
             self.team = team
+            guard team == nil else { return }
             teamsFetcher = storage.fetch()
                 .assign(to: \.teams, on: self)
                 .run(sort: [.init(\.createDate, order: .reverse)])

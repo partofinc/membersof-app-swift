@@ -1,6 +1,7 @@
 
 
 import Foundation
+import Combine
 
 extension NewEventView {
     
@@ -19,10 +20,17 @@ extension NewEventView {
         @Published var endDefined: Bool = false
         @Published var durationTitle: String = ""
         @Published var duration: Double = 1.0
+        @Published var me: Member = .local {
+            didSet {
+                fetch()
+            }
+        }
         
         private let storage: Storage = .shared
+        private let signer: Signer = .shared
         private var teamsFetcher: Storage.Fetcher<Team>?
         private var membershipsFetcher: Storage.Fetcher<Membership>?
+        private var memberFetcher: AnyCancellable?
         
         var canCreate: Bool {
             name.count > 2 && !selectedMemberships.isEmpty
@@ -33,10 +41,9 @@ extension NewEventView {
         }
         
         init() {
-            teamsFetcher = storage.fetch()
-                .assign(to: \.teams, on: self)
-                .run(sort: [.init(\.createDate)])
-            calculateDuration()
+            memberFetcher = signer.me
+                .eraseToAnyPublisher()
+                .assign(to: \.me, on: self)
         }
         
         func isSelected(_ membership: Membership) -> Bool {
@@ -62,7 +69,9 @@ extension NewEventView {
         func teamChanged() {
             membershipsFetcher = storage.fetch()
                 .assign(to: \.memberships, on: self)
-                .filter(by: {$0.team.id == self.teams[self.teamIndex].id})
+                .filter(by: { [unowned self] ship in
+                    ship.team.id == self.teams[self.teamIndex].id
+                })
                 .run(sort: [.init(\.createDate)])
             selectedMemberships.removeAll()
         }
@@ -74,8 +83,8 @@ extension NewEventView {
                         id: UUID(),
                         name: name,
                         createDate: .now,
-                        startDate: nil,
-                        endDate: nil,
+                        startDate: startDate,
+                        endDate: endDefined ? endDate : nil,
                         team: teams[teamIndex],
                         memberships: self.memberships.filter({self.selectedMemberships.contains($0.id)})
                     )
@@ -85,6 +94,15 @@ extension NewEventView {
         
         func calculateDuration() {
             
+        }
+        
+        private func fetch() {
+            teamsFetcher = storage.fetch()
+                .filter(by: { [unowned self] team in
+                    team.accessable(by: me)
+                })
+                .assign(to: \.teams, on: self)
+                .run(sort: [.init(\.createDate)])
         }
     }
 }

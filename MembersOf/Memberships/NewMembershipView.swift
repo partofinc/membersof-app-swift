@@ -27,6 +27,17 @@ struct NewMembershipView: View {
                         Spacer()
                         Text(team.name)
                     }
+                } else if viewModel.teams.isEmpty {
+                    NavigationLink {
+                        NewTeamView()
+                    } label: {
+                        HStack {
+                            Text("Team")
+                            Spacer()
+                            Text("New")
+                                .foregroundColor(.accentColor)
+                        }
+                    }
                 } else {
                     Picker("Team", selection: $viewModel.teamIdx) {
                         ForEach(0..<viewModel.teams.count, id: \.self) { idx in

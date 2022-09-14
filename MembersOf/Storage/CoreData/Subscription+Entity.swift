@@ -18,6 +18,7 @@ extension Subscription: Storable {
         @NSManaged public var member: Member.Entity
         @NSManaged public var membership: Membership.Entity
         @NSManaged public var visits: Set<Visit.Entity>?
+        @NSManaged public var payments: Set<Payment.Entity>?
     }
     
     init(_ entity: Entity) {
@@ -26,7 +27,7 @@ extension Subscription: Storable {
         endDate = entity.endDate
         member = .init(entity.member)
         membership = .init(entity.membership)
-        visits = entity.visits == nil ? 0 : entity.visits!.count
+        payments = []
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

@@ -6,7 +6,7 @@ public struct Event: Codable, Hashable, Identifiable {
     public let id: UUID
     public let name: String
     public let createDate: Date
-    public let startDate: Date?
+    public let startDate: Date
     public let endDate: Date?
     public let team: Team
     public let memberships: [Membership]
@@ -14,8 +14,7 @@ public struct Event: Codable, Hashable, Identifiable {
 
 extension Event {
     var dateTitle: String {
-        let date = startDate ?? createDate
-        return date.formatted(date: .abbreviated, time: .shortened)
+        startDate.formatted(date: .abbreviated, time: .shortened)
     }
 }
 

@@ -13,6 +13,9 @@ extension MembershipDetailView {
     final class ViewModel: ObservableObject {
         
         let membership: Membership
+        @Published var team: Team = .loading
+        
+        private let storage: Storage = .shared
         
         private let priceFormatter: NumberFormatter = {
             let formatter = NumberFormatter()
@@ -30,6 +33,12 @@ extension MembershipDetailView {
         func format(_ price: Price) -> String {
             priceFormatter.currencyCode = price.currency
             return priceFormatter.string(for: price.value)!
+        }
+        
+        func delete() {
+            Task {
+                try await storage.delete(membership)
+            }
         }
     }
 }

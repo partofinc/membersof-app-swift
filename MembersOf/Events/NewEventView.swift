@@ -22,7 +22,7 @@ struct NewEventView: View {
                             viewModel.calculateDuration()
                         }
                     if viewModel.endDefined {
-                        DatePicker("End", selection: $viewModel.startDate)
+                        DatePicker("End", selection: $viewModel.endDate)
                             .onChange(of: viewModel.startDate) { _ in
                                 viewModel.calculateDuration()
                             }
@@ -77,7 +77,7 @@ struct NewEventView: View {
                         }
                     }
                     NavigationLink {
-                        NewMembershipView(viewModel: .init(viewModel.selectedTeam))
+                        NewMembershipView(viewModel: .init())
                     } label: {
                         Label("Add", systemImage: "plus")
                     }

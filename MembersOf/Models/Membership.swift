@@ -10,7 +10,7 @@ public struct Membership: Codable, Hashable, Equatable, Identifiable {
     public let period: Period
     public let length: Int
     public let createDate: Date
-    public let teamId: UUID?
+    public let teamId: UUID
     public let pricing: [Price]
 }
 

@@ -15,6 +15,7 @@ struct TeamDetailView: View {
     @State private var removingSocial = false
     @State private var socialToRemove: Social?
     @FocusState private var addingSocial: Bool
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ScrollView {
@@ -284,7 +285,8 @@ struct TeamDetailView: View {
     @ViewBuilder
     private var footer: some View {
         Button {
-            
+            viewModel.deleteTeam()
+            dismiss()
         } label: {
             HStack {
                 Spacer()

@@ -16,6 +16,18 @@ struct EventDetailView: View {
         VStack {
             ScrollView {
                 VStack(alignment: .leading) {
+                    Text(viewModel.event.startDate.formatted(date: .abbreviated, time: .shortened))
+                    NavigationLink {
+                        TeamDetailView(viewModel: .init(team: viewModel.event.team))
+                    } label: {
+                        Text(viewModel.event.team.name)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.accentColor.gradient.opacity(0.1))
+                            .shadow(radius: 3)
+                    )
                     HStack {
                         Text("Members(\(viewModel.visits.count))")
                             .font(.title2)
@@ -66,7 +78,7 @@ struct EventDetailView: View {
 struct EventDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
+            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now, endDate: nil, team: Mock.teams.first!, memberships: [])))
         }
     }
 }

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21277" systemVersion="22A5321d" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="22A5342f" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Debt" representedClassName="DebtEntity" syncable="YES">
+        <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="currency" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="debts" inverseEntity="Member"/>
+        <relationship name="payments" toMany="YES" deletionRule="Nullify" destinationEntity="Payment" inverseName="debt" inverseEntity="Payment"/>
+        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="debts" inverseEntity="Team"/>
+    </entity>
     <entity name="Event" representedClassName="EventEntity" syncable="YES">
         <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="memberships" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Membership" inverseName="events" inverseEntity="Membership"/>
         <relationship name="team" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="events" inverseEntity="Team"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="event" inverseEntity="Visit"/>
@@ -22,13 +30,15 @@
         <attribute name="firstName" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
+        <relationship name="debts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Debt" inverseName="member" inverseEntity="Debt"/>
         <relationship name="management" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Supervisor" inverseName="member" inverseEntity="Supervisor"/>
         <relationship name="social" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Social" inverseName="member" inverseEntity="Social"/>
         <relationship name="subscriptions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Subscription" inverseName="member" inverseEntity="Subscription"/>
-        <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="member" inverseEntity="Visit"/>
+        <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit"/>
     </entity>
     <entity name="Membership" representedClassName="MembershipEntity" syncable="YES">
         <attribute name="createDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="hidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="length" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
@@ -36,7 +46,19 @@
         <attribute name="visits" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="memberships" inverseEntity="Event"/>
         <relationship name="pricing" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Price" inverseName="membership" inverseEntity="Price"/>
-        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="memberships" inverseEntity="Team"/>
+        <relationship name="subscriptions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Subscription" inverseName="membership" inverseEntity="Subscription"/>
+        <relationship name="team" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="memberships" inverseEntity="Team"/>
+    </entity>
+    <entity name="Note" representedClassName="Note" syncable="YES" codeGenerationType="class"/>
+    <entity name="Payment" representedClassName="PaymentEntity" syncable="YES">
+        <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="currency" attributeType="String"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="debt" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Debt" inverseName="payments" inverseEntity="Debt"/>
+        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member"/>
+        <relationship name="price" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Price"/>
+        <relationship name="subscription" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Subscription" inverseName="payments" inverseEntity="Subscription"/>
     </entity>
     <entity name="Price" representedClassName="PriceEntity" syncable="YES">
         <attribute name="currency" attributeType="String"/>
@@ -57,7 +79,8 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="subscriptions" inverseEntity="Member"/>
-        <relationship name="membership" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Membership"/>
+        <relationship name="membership" maxCount="1" deletionRule="Nullify" destinationEntity="Membership" inverseName="subscriptions" inverseEntity="Membership"/>
+        <relationship name="payments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Payment" inverseName="subscription" inverseEntity="Payment"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Visit" inverseName="subscription" inverseEntity="Visit"/>
     </entity>
     <entity name="Supervisor" representedClassName="SupervisorEntity" syncable="YES">
@@ -73,6 +96,7 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="crew" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Supervisor" inverseName="team" inverseEntity="Supervisor"/>
+        <relationship name="debts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Debt" inverseName="team" inverseEntity="Debt"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="team" inverseEntity="Event"/>
         <relationship name="memberships" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Membership" inverseName="team" inverseEntity="Membership"/>
         <relationship name="social" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Social" inverseName="team" inverseEntity="Social"/>
@@ -81,7 +105,6 @@
         <attribute name="checkInDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="event" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="visits" inverseEntity="Event"/>
-        <relationship name="member" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="visits" inverseEntity="Member"/>
-        <relationship name="subscription" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Subscription" inverseName="visits" inverseEntity="Subscription"/>
+        <relationship name="subscription" maxCount="1" deletionRule="Nullify" destinationEntity="Subscription" inverseName="visits" inverseEntity="Subscription"/>
     </entity>
 </model>

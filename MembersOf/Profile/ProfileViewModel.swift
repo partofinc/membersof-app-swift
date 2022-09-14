@@ -45,7 +45,6 @@ extension ProfileView {
             memberFetcher = signer.me
                 .eraseToAnyPublisher()
                 .assign(to: \.me, on: self)
-//            fetch()
         }
         
         func fetch() {

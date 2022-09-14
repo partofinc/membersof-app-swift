@@ -73,6 +73,12 @@ extension TeamDetailView {
             }
         }
         
+        func deleteTeam() {
+            Task {
+                try await storage.delete(team)
+            }
+        }
+        
         func addSocial() {
             guard let media, account.count > 2 else { return }
             let order = socials.last?.order ?? 0

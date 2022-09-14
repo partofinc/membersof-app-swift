@@ -41,7 +41,7 @@ extension Membership: Storable {
         entity.visits = .init(visits)
         entity.length = .init(length)
         entity.createDate = createDate
-        if let teamId, let team = Team.first(in: context, key: "id", value: teamId.uuidString) {
+        if let team = Team.first(in: context, key: "id", value: teamId.uuidString) {
             entity.team = team
         }
         if !pricing.isEmpty {
