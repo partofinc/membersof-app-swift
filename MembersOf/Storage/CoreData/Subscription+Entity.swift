@@ -32,6 +32,12 @@ extension Subscription: Storable {
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
         let entity = find(in: context) ?? Entity(context: context)
+        entity.id = id
+        entity.startDate = startDate
+        entity.endDate = endDate
+        entity.member = member.entity(context)
+        entity.membership = membership.entity(context)
+        entity.payments = Set(payments.map{$0.entity(context)})
         return entity
     }
     

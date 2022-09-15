@@ -52,7 +52,11 @@ extension NewVisitorView {
                 let member = Member(id: UUID(), firstName: firstName, lastName: lastName)
                 let subscription = Subscription(id: UUID(), startDate: .now, endDate: nil, member: member, membership: membership, payments: payments)
                 let visit = Visit(id: UUID(), checkInDate: .now, event: event, member: member, subscription: subscription)
-                try await storage.save(visit)
+                do {
+                    try await storage.save(visit)
+                } catch {
+                    print(error)
+                }
             }
         }
         
