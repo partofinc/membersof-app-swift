@@ -15,9 +15,9 @@ extension Visit: Storable {
         
         @NSManaged public var id: UUID
         @NSManaged public var checkInDate: Date
-        @NSManaged public var member: Member.Entity
-        @NSManaged public var event: Event.Entity
-        @NSManaged public var subscription: Subscription.Entity
+        @NSManaged public var member: Member.Entity!
+        @NSManaged public var event: Event.Entity!
+        @NSManaged public var subscription: Subscription.Entity!
     }
     
     init(_ entity: Entity) {
@@ -32,7 +32,7 @@ extension Visit: Storable {
         let entity = find(in: context) ?? Entity(context: context)
         entity.id = id
         entity.checkInDate = checkInDate
-        entity.event = event.entity(context)//Event.first(in: context, key: "id", value: event.id.uuidString)!
+        entity.event = event.entity(context)
         entity.member = member.entity(context)
         entity.subscription = subscription.entity(context)
         return entity

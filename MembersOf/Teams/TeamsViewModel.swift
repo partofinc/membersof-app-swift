@@ -28,7 +28,7 @@ extension TeamsView {
             teamsFetcher = storage.fetch()
                 .assign(to: \.teams, on: self)
                 .filter(by: { [unowned self] team in
-                    team.accessable(by: me)
+                    team.isAccessable(by: me)
                 })
                 .run(sort: [.init(\.createDate, order: .reverse)])
         }

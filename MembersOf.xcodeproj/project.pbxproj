@@ -48,6 +48,7 @@
 		F16976F92893BC5D00AB778D /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976F82893BC5D00AB778D /* Mock.swift */; };
 		F18E8700289936C800A001C1 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18E86FF289936C800A001C1 /* Social.swift */; };
 		F1954F3528A2B87900B8D3C5 /* NewVisitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1954F3428A2B87900B8D3C5 /* NewVisitorViewModel.swift */; };
+		F19A66B828D86D2E00CB884B /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = F19A66B728D86D2E00CB884B /* SwiftDate */; };
 		F1A14DA628AE569A001F00E3 /* Membership+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */; };
 		F1ABC48D28B4AA600075E3F9 /* MembershipDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABC48C28B4AA600075E3F9 /* MembershipDetailView.swift */; };
 		F1ABC48F28B4AA700075E3F9 /* MembershipDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABC48E28B4AA700075E3F9 /* MembershipDetailViewModel.swift */; };
@@ -161,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F19A66B828D86D2E00CB884B /* SwiftDate in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +352,9 @@
 			dependencies = (
 			);
 			name = MembersOf;
+			packageProductDependencies = (
+				F19A66B728D86D2E00CB884B /* SwiftDate */,
+			);
 			productName = MembersOf;
 			productReference = F16976DD2893B94100AB778D /* MembersOf.app */;
 			productType = "com.apple.product-type.application";
@@ -378,6 +383,9 @@
 				Base,
 			);
 			mainGroup = F16976D42893B94100AB778D;
+			packageReferences = (
+				F19A66B628D86D2E00CB884B /* XCRemoteSwiftPackageReference "SwiftDate" */,
+			);
 			productRefGroup = F16976DE2893B94100AB778D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -686,6 +694,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F19A66B628D86D2E00CB884B /* XCRemoteSwiftPackageReference "SwiftDate" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/malcommac/SwiftDate.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F19A66B728D86D2E00CB884B /* SwiftDate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F19A66B628D86D2E00CB884B /* XCRemoteSwiftPackageReference "SwiftDate" */;
+			productName = SwiftDate;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		F1C6491728A50A6300811CAC /* CoreModel.xcdatamodeld */ = {

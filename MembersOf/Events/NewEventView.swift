@@ -9,24 +9,28 @@ import SwiftUI
 
 struct NewEventView: View {
     
-    @StateObject fileprivate var viewModel: ViewModel = .init()
+    @StateObject private var viewModel: ViewModel = .init()
     @Environment(\.dismiss) private var dismiss
+    @FocusState private var nameFocus
     
     var body: some View {
         VStack {
             Form {
                 Section {
                     TextField("Name", text: $viewModel.name)
+                        .focused($nameFocus)
                     DatePicker("Start", selection: $viewModel.startDate)
-                        .onChange(of: viewModel.startDate) { _ in
-                            viewModel.calculateDuration()
+                        .onChange(of: viewModel.startDate) { date in
+                            viewModel.startChanged(date: date)
                         }
                     if viewModel.endDefined {
-                        DatePicker("End", selection: $viewModel.endDate)
-                            .onChange(of: viewModel.startDate) { _ in
-                                viewModel.calculateDuration()
+                        DatePicker("End", selection: $viewModel.endDate, in: viewModel.startDate...)
+                            .onChange(of: viewModel.endDate) { date in
+                                viewModel.endChanged(date: date)
                             }
-                        Stepper(viewModel.durationTitle, value: $viewModel.duration)
+                        Stepper(viewModel.durationTitle, value: $viewModel.duration, step: 30*60, onEditingChanged: { _ in
+                            viewModel.durationChanged()
+                        })
                     } else {
                         Button {
                             viewModel.endDefined.toggle()
@@ -48,9 +52,9 @@ struct NewEventView: View {
                             }
                         }
                     } else {
-                        Picker("Team", selection: $viewModel.teamIndex) {
-                            ForEach(0..<viewModel.teams.count, id: \.self) { idx in
-                                Text(viewModel.teams[idx].name).tag(idx)
+                        Picker("Team", selection: $viewModel.team) {
+                            ForEach(viewModel.teams, id: \.self) { team in
+                                Text(team.name).tag(team.id)
                             }
                         }
                     }
@@ -84,11 +88,14 @@ struct NewEventView: View {
                 }
             }
         }
-        .onChange(of: viewModel.teamIndex) { _ in
+        .onChange(of: viewModel.team) { _ in
             viewModel.teamChanged()
         }
         .onChange(of: viewModel.teams) { _ in
             viewModel.teamChanged()
+        }
+        .onChange(of: viewModel.me) { _ in
+            viewModel.fetchTeams()
         }
         .navigationTitle("Event")
         .navigationBarTitleDisplayMode(.inline)
@@ -102,6 +109,11 @@ struct NewEventView: View {
             }
         }
         .toolbarBackground(.visible, for: .navigationBar)
+        .onAppear {
+            nameFocus.toggle()
+            // NOTE: changing date picker minute interval
+            UIDatePicker.appearance().minuteInterval = 5
+        }
     }
 }
 

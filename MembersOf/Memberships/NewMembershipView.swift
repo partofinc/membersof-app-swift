@@ -39,9 +39,9 @@ struct NewMembershipView: View {
                         }
                     }
                 } else {
-                    Picker("Team", selection: $viewModel.teamIdx) {
-                        ForEach(0..<viewModel.teams.count, id: \.self) { idx in
-                            Text(viewModel.teams[idx].name).tag(idx)
+                    Picker("Team", selection: $viewModel.selectedTeam) {
+                        ForEach(viewModel.teams, id: \.self) { team in
+                            Text(team.name).tag(team.id)
                         }
                     }
                 }

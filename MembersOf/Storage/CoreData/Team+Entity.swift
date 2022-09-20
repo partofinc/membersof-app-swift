@@ -46,7 +46,7 @@ extension Team: Storable {
 }
 
 extension Team.Entity {
-    func accessable(by member: Member) -> Bool {
+    func isAccessable(by member: Member) -> Bool {
         guard let crew else { return false }
         return crew.contains(where: {$0.member.id == member.id})
     }

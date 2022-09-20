@@ -13,7 +13,7 @@ extension NewMembershipView {
         @Published var name: String = ""
         @Published var autoName: String = "Unlimited"
         
-        @Published var teamIdx: Int = 0
+        @Published var selectedTeam: Team = .loading
         @Published var teams: [Team] = [.loading]
         
         @Published var period: Membership.Period = .unlimited
@@ -58,7 +58,12 @@ extension NewMembershipView {
             self.team = team
             guard team == nil else { return }
             teamsFetcher = storage.fetch()
-                .assign(to: \.teams, on: self)
+                .sink { [unowned self] teams in
+                    self.teams = teams
+                    if !teams.contains(where: {$0.id == self.selectedTeam.id}), let team = teams.first {
+                        self.selectedTeam = team
+                    }
+                }
                 .run(sort: [.init(\.createDate, order: .reverse)])
         }
         
@@ -107,7 +112,6 @@ extension NewMembershipView {
         }
         
         func create() {
-            let team = self.team ?? teams[teamIdx]
             Task {
                 let membership = Membership(
                     id: UUID(),
@@ -116,7 +120,7 @@ extension NewMembershipView {
                     period: period,
                     length: length,
                     createDate: .now,
-                    teamId: team.id,
+                    teamId: selectedTeam.id,
                     pricing: self.pricing
                 )
                 try await self.storage.save(membership)
