@@ -13,17 +13,24 @@ struct EventDetailView: View {
     @State private var sheet: Sheet?
     @State private var endDate: Date = .now
     @State private var customDate: Date = .now
+    @Environment(\.editMode) private var editMode
     
     var body: some View {
-        VStack {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    timing
-                    team
-                    visits
-                    notes
+        Group {
+            if editMode?.wrappedValue.isEditing ?? false {
+                EventEditView(viewModel: .init(event: viewModel.event))
+            } else {
+                VStack {
+                    ScrollView {
+                        VStack(alignment: .leading) {
+                            timing
+                            team
+                            visits
+                            notes
+                        }
+                        .padding()
+                    }
                 }
-                .padding()
             }
         }
         .navigationTitle(viewModel.event.name)
@@ -38,59 +45,83 @@ struct EventDetailView: View {
             }
         }
         .toolbar {
-            ToolbarItem {
-                Button("Edit") {
-                    
-                }
-            }
+            EditButton()
         }
         .animation(.easeInOut, value: viewModel.visits)
     }
     
     @ViewBuilder
     private var timing: some View {
-        VStack {
-            HStack {
-                Text(viewModel.progress.rawValue)
-                Spacer()
-                Menu {
-                    Button {
-                        
-                    } label: {
-                        Label("In time", systemImage: "hand.thumbsup")
-                    }
-                    Button {
-                        endDate = .now
-                    } label: {
-                        Label("Now", systemImage: "hand.raised.fingers.spread")
-                    }
-                    Button {
-                        sheet = .endDate
-                    } label: {
-                        Label("Date", systemImage: "calendar")
-                    }
-                } label: {
-                    Label("End", systemImage: "checkmark.circle")
+        HStack(alignment: .bottom) {
+            VStack(alignment: .leading) {
+                if viewModel.progress == .upcoming {
+                    Text(viewModel.progress.rawValue)
+                        .font(.headline)
+                    Spacer()
                 }
-                .onChange(of: endDate, perform: { date in
-                    viewModel.end(with: date)
-                })
-                .padding(6)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.accentColor.gradient.opacity(0.1))
-                        .shadow(radius: 3)
-                )
-            }
-            .font(.headline)
-            HStack {
                 Text(viewModel.startDate)
-                Spacer()
-                Text("1 h 4 m")
-                    .bold()
-                Spacer()
-                Text("3:23 PM")
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            VStack {
+                if viewModel.progress == .ongoing {
+                    Text(viewModel.progress.rawValue)
+                        .font(.headline)
+                    Spacer()
+                }
+                Text(viewModel.duration)
+                    .bold()
+            }
+            .frame(maxWidth: .infinity)
+            VStack(alignment: .trailing) {
+                if viewModel.progress == .ended {
+                    Text(viewModel.progress.rawValue)
+                        .font(.headline)
+                    Spacer()
+                    Button(viewModel.endDate) {
+                        sheet = .endDate
+                    }
+                    .padding(6)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.accentColor.gradient.opacity(0.1))
+                            .shadow(radius: 3)
+                    )
+                } else {
+                    Menu {
+                        if let date = viewModel.event.estimatedEndDate {
+                            Button {
+                                endDate = date
+                            } label: {
+                                Label("In time", systemImage: "hand.thumbsup")
+                            }
+                        }
+                        Button {
+                            endDate = .now
+                        } label: {
+                            Label("Now", systemImage: "hand.raised.fingers.spread")
+                        }
+                        Button {
+                            sheet = .endDate
+                        } label: {
+                            Label("Date", systemImage: "calendar")
+                        }
+                    } label: {
+                        Label("End", systemImage: "checkmark.circle")
+                    }
+                    .onChange(of: endDate, perform: { date in
+                        viewModel.end(with: date)
+                    })
+                    .padding(6)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.accentColor.gradient.opacity(0.1))
+                            .shadow(radius: 3)
+                    )
+                    Spacer()
+                    Text(viewModel.endDate)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .cardStyle()
     }
@@ -217,7 +248,13 @@ import SwiftDate
 struct EventDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now + 1.days, endDate: nil, team: Mock.teams.first!, memberships: [])))
+            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now - 1.hours, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
+        }
+        NavigationStack {
+            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now + 1.hours, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
+        }
+        NavigationStack {
+            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now - 1.hours, estimatedEndDate: .now + 90.minutes, endDate: .now + 2.hours, team: Mock.teams.first!, memberships: [])))
         }
     }
 }

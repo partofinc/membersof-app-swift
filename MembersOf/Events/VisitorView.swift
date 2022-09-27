@@ -113,7 +113,7 @@ struct MemberConfirmationView_Previews: PreviewProvider {
             VisitorView(
                 viewModel: .init(
                     member: .init(id: UUID(), firstName: "Runar", lastName: "Kalimullin"),
-                    event: .init(id: UUID(), name: "name", createDate: .now, startDate: .now, endDate: nil, team: Mock.teams.first!, memberships: [])
+                    event: .init(id: UUID(), name: "name", createDate: .now, startDate: .now, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])
                 )
             ){}
         }

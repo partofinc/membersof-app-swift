@@ -100,6 +100,7 @@ struct NewMemberView_Previews: PreviewProvider {
                                 name: "Some",
                                 createDate: .now,
                                 startDate: .now,
+                                estimatedEndDate: nil,
                                 endDate: nil,
                                 team: Mock.teams.first!,
                                 memberships: [

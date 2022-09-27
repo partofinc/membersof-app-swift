@@ -92,7 +92,8 @@ extension NewEventView {
                         name: name,
                         createDate: .now,
                         startDate: startDate,
-                        endDate: endDefined ? endDate : nil,
+                        estimatedEndDate: endDefined ? endDate : nil,
+                        endDate: nil,
                         team: team,
                         memberships: self.memberships.filter({self.selectedMemberships.contains($0.id)})
                     )

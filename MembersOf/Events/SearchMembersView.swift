@@ -52,6 +52,6 @@ struct SearchMembersView: View {
 
 struct SearchMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchMembersView(viewModel: .init(.init(id: UUID(), name: "Tested event", createDate: .now, startDate: .now, endDate: nil, team: Mock.teams.first!, memberships: [])))
+        SearchMembersView(viewModel: .init(.init(id: UUID(), name: "Tested event", createDate: .now, startDate: .now, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
     }
 }

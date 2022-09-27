@@ -1,6 +1,7 @@
 
 
 import Foundation
+import SwiftDate
 
 extension EventDetailView {
     
@@ -8,21 +9,28 @@ extension EventDetailView {
     final class ViewModel: ObservableObject {
         
         let event: Event
+        
+        @Published var visits: [Visit] = []
+        @Published var progress: Progress = .upcoming
+        @Published var duration: String = ""
+        
         private let storage: Storage = .shared
         private var visitsFetcher: Storage.Fetcher<Visit>?
         private var sort: [SortDescriptor<Visit.Entity>] = [
             .init(\.checkInDate, order: .reverse)
         ]
-        @Published var visits: [Visit] = []
-        @Published var progress: Progress
+        private let durationFormatter: DateComponentsFormatter = {
+            let formatter = DateComponentsFormatter()
+            formatter.allowedUnits = [.day, .hour, .minute]
+            formatter.zeroFormattingBehavior = .dropAll
+            formatter.unitsStyle = .abbreviated
+            return formatter
+        }()
         
         init(event: Event) {
             self.event = event
-            if event.startDate < .now {
-                self.progress = .ongoing
-            } else {
-                self.progress = .upcoming
-            }
+            calculateProgress()
+            calculateDuration()
             visitsFetcher = storage.fetch()
                 .assign(to: \.visits, on: self)
                 .filter(by: {$0.event.id == event.id})
@@ -36,6 +44,12 @@ extension EventDetailView {
             return event.startDate.formatted(.dateTime)
         }
         
+        var endDate: String {
+            let end = event.endDate ?? event.estimatedEndDate
+            guard let date = end else { return "-" }
+            return date.formatted(.dateTime.hour().minute())
+        }
+        
         func end(with date: Date) {
             
         }
@@ -44,6 +58,34 @@ extension EventDetailView {
             Task {
                 try await storage.delete(visit)
             }
+        }
+        
+        private func calculateProgress() {
+            if event.endDate != nil {
+                progress = .ended
+            } else {
+                if event.startDate > .now {
+                    progress = .upcoming
+                } else {
+                    progress = .ongoing
+                }
+            }
+        }
+        
+        private func calculateDuration() {
+            let endDate: Date
+            if let end = event.endDate {
+                endDate = end
+            } else if event.startDate < .now {
+                endDate = .now
+            } else if let end = event.estimatedEndDate {
+                endDate = end
+            } else {
+                duration = ""
+                return
+            }
+            let components = endDate - event.startDate
+            duration = durationFormatter.string(from: components) ?? ""
         }
     }
     

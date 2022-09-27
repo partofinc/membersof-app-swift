@@ -12,6 +12,8 @@
 		F103BD4D289D259F0041D2EF /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD4C289D259F0041D2EF /* EventsViewModel.swift */; };
 		F103BD4F289D32F40041D2EF /* NewEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD4E289D32F40041D2EF /* NewEventView.swift */; };
 		F103BD51289D333C0041D2EF /* NewEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103BD50289D333C0041D2EF /* NewEventViewModel.swift */; };
+		F105F40E28E2E70A00736E72 /* EventEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F105F40D28E2E70A00736E72 /* EventEditView.swift */; };
+		F105F41028E2E71D00736E72 /* EventEditViwModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F105F40F28E2E71D00736E72 /* EventEditViwModel.swift */; };
 		F12A85E828B8A6210041B85B /* SocialMediaRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12A85E728B8A6210041B85B /* SocialMediaRow.swift */; };
 		F12A85EA28B8E0810041B85B /* NewSupervisorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12A85E928B8E0810041B85B /* NewSupervisorView.swift */; };
 		F12A85EC28B8F13D0041B85B /* Invite.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12A85EB28B8F13D0041B85B /* Invite.swift */; };
@@ -87,6 +89,8 @@
 		F103BD4C289D259F0041D2EF /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
 		F103BD4E289D32F40041D2EF /* NewEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventView.swift; sourceTree = "<group>"; };
 		F103BD50289D333C0041D2EF /* NewEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewModel.swift; sourceTree = "<group>"; };
+		F105F40D28E2E70A00736E72 /* EventEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEditView.swift; sourceTree = "<group>"; };
+		F105F40F28E2E71D00736E72 /* EventEditViwModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEditViwModel.swift; sourceTree = "<group>"; };
 		F12A85E728B8A6210041B85B /* SocialMediaRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaRow.swift; sourceTree = "<group>"; };
 		F12A85E928B8E0810041B85B /* NewSupervisorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSupervisorView.swift; sourceTree = "<group>"; };
 		F12A85EB28B8F13D0041B85B /* Invite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invite.swift; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 				F1E25F1628A247F000B1511D /* EventRow.swift */,
 				F1C60BE428A252BC00F944BD /* EventDetailView.swift */,
 				F1C60BE628A252DB00F944BD /* EventDetailViewModel.swift */,
+				F105F40D28E2E70A00736E72 /* EventEditView.swift */,
+				F105F40F28E2E71D00736E72 /* EventEditViwModel.swift */,
 				F1C60BEA28A272D000F944BD /* SearchMembersView.swift */,
 				F1C60BEC28A272E200F944BD /* SearchMembersViewModel.swift */,
 				F1589F7128A27C9900EE1E92 /* NewVisitorView.swift */,
@@ -417,6 +423,7 @@
 				F1ABC48D28B4AA600075E3F9 /* MembershipDetailView.swift in Sources */,
 				F1954F3528A2B87900B8D3C5 /* NewVisitorViewModel.swift in Sources */,
 				F16976E32893B94100AB778D /* ContentView.swift in Sources */,
+				F105F41028E2E71D00736E72 /* EventEditViwModel.swift in Sources */,
 				F1C6491528A50A1F00811CAC /* Storage.swift in Sources */,
 				F1B71D8D289924EF00AD2E2C /* NewTeamViewModel.swift in Sources */,
 				F15FB69F28B358AB00BE15C3 /* Price.swift in Sources */,
@@ -435,6 +442,7 @@
 				F133060228B4FC400043C487 /* LightStorage.swift in Sources */,
 				F1ABC48F28B4AA700075E3F9 /* MembershipDetailViewModel.swift in Sources */,
 				F1487F86289D09D90079934A /* EventsView.swift in Sources */,
+				F105F40E28E2E70A00736E72 /* EventEditView.swift in Sources */,
 				F12A85EC28B8F13D0041B85B /* Invite.swift in Sources */,
 				F1589F7228A27C9900EE1E92 /* NewVisitorView.swift in Sources */,
 				F1B651C728B6431100044E98 /* ExitDialogView.swift in Sources */,

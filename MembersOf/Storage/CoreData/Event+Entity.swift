@@ -16,6 +16,7 @@ extension Event: Storable {
         @NSManaged public var name: String
         @NSManaged public var startDate: Date
         @NSManaged public var endDate: Date?
+        @NSManaged public var estimatedEndDate: Date?
         @NSManaged public var createDate: Date
         @NSManaged public var team: Team.Entity
         @NSManaged public var memberships: Set<Membership.Entity>?
@@ -27,6 +28,7 @@ extension Event: Storable {
         createDate = entity.createDate
         startDate = entity.startDate
         endDate = entity.endDate
+        estimatedEndDate = entity.estimatedEndDate
         team = .init(entity.team)
         memberships = entity.memberships == nil ? [] : entity.memberships!.map(Membership.init)
     }
@@ -37,6 +39,7 @@ extension Event: Storable {
         entity.name = name
         entity.startDate = startDate
         entity.endDate = endDate
+        entity.estimatedEndDate = estimatedEndDate
         entity.createDate = createDate
         entity.team = team.entity(context)
         entity.memberships = Set(memberships.map{$0.entity(context)})

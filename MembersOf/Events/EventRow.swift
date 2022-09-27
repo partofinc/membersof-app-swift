@@ -36,7 +36,7 @@ struct EventRow_Previews: PreviewProvider {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    EventRow(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now, endDate: nil, team: Mock.teams.first!, memberships: []))
+                    EventRow(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: []))
                         .frame(minWidth: 150)
                 }
                 .padding()
