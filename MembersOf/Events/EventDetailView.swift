@@ -18,7 +18,7 @@ struct EventDetailView: View {
     var body: some View {
         Group {
             if editMode?.wrappedValue.isEditing ?? false {
-                EventEditView(viewModel: .init(event: viewModel.event))
+                EventEditView(viewModel: .init(event: viewModel.event), sheet: $sheet)
             } else {
                 VStack {
                     ScrollView {
@@ -41,6 +41,9 @@ struct EventDetailView: View {
                     .presentationDetents([.large])
             case .endDate:
                 datePicker
+                    .presentationDetents([.medium])
+            case .addMembership:
+                NewMembershipView(viewModel: .init())
                     .presentationDetents([.medium])
             }
         }
@@ -128,18 +131,44 @@ struct EventDetailView: View {
     
     @ViewBuilder
     private var team: some View {
-        NavigationLink {
-            TeamDetailView(viewModel: .init(team: viewModel.event.team))
-        } label: {
-            Text(viewModel.event.team.name)
+        VStack(alignment: .leading) {
+            HStack {
+                Text("Memberships")
+                    .font(.headline)
+                Spacer()
+                NavigationLink {
+                    TeamDetailView(viewModel: .init(team: viewModel.event.team))
+                } label: {
+                    Text(viewModel.event.team.name)
+                }
+                .padding(6)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.accentColor.gradient.opacity(0.1))
+                        .shadow(radius: 3)
+                )
+            }
+            ForEach(viewModel.event.memberships) { ship in
+                HStack {
+                    Image(systemName: "largecircle.fill.circle")
+                    Text(ship.name)
+                    Spacer()
+                }
+            }
         }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.accentColor.gradient.opacity(0.1))
-                .shadow(radius: 3)
-        )
+        .cardStyle()
+//        NavigationLink {
+//            TeamDetailView(viewModel: .init(team: viewModel.event.team))
+//        } label: {
+//            Text(viewModel.event.team.name)
+//        }
+//        .padding()
+//        .frame(maxWidth: .infinity)
+//        .background(
+//            RoundedRectangle(cornerRadius: 8)
+//                .fill(Color.accentColor.gradient.opacity(0.1))
+//                .shadow(radius: 3)
+//        )
     }
     
     @ViewBuilder

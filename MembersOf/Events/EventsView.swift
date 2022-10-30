@@ -51,10 +51,8 @@ struct EventsView: View {
             .sheet(item: $sheet) { sheet in
                 switch sheet {
                 case .new:
-                    NavigationStack {
-                        NewEventView()
-                    }
-                    .presentationDetents([.medium, .large])
+                    NewEventView()
+                        .presentationDetents([.medium, .large])
                 }
             }
             .animation(.easeInOut, value: viewModel.events)

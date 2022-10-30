@@ -92,6 +92,7 @@ extension EventDetailView {
     enum Sheet: Identifiable {
         case addMember
         case endDate
+        case addMembership
         
         var id: Self { self }
     }

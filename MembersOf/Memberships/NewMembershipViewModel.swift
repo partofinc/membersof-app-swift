@@ -67,6 +67,10 @@ extension NewMembershipView {
                 .run(sort: [.init(\.createDate, order: .reverse)])
         }
         
+        deinit {
+            print("Some")
+        }
+        
         func calculatePeriod() {
             guard period != .unlimited else {
                 periodText = nil

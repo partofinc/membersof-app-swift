@@ -14,75 +14,77 @@ struct NewMembershipView: View {
     @State private var choosingCurrency = false
     
     var body: some View {
-        VStack {
-            Form {
-                HStack {
-                    Text("Name")
-                    TextField(viewModel.autoName, text: $viewModel.name)
-                        .multilineTextAlignment(.trailing)
-                }
-                if let team = viewModel.team {
+        NavigationStack {
+            VStack {
+                Form {
                     HStack {
-                        Text("Team")
-                        Spacer()
-                        Text(team.name)
+                        Text("Name")
+                        TextField(viewModel.autoName, text: $viewModel.name)
+                            .multilineTextAlignment(.trailing)
                     }
-                } else if viewModel.teams.isEmpty {
-                    NavigationLink {
-                        NewTeamView()
-                    } label: {
+                    if let team = viewModel.team {
                         HStack {
                             Text("Team")
                             Spacer()
-                            Text("New")
-                                .foregroundColor(.accentColor)
+                            Text(team.name)
+                        }
+                    } else if viewModel.teams.isEmpty {
+                        NavigationLink {
+                            NewTeamView()
+                        } label: {
+                            HStack {
+                                Text("Team")
+                                Spacer()
+                                Text("New")
+                                    .foregroundColor(.accentColor)
+                            }
+                        }
+                    } else {
+                        Picker("Team", selection: $viewModel.selectedTeam) {
+                            ForEach(viewModel.teams, id: \.self) { team in
+                                Text(team.name).tag(team.id)
+                            }
                         }
                     }
-                } else {
-                    Picker("Team", selection: $viewModel.selectedTeam) {
-                        ForEach(viewModel.teams, id: \.self) { team in
-                            Text(team.name).tag(team.id)
+                    Picker("Period", selection: $viewModel.period) {
+                        ForEach(viewModel.periods) { p in
+                            Text(p.rawValue.capitalized)
                         }
                     }
-                }
-                Picker("Period", selection: $viewModel.period) {
-                    ForEach(viewModel.periods) { p in
-                        Text(p.rawValue.capitalized)
+                    if let lenght = viewModel.periodText {
+                        Stepper(lenght, value: $viewModel.length, in: 1...10000, onEditingChanged: { _ in
+                            viewModel.calculatePeriod()
+                        })
                     }
-                }
-                if let lenght = viewModel.periodText {
-                    Stepper(lenght, value: $viewModel.length, in: 1...10000, onEditingChanged: { _ in
-                        viewModel.calculatePeriod()
+                    Stepper(viewModel.visitsText, value: $viewModel.visits, in: 0...10000, onEditingChanged: { _ in
+                        viewModel.calculateVisits()
                     })
+                    pricing
                 }
-                Stepper(viewModel.visitsText, value: $viewModel.visits, in: 0...10000, onEditingChanged: { _ in
-                    viewModel.calculateVisits()
-                })
-                pricing
-            }
-            .onChange(of: viewModel.period) { _ in
-                viewModel.calculatePeriod()
-            }
-            .sheet(isPresented: $choosingCurrency) {
-                NavigationStack {
-                    CurrencySelectionView { currency in
-                        viewModel.add(currency)
+                .onChange(of: viewModel.period) { _ in
+                    viewModel.calculatePeriod()
+                }
+                .sheet(isPresented: $choosingCurrency) {
+                    NavigationStack {
+                        CurrencySelectionView { currency in
+                            viewModel.add(currency)
+                        }
                     }
                 }
             }
-        }
-        .navigationTitle("Membership")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem {
-                Button("Create") {
-                    viewModel.create()
-                    dismiss()
+            .navigationTitle("Membership")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem {
+                    Button("Create") {
+                        viewModel.create()
+                        dismiss()
+                    }
+                    .disabled(!viewModel.canCreate)
                 }
-                .disabled(!viewModel.canCreate)
             }
+            .toolbarBackground(.visible, for: .navigationBar)
         }
-        .toolbarBackground(.visible, for: .navigationBar)
     }
     
     @ViewBuilder

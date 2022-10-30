@@ -7,7 +7,7 @@ import SwiftDate
 extension NewEventView {
     
     @MainActor
-    final class ViewModel: ObservableObject {
+    final class ViewModelChecker: ObservableObject {
         
         @Published private(set) var teams: [Team] = [.loading]
         @Published var team: Team = .loading
@@ -46,9 +46,15 @@ extension NewEventView {
             endDate = date + 90.minutes
             memberFetcher = signer.me
                 .eraseToAnyPublisher()
-                .assign(to: \.me, on: self)
+                .sink(receiveValue: { [unowned self] member in
+                    self.me = member
+                })
             calculateDuration()
             fetchTeams()
+        }
+        
+        deinit {
+            print("some")
         }
         
         func isSelected(_ membership: Membership) -> Bool {
@@ -125,7 +131,10 @@ extension NewEventView {
                 .filter(by: { [unowned self] team in
                     team.isAccessable(by: me)
                 })
-                .assign(to: \.teams, on: self)
+                .sink { [unowned self] teams in
+                    self.teams = teams
+                }
+//                .assign(to: \.teams, on: self)
                 .run(sort: [.init(\.createDate)])
         }
     }
