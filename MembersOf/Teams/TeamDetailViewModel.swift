@@ -36,10 +36,16 @@ extension TeamDetailView {
             self.socialMedias.removeAll(where: {socials.map(\.media).contains($0)})
             socialFetcher = storage.fetch()
                 .filter(by: {$0.team?.id == team.id})
+//                .sink { [unowned self] socials in
+//                    self.socials = socials
+//                }
                 .assign(to: \.socials, on: self)
                 .run(sort: [.init(\.order)])
             crewFetcher = storage.fetch()
                 .filter(by: {$0.team.id == team.id})
+//                .sink { [unowned self] crew in
+//                    self.crew = crew
+//                }
                 .assign(to: \.crew, on: self)
                 .run(sort: [.init(\.order)])
             inviteFetcher = storage.fetch()

@@ -36,7 +36,7 @@ extension Storage {
             return self
         }
         
-        func assign<Root>(
+        func assign<Root: AnyObject>(
             to keyPath: ReferenceWritableKeyPath<Root, [T]>,
             on object: Root,
             in queue: DispatchQueue = .main,
@@ -51,7 +51,7 @@ extension Storage {
                         default:
                             break
                         }
-                    } receiveValue: { [unowned self] value in
+                    } receiveValue: { [unowned self, unowned object] value in
                         let result = self.filtered(value)
                         queue.async {
                             object[keyPath: keyPath] = result

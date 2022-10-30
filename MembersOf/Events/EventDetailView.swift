@@ -22,7 +22,7 @@ struct EventDetailView: View {
             } else {
                 VStack {
                     ScrollView {
-                        VStack(alignment: .leading) {
+                        LazyVStack(alignment: .leading) {
                             timing
                             team
                             visits
@@ -137,6 +137,7 @@ struct EventDetailView: View {
                     .font(.headline)
                 Spacer()
                 NavigationLink {
+                    #warning("Calling viewModel in here leads to application hang")
                     TeamDetailView(viewModel: .init(team: viewModel.event.team))
                 } label: {
                     Text(viewModel.event.team.name)
@@ -157,18 +158,6 @@ struct EventDetailView: View {
             }
         }
         .cardStyle()
-//        NavigationLink {
-//            TeamDetailView(viewModel: .init(team: viewModel.event.team))
-//        } label: {
-//            Text(viewModel.event.team.name)
-//        }
-//        .padding()
-//        .frame(maxWidth: .infinity)
-//        .background(
-//            RoundedRectangle(cornerRadius: 8)
-//                .fill(Color.accentColor.gradient.opacity(0.1))
-//                .shadow(radius: 3)
-//        )
     }
     
     @ViewBuilder

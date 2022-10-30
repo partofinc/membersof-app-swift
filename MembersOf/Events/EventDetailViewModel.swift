@@ -33,6 +33,9 @@ extension EventDetailView {
             calculateDuration()
             visitsFetcher = storage.fetch()
                 .assign(to: \.visits, on: self)
+//                .sink { [unowned self] visits in
+//                    self.visits = visits
+//                }
                 .filter(by: {$0.event.id == event.id})
                 .run(sort: sort)
         }
