@@ -10,9 +10,10 @@ import SwiftUI
 struct EventDetailView: View {
     
     @StateObject var viewModel: ViewModel
-    @State private var sheet: Sheet?
+    
     @State private var endDate: Date = .now
     @State private var customDate: Date = .now
+    @State private var sheet: Sheet?
     @Environment(\.editMode) private var editMode
     
     var body: some View {
@@ -80,7 +81,7 @@ struct EventDetailView: View {
                     Text(viewModel.progress.rawValue)
                         .font(.headline)
                     Spacer()
-                    Button(viewModel.endDate) {
+                    Button(viewModel.endDateString) {
                         sheet = .endDate
                     }
                     .padding(6)
@@ -121,7 +122,7 @@ struct EventDetailView: View {
                             .shadow(radius: 3)
                     )
                     Spacer()
-                    Text(viewModel.endDate)
+                    Text(viewModel.endDateString)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
@@ -137,7 +138,6 @@ struct EventDetailView: View {
                     .font(.headline)
                 Spacer()
                 NavigationLink {
-                    #warning("Calling viewModel in here leads to application hang")
                     TeamDetailView(viewModel: .init(team: viewModel.event.team))
                 } label: {
                     Text(viewModel.event.team.name)
@@ -204,7 +204,7 @@ struct EventDetailView: View {
         }
         .cardStyle()
     }
-    
+
     @ViewBuilder
     private var notes: some View {
         VStack {
@@ -215,7 +215,7 @@ struct EventDetailView: View {
             }
             .font(.headline)
             Button {
-                
+
             } label: {
                 Label("New", systemImage: "plus")
             }
@@ -229,7 +229,7 @@ struct EventDetailView: View {
         }
         .cardStyle()
     }
-    
+
     @ViewBuilder
     private var datePicker: some View {
         NavigationStack {

@@ -28,13 +28,6 @@ extension NewEventView {
         private var teamsFetcher: Storage.Fetcher<Team>?
         private var membershipsFetcher: Storage.Fetcher<Membership>?
         private var memberFetcher: AnyCancellable?
-        private let durationFormatter: DateComponentsFormatter = {
-            let formatter = DateComponentsFormatter()
-            formatter.allowedUnits = [.day, .hour, .minute]
-            formatter.zeroFormattingBehavior = .dropAll
-            formatter.unitsStyle = .abbreviated
-            return formatter
-        }()
         
         var canCreate: Bool {
             name.count > 2 && !selectedMemberships.isEmpty
@@ -51,10 +44,6 @@ extension NewEventView {
                 })
             calculateDuration()
             fetchTeams()
-        }
-        
-        deinit {
-            print("some")
         }
         
         func isSelected(_ membership: Membership) -> Bool {
@@ -109,7 +98,8 @@ extension NewEventView {
         
         func calculateDuration(offset: Int = 0) {
             let d = endDate - startDate
-            durationTitle = durationFormatter.string(from: d + offset.seconds)!
+            #warning("Duration formatter needs to bee applied")
+            durationTitle = "Some"
         }
         
         func startChanged(date: Date) {

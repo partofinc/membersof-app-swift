@@ -11,33 +11,31 @@ struct MembershipsView: View {
     
     @StateObject var viewModel = ViewModel()
     @State private var creatingNew: Bool = false
-    @State private var path: [Membership] = []
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack {
             VStack {
                 ScrollView {
                     LazyVStack {
                         ForEach(viewModel.memberships) { ship in
-                            HStack {
-                                Text(ship.name)
-                                Spacer()
+                            NavigationLink {
+                                MembershipDetailView(viewModel: .init(ship))
+                            } label: {
+                                HStack {
+                                    Text(ship.name)
+                                    Spacer()
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.orange.opacity(0.4).gradient)
+                                        .shadow(radius: 5)
+                                )
                             }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.orange.opacity(0.4).gradient)
-                                    .shadow(radius: 5)
-                            )
-                            .onTapGesture {
-                                path = [ship]
-                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding()
-                    .navigationDestination(for: Membership.self) { ship in
-                        MembershipDetailView(viewModel: .init(ship))
-                    }
                 }
                 Button {
                     creatingNew.toggle()

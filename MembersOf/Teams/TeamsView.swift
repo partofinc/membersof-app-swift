@@ -10,25 +10,23 @@ import SwiftUI
 struct TeamsView: View {
     
     @StateObject var viewModel = ViewModel()
-    @State private var path: [Team] = []
     @State private var creatingNew: Bool = false
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack {
             VStack {
                 ScrollView {
                     LazyVStack(alignment: .leading) {
                         ForEach(viewModel.teams) { team in
-                            TeamRow(team: team)
-                                .onTapGesture {
-                                    path = [team]
-                                }
+                            NavigationLink {
+                                TeamDetailView(viewModel: .init(team: team))
+                            } label: {
+                                TeamRow(team: team)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding()
-                    .navigationDestination(for: Team.self) {
-                        TeamDetailView(viewModel: .init(team: $0))
-                    }
                 }
                 Spacer()
                 Button {

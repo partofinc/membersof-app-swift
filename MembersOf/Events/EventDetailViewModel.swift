@@ -19,13 +19,6 @@ extension EventDetailView {
         private var sort: [SortDescriptor<Visit.Entity>] = [
             .init(\.checkInDate, order: .reverse)
         ]
-        private let durationFormatter: DateComponentsFormatter = {
-            let formatter = DateComponentsFormatter()
-            formatter.allowedUnits = [.day, .hour, .minute]
-            formatter.zeroFormattingBehavior = .dropAll
-            formatter.unitsStyle = .abbreviated
-            return formatter
-        }()
         
         init(event: Event) {
             self.event = event
@@ -33,9 +26,6 @@ extension EventDetailView {
             calculateDuration()
             visitsFetcher = storage.fetch()
                 .assign(to: \.visits, on: self)
-//                .sink { [unowned self] visits in
-//                    self.visits = visits
-//                }
                 .filter(by: {$0.event.id == event.id})
                 .run(sort: sort)
         }
@@ -47,7 +37,7 @@ extension EventDetailView {
             return event.startDate.formatted(.dateTime)
         }
         
-        var endDate: String {
+        var endDateString: String {
             let end = event.endDate ?? event.estimatedEndDate
             guard let date = end else { return "-" }
             return date.formatted(.dateTime.hour().minute())
@@ -88,7 +78,8 @@ extension EventDetailView {
                 return
             }
             let components = endDate - event.startDate
-            duration = durationFormatter.string(from: components) ?? ""
+            #warning("Formatter needs to bee applied")
+            duration = "30s"
         }
     }
     

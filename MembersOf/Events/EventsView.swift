@@ -11,32 +11,31 @@ struct EventsView: View {
     
     @StateObject var viewModel: ViewModel = .init()
     @State private var sheet: Sheet?
-    @State private var path: [Event] = []
+    @State private var event: Event?
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack {
             VStack {
                 ScrollView(.horizontal) {
                     LazyHStack {
                         ForEach(viewModel.events) { event in
-                            EventRow(event: event)
-                                .frame(minWidth: 150)
-                                .onTapGesture {
-                                    path = [event]
+                            NavigationLink {
+                                EventDetailView(viewModel: .init(event: event))
+                            } label: {
+                                EventRow(event: event)
+                            }
+                            .buttonStyle(.plain)
+                            .frame(minWidth: 150)
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    viewModel.delete(event)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
                                 }
-                                .contextMenu {
-                                    Button(role: .destructive) {
-                                        viewModel.delete(event)
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
-                                    }
-                                }
+                            }
                         }
                     }
                     .padding()
-                }
-                .navigationDestination(for: Event.self) {
-                    EventDetailView(viewModel: .init(event: $0))
                 }
                 .frame(height: 150)
                 Spacer()
