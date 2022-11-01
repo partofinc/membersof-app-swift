@@ -13,9 +13,4 @@ public struct Event: Codable, Hashable, Identifiable {
     public let memberships: [Membership]
 }
 
-extension Event {
-    var dateTitle: String {
-        startDate.formatted(date: .abbreviated, time: .shortened)
-    }
-}
 

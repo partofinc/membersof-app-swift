@@ -51,10 +51,12 @@ extension NewEventView {
         }
         
         func toggle(_ membership: Membership) {
-            if let idx = selectedMemberships.firstIndex(of: membership.id) {
-                selectedMemberships.remove(at: idx)
-            } else {
-                selectedMemberships.append(membership.id)
+            Task {
+                if let idx = selectedMemberships.firstIndex(of: membership.id) {
+                    selectedMemberships.remove(at: idx)
+                } else {
+                    selectedMemberships.append(membership.id)
+                }
             }
         }
         
@@ -97,9 +99,7 @@ extension NewEventView {
         }
         
         func calculateDuration(offset: Int = 0) {
-            let d = endDate - startDate
-            #warning("Duration formatter needs to bee applied")
-            durationTitle = "Some"
+            durationTitle = (startDate..<endDate).formatted(.components(style: .condensedAbbreviated))
         }
         
         func startChanged(date: Date) {

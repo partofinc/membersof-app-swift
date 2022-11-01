@@ -19,6 +19,7 @@ extension EventDetailView {
         private var sort: [SortDescriptor<Visit.Entity>] = [
             .init(\.checkInDate, order: .reverse)
         ]
+        private let calendar: Calendar = .current
         
         init(event: Event) {
             self.event = event
@@ -31,13 +32,15 @@ extension EventDetailView {
         }
         
         var startDate: String {
-            if Calendar.current.isDateInToday(event.startDate) {
-                return event.startDate.formatted(.dateTime.hour().minute())
+            let start = event.startDate
+            let time = start.formatted(.dateTime.hour().minute())
+            guard calendar.isDateInToday(start) else {
+                return start.formatted(.relative(presentation: .named)) + " " + time
             }
-            return event.startDate.formatted(.dateTime)
+            return time
         }
         
-        var endDateString: String {
+        var endDate: String {
             let end = event.endDate ?? event.estimatedEndDate
             guard let date = end else { return "-" }
             return date.formatted(.dateTime.hour().minute())
@@ -66,20 +69,18 @@ extension EventDetailView {
         }
         
         private func calculateDuration() {
-            let endDate: Date
-            if let end = event.endDate {
-                endDate = end
-            } else if event.startDate < .now {
-                endDate = .now
-            } else if let end = event.estimatedEndDate {
-                endDate = end
-            } else {
+            let now: Date = .now
+            var end: Date = event.endDate ?? now
+            let start: Date = event.startDate
+            
+            if now < start, let estimate = event.estimatedEndDate {
+                end = estimate
+            }
+            guard end > start else {
                 duration = ""
                 return
             }
-            let components = endDate - event.startDate
-            #warning("Formatter needs to bee applied")
-            duration = "30s"
+            duration = (start..<end).formatted(.components(style: .condensedAbbreviated, fields: [.hour, .minute]))
         }
     }
     

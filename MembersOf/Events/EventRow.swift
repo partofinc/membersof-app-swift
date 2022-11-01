@@ -12,14 +12,17 @@ struct EventRow: View {
     let event: Event
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(event.team.name)
-                    .font(.footnote)
-            Text(event.name)
-                .font(.title2)
+        HStack {
+            VStack(alignment: .leading) {
+                Text(event.team.name)
+                        .font(.footnote)
+                Text(event.name)
+                    .font(.title2)
+                Spacer()
+                Text(event.startDate, format: .relative(presentation: .numeric))
+                    .font(.caption)
+            }
             Spacer()
-            Text(event.dateTitle)
-                .font(.caption)
         }
         .frame(maxWidth: .infinity)
         .padding()

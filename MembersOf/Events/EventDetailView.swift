@@ -81,7 +81,7 @@ struct EventDetailView: View {
                     Text(viewModel.progress.rawValue)
                         .font(.headline)
                     Spacer()
-                    Button(viewModel.endDateString) {
+                    Button(viewModel.endDate) {
                         sheet = .endDate
                     }
                     .padding(6)
@@ -122,7 +122,7 @@ struct EventDetailView: View {
                             .shadow(radius: 3)
                     )
                     Spacer()
-                    Text(viewModel.endDateString)
+                    Text(viewModel.endDate)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
