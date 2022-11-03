@@ -15,11 +15,11 @@ struct EventDetailView: View {
     @State private var customDate: Date = .now
     @State private var sheet: Sheet?
     @State private var membershipsHidden: Bool = true
-    @Environment(\.editMode) private var editMode
+    @State private var editMode: Bool = false
     
     var body: some View {
         Group {
-            if editMode?.wrappedValue.isEditing ?? false {
+            if editMode {
                 EventEditView(viewModel: .init(event: viewModel.event), sheet: $sheet)
             } else {
                 VStack {
@@ -50,7 +50,11 @@ struct EventDetailView: View {
             }
         }
         .toolbar {
-            EditButton()
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(editMode ? "Cancel" : "Edit") {
+                    editMode.toggle()
+                }
+            }
         }
         .animation(.easeInOut, value: viewModel.visits)
         .animation(.easeInOut, value: membershipsHidden)
