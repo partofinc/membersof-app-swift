@@ -25,10 +25,10 @@ extension EventDetailView {
             self.event = event
             calculateProgress()
             calculateDuration()
-            visitsFetcher = storage.fetch()
-                .assign(to: \.visits, on: self)
-                .filter(by: {$0.event.id == event.id})
-                .run(sort: sort)
+//            visitsFetcher = storage.fetch()
+//                .assign(to: \.visits, on: self)
+//                .filter(by: {$0.event.id == event.id})
+//                .run(sort: sort)
         }
         
         var startDate: String {

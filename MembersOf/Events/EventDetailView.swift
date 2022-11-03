@@ -14,6 +14,7 @@ struct EventDetailView: View {
     @State private var endDate: Date = .now
     @State private var customDate: Date = .now
     @State private var sheet: Sheet?
+    @State private var membershipsHidden: Bool = true
     @Environment(\.editMode) private var editMode
     
     var body: some View {
@@ -52,6 +53,7 @@ struct EventDetailView: View {
             EditButton()
         }
         .animation(.easeInOut, value: viewModel.visits)
+        .animation(.easeInOut, value: membershipsHidden)
     }
     
     @ViewBuilder
@@ -112,15 +114,10 @@ struct EventDetailView: View {
                     } label: {
                         Label("End", systemImage: "checkmark.circle")
                     }
+                    .menuStyle(.primarySmall)
                     .onChange(of: endDate, perform: { date in
                         viewModel.end(with: date)
                     })
-                    .padding(6)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.accentColor.gradient.opacity(0.1))
-                            .shadow(radius: 3)
-                    )
                     Spacer()
                     Text(viewModel.endDate)
                 }
@@ -134,26 +131,36 @@ struct EventDetailView: View {
     private var team: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("Memberships")
-                    .font(.headline)
+                Button {
+                    membershipsHidden.toggle()
+                } label: {
+                    HStack {
+                        Text("Memberships")
+                        Image(systemName: "chevron.down")
+                            .rotationEffect(.degrees(membershipsHidden ? 0 : -180))
+                    }
+                }
+                .font(.headline)
+                .buttonStyle(.plain)
                 Spacer()
                 NavigationLink {
                     TeamDetailView(viewModel: .init(team: viewModel.event.team))
                 } label: {
-                    Text(viewModel.event.team.name)
+                    HStack {
+                        Text(viewModel.event.team.name)
+                        Image(systemName: "chevron.right")
+                    }
                 }
-                .padding(6)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.accentColor.gradient.opacity(0.1))
-                        .shadow(radius: 3)
-                )
+                .buttonStyle(.primarySmall)
             }
-            ForEach(viewModel.event.memberships) { ship in
-                HStack {
-                    Image(systemName: "largecircle.fill.circle")
-                    Text(ship.name)
-                    Spacer()
+            if !membershipsHidden {
+                ForEach(viewModel.event.memberships) { ship in
+                    HStack {
+                        Image(systemName: "largecircle.fill.circle")
+                            .font(.footnote)
+                        Text(ship.name)
+                        Spacer()
+                    }
                 }
             }
         }
@@ -165,10 +172,15 @@ struct EventDetailView: View {
         VStack {
             HStack {
                 Text("Visits")
+                    .font(.headline)
                 Spacer()
-                Text("\(viewModel.visits.count)")
+                Button {
+                    sheet = .addMember
+                } label: {
+                    Label("Check in", systemImage: "plus")
+                }
+                .buttonStyle(.primarySmall)
             }
-            .font(.headline)
             ForEach(viewModel.visits) { visit in
                 HStack {
                     Text(visit.member.fullName)
@@ -189,18 +201,6 @@ struct EventDetailView: View {
                     }
                 }
             }
-            Button {
-                sheet = .addMember
-            } label: {
-                Label("Check in", systemImage: "plus")
-            }
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.accentColor.gradient.opacity(0.1))
-                    .shadow(radius: 3)
-            )
         }
         .cardStyle()
     }
@@ -210,22 +210,15 @@ struct EventDetailView: View {
         VStack {
             HStack {
                 Text("Notes")
+                    .font(.headline)
                 Spacer()
-                Text("0")
-            }
-            .font(.headline)
-            Button {
+                Button {
 
-            } label: {
-                Label("New", systemImage: "plus")
+                } label: {
+                    Label("New", systemImage: "plus")
+                }
+                .buttonStyle(.primarySmall)
             }
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.accentColor.gradient.opacity(0.1))
-                    .shadow(radius: 3)
-            )
         }
         .cardStyle()
     }

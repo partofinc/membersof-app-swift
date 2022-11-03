@@ -40,10 +40,12 @@ extension EventEditView {
         }
         
         func toggle(_ ship: Membership) {
-            if let idx = selectedShips.firstIndex(of: ship.id) {
-                selectedShips.remove(at: idx)
-            } else {
-                selectedShips.append(ship.id)
+            Task {
+                if let idx = selectedShips.firstIndex(of: ship.id) {
+                    selectedShips.remove(at: idx)
+                } else {
+                    selectedShips.append(ship.id)
+                }
             }
         }
         
