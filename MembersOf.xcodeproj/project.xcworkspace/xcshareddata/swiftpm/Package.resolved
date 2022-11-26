@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "membersof-vapor",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:partofinc/membersof-vapor.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "a1f19a63401a61b29274c6b9f3058946987adddf"
+      }
+    },
+    {
       "identity" : "swiftdate",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/malcommac/SwiftDate.git",

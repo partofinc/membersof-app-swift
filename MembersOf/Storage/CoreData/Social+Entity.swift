@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Social: Storable {
     
@@ -21,12 +22,7 @@ extension Social: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        media = .init(rawValue: entity.media)!
-        account = entity.account
-        order = Int(entity.order)
-        memberId = entity.member?.id
-        teamId = entity.team?.id
+        self.init(id: entity.id, media: .init(rawValue: entity.media)!, account: entity.account, order: Int(entity.order), memberId: entity.member?.id, teamId: entity.team?.id)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

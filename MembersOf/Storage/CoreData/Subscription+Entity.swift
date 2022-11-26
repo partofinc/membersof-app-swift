@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Subscription: Storable {
     
@@ -22,12 +23,7 @@ extension Subscription: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        startDate = entity.startDate
-        endDate = entity.endDate
-        member = .init(entity.member)
-        membership = .init(entity.membership)
-        payments = []
+        self.init(id: entity.id, startDate: entity.startDate, endDate: entity.endDate, member: .init(entity.member), membership: .init(entity.membership), payments: [])
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

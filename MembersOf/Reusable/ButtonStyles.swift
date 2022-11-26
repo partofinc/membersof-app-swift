@@ -9,20 +9,25 @@ import SwiftUI
 
 struct PrimaryButtonStyle: ButtonStyle {
     
-    let padding: CGFloat
+    let padding: CGFloat?
     let cornerRadius: CGFloat
+    let maxWidth: CGFloat?
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(.accentColor)
-            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius)
+            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius, maxWidth: maxWidth)
             .opacity(configuration.isPressed ? 0.2 : 1)
     }
 }
 
 extension ButtonStyle where Self == PrimaryButtonStyle {
     static var primarySmall: PrimaryButtonStyle {
-        .init(padding: 6, cornerRadius: 8)
+        .init(padding: 6, cornerRadius: 4, maxWidth: nil)
+    }
+    
+    static var primary: PrimaryButtonStyle {
+        .init(padding: nil, cornerRadius: 6, maxWidth: .infinity)
     }
 }
 
@@ -45,14 +50,24 @@ extension MenuStyle where Self == PrimaryMenuStyle {
 
 
 private extension View {
-    func primaryButtonStyle(padding: CGFloat, cornerRadius: CGFloat) -> some View {
-        self
-            .padding(padding)
-            .background(
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(Color.accentColor.gradient.opacity(0.1))
-                    .shadow(radius: 3)
-            )
+    
+    @ViewBuilder
+    func primaryButtonStyle(padding: CGFloat?, cornerRadius: CGFloat, maxWidth: CGFloat? = nil) -> some View {
+        let bg = RoundedRectangle(cornerRadius: cornerRadius)
+            .fill(Color.accentColor.gradient.opacity(0.3))
+            .shadow(radius: 3)
+        if let padding {
+            self
+                .padding(padding)
+                .frame(maxWidth: maxWidth)
+                .background(bg)
+        } else {
+            self
+                .padding(.horizontal)
+                .padding(.vertical, 10)
+                .frame(maxWidth: maxWidth)
+                .background(bg)
+        }
     }
 }
 

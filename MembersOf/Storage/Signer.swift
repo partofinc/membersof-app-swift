@@ -1,6 +1,7 @@
 
 import Foundation
 import Combine
+import Models
 
 final class Signer {
     

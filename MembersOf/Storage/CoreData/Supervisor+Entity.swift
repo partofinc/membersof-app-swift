@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Supervisor: Storable {
     
@@ -20,11 +21,7 @@ extension Supervisor: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        role = .init(rawValue: entity.role)!
-        order = Int(entity.order)
-        member = .init(entity.member)
-        teamId = entity.team.id
+        self.init(id: entity.id, role: .init(rawValue: entity.role)!, order: Int(entity.order), member: .init(entity.member), teamId: entity.team.id)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

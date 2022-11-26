@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Invite: Storable {
     
@@ -20,11 +21,7 @@ extension Invite: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        createDate = entity.createDate
-        name = entity.name
-        role = entity.role == nil ? nil : .init(rawValue: entity.role!)
-        teamId = entity.team?.id
+        self.init(id: entity.id, createDate: entity.createDate, name: entity.name, role: entity.role == nil ? nil : .init(rawValue: entity.role!), teamId: entity.team?.id)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Event: Storable {
     
@@ -23,14 +24,7 @@ extension Event: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        name = entity.name
-        createDate = entity.createDate
-        startDate = entity.startDate
-        endDate = entity.endDate
-        estimatedEndDate = entity.estimatedEndDate
-        team = .init(entity.team)
-        memberships = entity.memberships == nil ? [] : entity.memberships!.map(Membership.init)
+        self.init(id: entity.id, name: entity.name, createDate: entity.createDate, startDate: entity.startDate, estimatedEndDate: entity.estimatedEndDate, endDate: entity.endDate, team: .init(entity.team), memberships: entity.memberships == nil ? [] : entity.memberships!.map(Membership.init))
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

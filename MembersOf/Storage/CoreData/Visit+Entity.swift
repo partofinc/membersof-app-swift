@@ -2,7 +2,7 @@
 
 import Foundation
 import CoreData
-
+import Models
 
 extension Visit: Storable {
     
@@ -21,11 +21,7 @@ extension Visit: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        checkInDate = entity.checkInDate
-        event = .init(entity.event)
-        member = .init(entity.member)
-        subscription = .init(entity.subscription)
+        self.init(id: entity.id, checkInDate: entity.checkInDate, event: .init(entity.event), member: .init(entity.member), subscription: .init(entity.subscription))
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

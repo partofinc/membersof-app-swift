@@ -1,6 +1,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Member: Storable {
         
@@ -17,9 +18,7 @@ extension Member: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        firstName = entity.firstName
-        lastName = entity.lastName
+        self.init(id: entity.id, firstName: entity.firstName, lastName: entity.lastName)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

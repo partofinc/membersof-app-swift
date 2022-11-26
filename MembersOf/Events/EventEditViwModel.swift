@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Models
 
 extension EventEditView {
     
@@ -20,7 +21,7 @@ extension EventEditView {
         @Published var memberships: [Membership]
         @Published var isEnded: Bool
         @Published var selectedShips: [UUID]
-        
+                
         private let storage: Storage = .shared
         private var shipsFetcher: Storage.Fetcher<Membership>?
         

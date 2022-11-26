@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Price: Storable {
     
@@ -18,9 +19,7 @@ extension Price: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        currency = entity.currency
-        value = entity.value.decimalValue
+        self.init(id: entity.id, currency: entity.currency, value: entity.value.decimalValue)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

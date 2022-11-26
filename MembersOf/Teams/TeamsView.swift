@@ -34,6 +34,7 @@ struct TeamsView: View {
                 } label: {
                     Label("New", systemImage: "plus")
                 }
+                .buttonStyle(.primary)
                 .padding()
             }
             .sheet(isPresented: $creatingNew) {

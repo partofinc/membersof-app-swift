@@ -42,6 +42,7 @@ struct MembershipsView: View {
                 } label: {
                     Label("New", systemImage: "plus")
                 }
+                .buttonStyle(.primary)
                 .padding()
             }
             .navigationTitle("Memberships")

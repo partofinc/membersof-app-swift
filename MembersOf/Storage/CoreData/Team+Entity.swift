@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Team: Storable {
     
@@ -21,12 +22,7 @@ extension Team: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        name = entity.name
-        brief = entity.brief
-        createDate = entity.createDate
-        social = entity.social == nil ? [] : entity.social!.map(Social.init)
-        crew = entity.crew == nil ? [] : entity.crew!.map(Supervisor.init)
+        self.init(id: entity.id, name: entity.name, brief: entity.brief, createDate: entity.createDate, social: entity.social == nil ? [] : entity.social!.map(Social.init), crew: entity.crew == nil ? [] : entity.crew!.map(Supervisor.init))
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

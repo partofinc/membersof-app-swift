@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Membership: Storable {
     
@@ -23,14 +24,7 @@ extension Membership: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        name = entity.name!
-        period = .init(rawValue: entity.period!)!
-        length = .init(entity.length)
-        visits = .init(entity.visits)
-        createDate = entity.createDate
-        teamId = entity.team.id
-        pricing = entity.pricing == nil ? [] : entity.pricing!.map(Price.init)
+        self.init(id: entity.id, name: entity.name!, visits: .init(entity.visits), period: .init(rawValue: entity.period!)!, length: .init(entity.length), createDate: entity.createDate, teamId: entity.team.id, pricing: entity.pricing == nil ? [] : entity.pricing!.map(Price.init))
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

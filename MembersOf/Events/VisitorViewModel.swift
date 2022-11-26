@@ -1,6 +1,7 @@
 
 
 import Foundation
+import Models
 
 extension VisitorView {
     

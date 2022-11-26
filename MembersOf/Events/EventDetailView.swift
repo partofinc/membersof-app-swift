@@ -246,18 +246,6 @@ struct EventDetailView: View {
     }
 }
 
-extension View {
-    func cardStyle() -> some View {
-        self
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
-                .shadow(color: .black.opacity(0.1), radius: 3, y: 1)
-        )
-    }
-}
-
 import SwiftDate
 
 struct EventDetailView_Previews: PreviewProvider {

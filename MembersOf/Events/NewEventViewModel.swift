@@ -3,6 +3,7 @@
 import Foundation
 import Combine
 import SwiftDate
+import Models
 
 extension NewEventView {
     

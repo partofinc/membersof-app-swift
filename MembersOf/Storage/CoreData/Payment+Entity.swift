@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 extension Payment: Storable {
     
@@ -25,15 +26,8 @@ extension Payment: Storable {
     }
     
     init(_ entity: Entity) {
-        id = entity.id
-        currency = entity.currency
-        amount = entity.amount.decimalValue
-        date = entity.date
-        if let d = entity.debt {
-            debt = .init(d)
-        } else {
-            debt = nil
-        }
+        let debt = entity.debt == nil ? nil : Debt(entity.debt!)
+        self.init(id: entity.id, currency: entity.currency, amount: entity.amount.decimalValue, date: entity.date, debt: debt)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {

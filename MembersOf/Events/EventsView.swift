@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Models
 
 struct EventsView: View {
     
@@ -44,6 +45,7 @@ struct EventsView: View {
                 } label: {
                     Label("New", systemImage: "plus")
                 }
+                .buttonStyle(.primary)
                 .padding()
             }
             .navigationTitle("Events")
