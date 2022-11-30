@@ -14,21 +14,20 @@ struct TeamsView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                ScrollView {
-                    LazyVStack(alignment: .leading) {
-                        ForEach(viewModel.teams) { team in
-                            NavigationLink {
-                                TeamDetailView(viewModel: .init(team: team))
-                            } label: {
-                                TeamRow(team: team)
-                            }
-                            .buttonStyle(.plain)
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    ForEach(viewModel.teams) { team in
+                        NavigationLink {
+                            TeamDetailView(viewModel: .init(team: team))
+                        } label: {
+                            TeamRow(team: team)
                         }
+                        .buttonStyle(.plain)
                     }
-                    .padding()
                 }
-                Spacer()
+                .padding()
+            }
+            .safeAreaInset(edge: .bottom) {
                 Button {
                     creatingNew.toggle()
                 } label: {

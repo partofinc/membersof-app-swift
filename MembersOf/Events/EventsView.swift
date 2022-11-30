@@ -40,6 +40,9 @@ struct EventsView: View {
                 }
                 .frame(height: 150)
                 Spacer()
+                
+            }
+            .safeAreaInset(edge: .bottom) {
                 Button {
                     sheet = .new
                 } label: {

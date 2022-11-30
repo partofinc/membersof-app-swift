@@ -14,29 +14,29 @@ struct MembershipsView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                ScrollView {
-                    LazyVStack {
-                        ForEach(viewModel.memberships) { ship in
-                            NavigationLink {
-                                MembershipDetailView(viewModel: .init(ship))
-                            } label: {
-                                HStack {
-                                    Text(ship.name)
-                                    Spacer()
-                                }
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.orange.opacity(0.4).gradient)
-                                        .shadow(radius: 5)
-                                )
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.memberships) { ship in
+                        NavigationLink {
+                            MembershipDetailView(viewModel: .init(ship))
+                        } label: {
+                            HStack {
+                                Text(ship.name)
+                                Spacer()
                             }
-                            .buttonStyle(.plain)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.orange.opacity(0.4).gradient)
+                                    .shadow(radius: 5)
+                            )
                         }
+                        .buttonStyle(.plain)
                     }
-                    .padding()
                 }
+                .padding()
+            }
+            .safeAreaInset(edge: .bottom) {
                 Button {
                     creatingNew.toggle()
                 } label: {
