@@ -22,10 +22,11 @@ extension EventEditView {
         @Published var isEnded: Bool
         @Published var selectedShips: [UUID]
                 
-        private let storage: Storage = .shared
-        private var shipsFetcher: Storage.Fetcher<Membership>?
+        let storage: Storage
+        private var shipsFetcher: CoreDataStorage.Fetcher<Membership>?
         
-        init(event: Event) {
+        init(event: Event, storage: Storage) {
+            self.storage = storage
             self.event = event
             self.name = event.name
             self.startDate = event.startDate

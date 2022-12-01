@@ -9,8 +9,6 @@ extension TeamDetailView {
     @MainActor
     final class ViewModel: ObservableObject {
         
-        let team: Team
-        
         @Published var name: String
         @Published var brief: String
         @Published var socials: [Social]
@@ -21,13 +19,15 @@ extension TeamDetailView {
         @Published var media: Social.Media?
         @Published var account: String = ""
         
-        fileprivate let storage: Storage
-        fileprivate var socialFetcher: Storage.Fetcher<Social>?
-        fileprivate var crewFetcher: Storage.Fetcher<Supervisor>?
-        fileprivate var inviteFetcher: Storage.Fetcher<Invite>?
+        let team: Team
+        let storage: Storage
         
-        init(team: Team) {
-            self.storage = .shared
+        fileprivate var socialFetcher: CoreDataStorage.Fetcher<Social>?
+        fileprivate var crewFetcher: CoreDataStorage.Fetcher<Supervisor>?
+        fileprivate var inviteFetcher: CoreDataStorage.Fetcher<Invite>?
+        
+        init(_ team: Team, storage: Storage) {
+            self.storage = storage
             self.team = team
             self.name = team.name
             self.brief = team.brief

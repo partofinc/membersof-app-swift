@@ -3,23 +3,22 @@ import Foundation
 import Combine
 import Models
 
-final class Signer {
-    
-    static let shared = Signer()
-    
+final class AppSigner: ObservableObject, Signer {
+                
     let me: CurrentValueSubject<Member, Never> = .init(.local)
-    private let storage: Storage = .shared
-    
     var signedIn: Bool {
         userId != nil
     }
     
+    let storage: any Storage
+    
     @LightStorage(key: .userId)
     private var userId: String?
     
-    private var fetcher: Storage.Fetcher<Member>?
+    private var fetcher: CoreDataStorage.Fetcher<Member>?
     
-    private init() {
+    init(_ storage: some Storage) {
+        self.storage = storage
         fetch()
     }
         
@@ -44,5 +43,12 @@ final class Signer {
                 }
             })
             .run(sort: [.init(\.firstName)])
+    }
+}
+
+extension Signer {
+    
+    static var app: AppSigner {
+        .init(CoreDataStorage("CoreModel"))
     }
 }

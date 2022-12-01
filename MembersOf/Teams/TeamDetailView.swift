@@ -68,7 +68,7 @@ struct TeamDetailView: View {
                 SupervisorView(viewModel: .init(supervisor), save: {viewModel.update($0)}, delete: {viewModel.delete($0)})
                     .presentationDetents([.medium])
             case .newSupervisor:
-                NewSupervisorView(viewModel: .init(viewModel.team))
+                NewSupervisorView(viewModel: .init(viewModel.team, storage: viewModel.storage))
                     .presentationDetents([.medium])
             }
         }
@@ -300,10 +300,10 @@ struct TeamDetailView: View {
     }
 }
 
-struct ClubDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            TeamDetailView(viewModel: .init(team: Mock.teams.first!))
-        }
-    }
-}
+//struct ClubDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack {
+//            TeamDetailView(viewModel: .init(team: Mock.teams.first!))
+//        }
+//    }
+//}

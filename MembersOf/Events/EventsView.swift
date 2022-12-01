@@ -10,7 +10,7 @@ import Models
 
 struct EventsView: View {
     
-    @StateObject var viewModel: ViewModel = .init()
+    @StateObject var viewModel: ViewModel
     @State private var sheet: Sheet?
     @State private var event: Event?
     
@@ -21,7 +21,7 @@ struct EventsView: View {
                     LazyHStack {
                         ForEach(viewModel.events) { event in
                             NavigationLink {
-                                EventDetailView(viewModel: .init(event: event))
+                                EventDetailView(viewModel: .init(event: event, signer: viewModel.signer))
                             } label: {
                                 EventRow(event: event)
                             }
@@ -55,7 +55,7 @@ struct EventsView: View {
             .sheet(item: $sheet) { sheet in
                 switch sheet {
                 case .new:
-                    NewEventView()
+                    NewEventView(viewModel: .init(viewModel.signer))
                         .presentationDetents([.medium, .large])
                 }
             }
@@ -66,6 +66,6 @@ struct EventsView: View {
 
 struct EventsView_Previews: PreviewProvider {
     static var previews: some View {
-        EventsView()
+        EventsView(viewModel: .init(PreviewSigner(storage: CoreDataStorage("CoreModel"))))
     }
 }

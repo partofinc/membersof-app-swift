@@ -22,18 +22,24 @@ extension NewTeamView {
         @Published var media: Social.Media?
         @Published var account: String = ""
         
-        private let storage: Storage = .shared
-        private var me: Member = .local
+        private let storage: Storage
+        private let signer: Signer
         
-        @LightStorage(key: .userId)
-        private var userId: String?
+        private var me: Member = .local
+        private var userCancellable: AnyCancellable?
         
         var canCreate: Bool {
             !name.isEmpty && !brief.isEmpty
         }
         
-        init() {
-            restoreUser()
+        init(_ signer: Signer) {
+            self.signer = signer
+            self.storage = signer.storage
+            
+            userCancellable = signer.me
+                .sink { [unowned self] member in
+                    self.me = member
+                }
         }
         
         func addSocial() {
@@ -69,12 +75,6 @@ extension NewTeamView {
                     print(error)
                 }
             }
-        }
-        
-        private func restoreUser() {
-            guard let userId else { return }
-            guard let user: Member = storage.find(key: "id", value: userId) else { return }
-            me = user
         }
     }
 }

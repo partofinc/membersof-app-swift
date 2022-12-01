@@ -8,7 +8,7 @@ import Models
 extension NewEventView {
     
     @MainActor
-    final class ViewModelChecker: ObservableObject {
+    final class ViewModel: ObservableObject {
         
         @Published private(set) var teams: [Team] = [.loading]
         @Published var team: Team = .loading
@@ -24,17 +24,21 @@ extension NewEventView {
         @Published var duration: Int = 90*60 //Duration of event in seconds
         @Published var me: Member = .local
         
-        private let storage: Storage = .shared
-        private let signer: Signer = .shared
-        private var teamsFetcher: Storage.Fetcher<Team>?
-        private var membershipsFetcher: Storage.Fetcher<Membership>?
+        let storage: Storage
+        let signer: Signer
+        
+        private var teamsFetcher: CoreDataStorage.Fetcher<Team>?
+        private var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
         private var memberFetcher: AnyCancellable?
         
         var canCreate: Bool {
             name.count > 2 && !selectedMemberships.isEmpty
         }
         
-        init() {
+        init(_ signer: Signer) {
+            self.signer = signer
+            self.storage = signer.storage
+            
             let date = Date.now.dateRoundedAt(at: .toCeil5Mins)
             startDate = date
             endDate = date + 90.minutes

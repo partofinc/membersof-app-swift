@@ -30,7 +30,7 @@ struct NewMembershipView: View {
                         }
                     } else if viewModel.teams.isEmpty {
                         NavigationLink {
-                            NewTeamView()
+                            NewTeamView(viewModel: .init(viewModel.sigmer))
                         } label: {
                             HStack {
                                 Text("Team")
@@ -137,23 +137,23 @@ struct NewMembershipView: View {
     }
 }
 
-struct NewMembershipView_Previews: PreviewProvider {
-    
-    @State static var creatingNew = true
-    
-    static var previews: some View {
-        VStack {
-            Spacer()
-            Button {
-                creatingNew.toggle()
-            } label: {
-                Label("New", systemImage: "plus")
-            }
-            .padding()
-        }
-        .sheet(isPresented: $creatingNew) {
-            NewMembershipView(viewModel: .init())
-                .presentationDetents([.fraction(0.6)])
-        }
-    }
-}
+//struct NewMembershipView_Previews: PreviewProvider {
+//    
+//    @State static var creatingNew = true
+//    
+//    static var previews: some View {
+//        VStack {
+//            Spacer()
+//            Button {
+//                creatingNew.toggle()
+//            } label: {
+//                Label("New", systemImage: "plus")
+//            }
+//            .padding()
+//        }
+//        .sheet(isPresented: $creatingNew) {
+//            NewMembershipView(viewModel: .init())
+//                .presentationDetents([.fraction(0.6)])
+//        }
+//    }
+//}

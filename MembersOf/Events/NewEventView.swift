@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewEventView: View {
     
-    @StateObject private var viewModel: ViewModelChecker = .init()
+    @StateObject var viewModel: ViewModel
     @Environment(\.dismiss) private var dismiss
     @FocusState private var nameFocus
     
@@ -43,7 +43,7 @@ struct NewEventView: View {
                     Section {
                         if viewModel.teams.isEmpty {
                             NavigationLink {
-                                NewTeamView()
+                                NewTeamView(viewModel: .init(viewModel.signer))
                             } label: {
                                 HStack {
                                     Text("Team")
@@ -82,7 +82,7 @@ struct NewEventView: View {
                             }
                         }
                         NavigationLink {
-                            NewMembershipView(viewModel: .init())
+                            NewMembershipView(viewModel: .init(signer: viewModel.signer))
                         } label: {
                             Label("Add", systemImage: "plus")
                         }
@@ -119,8 +119,8 @@ struct NewEventView: View {
     }
 }
 
-struct NewEventView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewEventView()
-    }
-}
+//struct NewEventView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NewEventView(viewModel: .init(.init(.init("CoreModel"))))
+//    }
+//}

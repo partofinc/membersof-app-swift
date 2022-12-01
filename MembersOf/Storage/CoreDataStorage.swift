@@ -3,13 +3,12 @@
 import Foundation
 import CoreData
 
-final class Storage {
+final class CoreDataStorage: Storage {
+
+    private let container: NSPersistentContainer
     
-    static let shared = Storage()
-    
-    private let container: NSPersistentContainer = .init(name: "CoreModel")
-    
-    private init() {
+    init(_ containerName: String) {
+        container = .init(name: containerName)
         container.loadPersistentStores { brief, error in
             if let error {
                 print("CoreData loading failed with error: \(error.localizedDescription)")
@@ -17,8 +16,8 @@ final class Storage {
         }
     }
     
-    func fetch<Entity: Storable>() -> Fetcher<Entity> {
-        return Fetcher(container.viewContext)
+    func fetch<T>() -> Fetcher<T> where T : Storable {
+        Fetcher(container.viewContext)
     }
     
     func find<Entity: Storable>(key: String, value: String) -> Entity? {
@@ -68,29 +67,29 @@ extension NSManagedObjectContext {
     }
 }
 
-@propertyWrapper
-class StorageBacked<Value: Storable> {
-    
-    let key: String
-    let value: String
-    let defaultValue: Value
-    let storage: Storage = .shared
-    
-    init(key: String, value: String, defaultValue: Value) {
-        self.key = key
-        self.value = value
-        self.defaultValue = defaultValue
-    }
-    
-    var wrappedValue: Value {
-        get {
-            storage.find(key: key, value: value) ?? defaultValue
-        }
-        set {
-            Task {
-                try await storage.save(newValue)
-            }
-        }
-    }
-}
+//@propertyWrapper
+//class StorageBacked<Value: Storable> {
+//    
+//    let key: String
+//    let value: String
+//    let defaultValue: Value
+//    let storage: CoreDataStorage
+//    
+//    init(key: String, value: String, defaultValue: Value) {
+//        self.key = key
+//        self.value = value
+//        self.defaultValue = defaultValue
+//    }
+//    
+//    var wrappedValue: Value {
+//        get {
+//            storage.find(key: key, value: value) ?? defaultValue
+//        }
+//        set {
+//            Task {
+//                try await storage.save(newValue)
+//            }
+//        }
+//    }
+//}
 

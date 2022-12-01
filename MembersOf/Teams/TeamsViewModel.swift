@@ -12,12 +12,16 @@ extension TeamsView {
         @Published private(set) var teams: [Team] = []
         @Published private(set) var me: Member = .local
         
-        private let storage: Storage = .shared
-        private let signer: Signer = .shared
-        private var teamsFetcher: Storage.Fetcher<Team>?
+        let storage: Storage
+        let signer: Signer
+        
+        private var teamsFetcher: CoreDataStorage.Fetcher<Team>?
         private var userFetcher: AnyCancellable?
         
-        init() {
+        init(_ signer: Signer) {
+            self.signer = signer
+            self.storage = signer.storage
+            
             userFetcher = signer.me
                 .sink { [unowned self] member in
                     self.me = member

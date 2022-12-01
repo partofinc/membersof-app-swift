@@ -37,15 +37,20 @@ extension ProfileView {
         var firstName: String = "Name"
         var lastName: String = "Lastname"
         
-        fileprivate let storage: Storage = .shared
-        private let signer: Signer = .shared
-        private var socialFetcher: Storage.Fetcher<Social>?
+        let storage: Storage
+        let signer: Signer
+        
+        private var socialFetcher: CoreDataStorage.Fetcher<Social>?
         private var memberFetcher: AnyCancellable?
         
-        init() {
+        init(_ signer: Signer) {
+            self.signer = signer
+            self.storage = signer.storage
+            
             memberFetcher = signer.me
-                .eraseToAnyPublisher()
-                .assign(to: \.me, on: self)
+                .sink { [unowned self] member in
+                    self.me = member
+                }
         }
         
         func fetch() {

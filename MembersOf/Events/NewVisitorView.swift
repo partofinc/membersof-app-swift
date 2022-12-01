@@ -91,54 +91,54 @@ struct NewVisitorView: View {
     }
 }
 
-struct NewMemberView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            NewVisitorView(viewModel:
-                        .init(
-                            Event(
-                                id: UUID(),
-                                name: "Some",
-                                createDate: .now,
-                                startDate: .now,
-                                estimatedEndDate: nil,
-                                endDate: nil,
-                                team: Mock.teams.first!,
-                                memberships: [
-                                    .init(
-                                        id: UUID(),
-                                        name: "One time",
-                                        visits: 1,
-                                        period: .day,
-                                        length: 1,
-                                        createDate: .now,
-                                        teamId: UUID(),
-                                        pricing: [
-                                            .init(id: UUID(), currency: "USD", value: 34),
-                                            .init(id: UUID(), currency: "CAD", value: 45)
-                                        ]
-                                    ),
-                                    .init(
-                                        id: UUID(),
-                                        name: "Free",
-                                        visits: 0,
-                                        period: .unlimited,
-                                        length: 0,
-                                        createDate: .now,
-                                        teamId: UUID(),
-                                        pricing: []
-                                    ),
-                                    .init(
-                                        id: UUID(),
-                                        name: "First Visit",
-                                        visits: 1,
-                                        period: .day,
-                                        length: 1,
-                                        createDate: .now,
-                                        teamId: UUID(),
-                                        pricing: [])
-                                ]
-                            ))) {}
-        }
-    }
-}
+//struct NewMemberView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack {
+//            NewVisitorView(viewModel:
+//                        .init(
+//                            Event(
+//                                id: UUID(),
+//                                name: "Some",
+//                                createDate: .now,
+//                                startDate: .now,
+//                                estimatedEndDate: nil,
+//                                endDate: nil,
+//                                team: Mock.teams.first!,
+//                                memberships: [
+//                                    .init(
+//                                        id: UUID(),
+//                                        name: "One time",
+//                                        visits: 1,
+//                                        period: .day,
+//                                        length: 1,
+//                                        createDate: .now,
+//                                        teamId: UUID(),
+//                                        pricing: [
+//                                            .init(id: UUID(), currency: "USD", value: 34),
+//                                            .init(id: UUID(), currency: "CAD", value: 45)
+//                                        ]
+//                                    ),
+//                                    .init(
+//                                        id: UUID(),
+//                                        name: "Free",
+//                                        visits: 0,
+//                                        period: .unlimited,
+//                                        length: 0,
+//                                        createDate: .now,
+//                                        teamId: UUID(),
+//                                        pricing: []
+//                                    ),
+//                                    .init(
+//                                        id: UUID(),
+//                                        name: "First Visit",
+//                                        visits: 1,
+//                                        period: .day,
+//                                        length: 1,
+//                                        createDate: .now,
+//                                        teamId: UUID(),
+//                                        pricing: [])
+//                                ]
+//                            ))) {}
+//        }
+//    }
+//}

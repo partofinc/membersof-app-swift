@@ -20,7 +20,10 @@ struct EventDetailView: View {
     var body: some View {
         Group {
             if editMode {
-                EventEditView(viewModel: .init(event: viewModel.event), sheet: $sheet)
+                EventEditView(
+                    viewModel: .init(event: viewModel.event, storage: viewModel.storage),
+                    sheet: $sheet
+                )
             } else {
                 VStack {
                     ScrollView {
@@ -39,13 +42,13 @@ struct EventDetailView: View {
         .sheet(item: $sheet) { sheet in
             switch sheet {
             case .addMember:
-                SearchMembersView(viewModel: .init(viewModel.event))
+                SearchMembersView(viewModel: .init(viewModel.event, storage: viewModel.storage))
                     .presentationDetents([.large])
             case .endDate:
                 datePicker
                     .presentationDetents([.medium])
             case .addMembership:
-                NewMembershipView(viewModel: .init())
+                NewMembershipView(viewModel: .init(signer: viewModel.signer))
                     .presentationDetents([.medium])
             }
         }
@@ -148,7 +151,7 @@ struct EventDetailView: View {
                 .buttonStyle(.plain)
                 Spacer()
                 NavigationLink {
-                    TeamDetailView(viewModel: .init(team: viewModel.event.team))
+                    TeamDetailView(viewModel: .init(viewModel.event.team, storage: viewModel.storage))
                 } label: {
                     HStack {
                         Text(viewModel.event.team.name)
@@ -246,18 +249,18 @@ struct EventDetailView: View {
     }
 }
 
-import SwiftDate
-
-struct EventDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now - 1.hours, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
-        }
-        NavigationStack {
-            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now + 1.hours, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
-        }
-        NavigationStack {
-            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now - 1.hours, estimatedEndDate: .now + 90.minutes, endDate: .now + 2.hours, team: Mock.teams.first!, memberships: [])))
-        }
-    }
-}
+//import SwiftDate
+//
+//struct EventDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack {
+//            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now - 1.hours, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
+//        }
+//        NavigationStack {
+//            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now + 1.hours, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
+//        }
+//        NavigationStack {
+//            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now - 1.hours, estimatedEndDate: .now + 90.minutes, endDate: .now + 2.hours, team: Mock.teams.first!, memberships: [])))
+//        }
+//    }
+//}

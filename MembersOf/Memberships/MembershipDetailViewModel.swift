@@ -16,7 +16,7 @@ extension MembershipDetailView {
         let membership: Membership
         @Published var team: Team = .loading
         
-        private let storage: Storage = .shared
+        private let storage: any Storage
         
         private let priceFormatter: NumberFormatter = {
             let formatter = NumberFormatter()
@@ -27,7 +27,8 @@ extension MembershipDetailView {
             return formatter
         }()
         
-        init(_ membership: Membership) {
+        init(_ membership: Membership, storage: some Storage) {
+            self.storage = storage
             self.membership = membership
         }
         

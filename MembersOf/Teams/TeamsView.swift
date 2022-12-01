@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TeamsView: View {
     
-    @StateObject var viewModel = ViewModel()
+    @StateObject var viewModel: ViewModel
     @State private var creatingNew: Bool = false
     
     var body: some View {
@@ -18,7 +18,7 @@ struct TeamsView: View {
                 LazyVStack(alignment: .leading) {
                     ForEach(viewModel.teams) { team in
                         NavigationLink {
-                            TeamDetailView(viewModel: .init(team: team))
+                            TeamDetailView(viewModel: .init(team, storage: viewModel.storage))
                         } label: {
                             TeamRow(team: team)
                         }
@@ -38,7 +38,7 @@ struct TeamsView: View {
             }
             .sheet(isPresented: $creatingNew) {
                 NavigationStack {
-                    NewTeamView()
+                    NewTeamView(viewModel: .init(viewModel.signer))
                 }
                     .presentationDetents([.medium, .large])
             }
@@ -48,8 +48,8 @@ struct TeamsView: View {
     }
 }
 
-struct ClubsView_Previews: PreviewProvider {
-    static var previews: some View {
-        TeamsView()
-    }
-}
+//struct ClubsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TeamsView()
+//    }
+//}

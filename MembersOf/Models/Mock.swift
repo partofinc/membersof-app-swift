@@ -30,39 +30,4 @@ enum Mock {
     ]
 }
 
-extension Team {
-    static var loading: Team {
-        .init(id: .init(uuidString: "CDF48ADE-D35D-421B-8164-7BEBEFF64461")!, name: "Loading...", brief: "", createDate: .now, social: [], crew: [])
-    }
-}
 
-extension Member {
-    static var local: Member {
-        .init(id: .init(uuidString: "CDF48ADE-D35D-421B-8164-7BEBEFF64461")!, firstName: "Me", lastName: nil)
-    }
-}
-
-extension Array where Element == Supervisor.Role {
-    static var all: Self {[
-        .owner,
-        .admin,
-        .manager
-    ]}
-}
-
-extension Array where Element == Social.Media {
-    static var all: [Element] {[
-            .instagram,
-            .telegram,
-            .twitter,
-            .facebook
-        ]
-    }
-}
-
-extension Invite {
-    var title: String {
-        let name = self.name ?? "Noname"
-        return name + "(Pending)"
-    }
-}

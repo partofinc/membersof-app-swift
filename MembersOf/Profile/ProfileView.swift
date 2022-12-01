@@ -10,7 +10,7 @@ import AuthenticationServices
 
 struct ProfileView: View {
     
-    @StateObject private var viewModel: ViewModel = .init()
+    @StateObject var viewModel: ViewModel
     @State private var editing: Bool = false
     @State private var sheet: Sheet?
     @State private var deletingSocial: Bool = false
@@ -39,7 +39,7 @@ struct ProfileView: View {
             .sheet(item: $sheet) { item in
                 switch item {
                 case .exit:
-                    ExitDialogView()
+                    ExitDialogView(signOut: viewModel.signer.signOut)
                         .presentationDetents([.fraction(0.3)])
                 }
             }
@@ -175,6 +175,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(viewModel: .init(PreviewSigner.default))
     }
 }

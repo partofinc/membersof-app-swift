@@ -4,7 +4,7 @@ import Foundation
 import CoreData
 import Combine
 
-extension Storage {
+extension CoreDataStorage {
     
     final class Fetcher<T: Storable>: NSObject, NSFetchedResultsControllerDelegate {
         

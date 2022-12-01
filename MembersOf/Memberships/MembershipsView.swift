@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MembershipsView: View {
     
-    @StateObject var viewModel = ViewModel()
+    @StateObject var viewModel: ViewModel
     @State private var creatingNew: Bool = false
     
     var body: some View {
@@ -18,7 +18,7 @@ struct MembershipsView: View {
                 LazyVStack {
                     ForEach(viewModel.memberships) { ship in
                         NavigationLink {
-                            MembershipDetailView(viewModel: .init(ship))
+                            MembershipDetailView(viewModel: .init(ship, storage: viewModel.storage))
                         } label: {
                             HStack {
                                 Text(ship.name)
@@ -47,7 +47,7 @@ struct MembershipsView: View {
             }
             .navigationTitle("Memberships")
             .sheet(isPresented: $creatingNew) {
-                NewMembershipView(viewModel: .init())
+                NewMembershipView(viewModel: .init(signer: viewModel.signer))
                     .presentationDetents([.medium])
             }
             .animation(.easeInOut, value: viewModel.memberships)
@@ -57,6 +57,6 @@ struct MembershipsView: View {
 
 struct MembershipsView_Previews: PreviewProvider {
     static var previews: some View {
-        MembershipsView()
+        MembershipsView(viewModel: .init(PreviewSigner(storage: CoreDataStorage("CoreModel"))))
     }
 }

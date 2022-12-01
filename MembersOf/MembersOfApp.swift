@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct MembersOfApp: App {
+    
+    private let signer: AppSigner = .init(CoreDataStorage("CoreModel"))
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(signer)
         }
     }
 }

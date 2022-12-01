@@ -25,11 +25,12 @@ extension NewVisitorView {
         @Published var debt: Decimal = 0
         @Published var price: Price = .init(id: UUID(), currency: "USD", value: 0)
         
-        fileprivate let storage: Storage = .shared
-        fileprivate var membershipsFetcher: Storage.Fetcher<Membership>?
+        fileprivate let storage: Storage
+        fileprivate var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
         
-        init(_ event: Event) {
+        init(_ event: Event, storage: Storage) {
             self.event = event
+            self.storage = storage
             memberships = event.memberships
         }
         

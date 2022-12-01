@@ -17,12 +17,16 @@ extension MembershipsView {
         @Published private(set) var memberships: [Membership] = []
         @Published private(set) var me: Member = .local
         
-        private let storage: Storage = .shared
-        private let signer: Signer = .shared
-        private var membershipsFetcher: Storage.Fetcher<Membership>?
+        let storage: Storage
+        let signer: Signer
+        
+        private var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
         private var memberFetcher: AnyCancellable?
                 
-        init() {
+        init(_ signer: Signer) {
+            self.signer = signer
+            self.storage = signer.storage
+            
             memberFetcher = signer.me
                 .sink { [unowned self] member in
                     self.me = member

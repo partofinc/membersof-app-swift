@@ -12,9 +12,10 @@ extension EventsView {
         @Published private(set) var events: [Event] = []
         @Published private(set) var me: Member = .local
         
-        private let storage: Storage = .shared
-        private let signer: Signer = .shared
-        private var eventsFetcher: Storage.Fetcher<Event>?
+        let signer: any Signer
+        let storage: any Storage
+        
+        private var eventsFetcher: CoreDataStorage.Fetcher<Event>?
         private var memberFetcher: AnyCancellable?
         
         private let sort: [SortDescriptor<Event.Entity>] = [
@@ -22,7 +23,10 @@ extension EventsView {
             .init(\.startDate, order: .reverse)
         ]
         
-        init() {
+        init(_ signer: some Signer) {
+            self.signer = signer
+            self.storage = signer.storage
+            
             memberFetcher = signer.me
                 .sink { [unowned self] member in
                     self.me = member

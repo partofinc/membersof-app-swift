@@ -12,6 +12,8 @@ struct ContentView: View {
     #if os(iOS)
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     #endif
+    @EnvironmentObject var signer: AppSigner
+    
     @State private var selectedItem: NavigationItem? = .events
     @State private var navigation: [NavigationItem] = [
         .events,
@@ -34,19 +36,19 @@ struct ContentView: View {
     
     @ViewBuilder private var tabBar: some View {
         TabView {
-            EventsView()
+            EventsView(viewModel: .init(signer))
                 .tabItem {
                     Label("Events", systemImage: "calendar")
                 }
-            MembershipsView()
+            MembershipsView(viewModel: .init(signer))
                 .tabItem {
                     Label("Memberships", systemImage: "creditcard")
                 }
-            TeamsView()
+            TeamsView(viewModel: .init(signer))
                 .tabItem {
                     Label("Teams", systemImage: "person.3")
                 }
-            ProfileView()
+            ProfileView(viewModel: .init(signer))
                 .tabItem {
                     Label("Profile", systemImage: "person.circle")
                 }
@@ -68,13 +70,13 @@ struct ContentView: View {
         } detail: {
             switch selectedItem! {
             case .events:
-                EventsView()
+                EventsView(viewModel: .init(signer))
             case .memberships:
-                MembershipsView()
+                MembershipsView(viewModel: .init(signer))
             case .teams:
-                TeamsView()
+                TeamsView(viewModel: .init(signer))
             case .profile:
-                ProfileView()
+                ProfileView(viewModel: .init(signer))
             }
         }
     }

@@ -11,9 +11,10 @@ extension VisitorView {
         let member: Member
         let event: Event
         
-        fileprivate let storage: Storage = .shared
-        fileprivate var membershipsFetcher: Storage.Fetcher<Membership>?
-        fileprivate var subscriptionsFetcher: Storage.Fetcher<Subscription>?
+        let storage: Storage
+        
+        fileprivate var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
+        fileprivate var subscriptionsFetcher: CoreDataStorage.Fetcher<Subscription>?
         
         @Published var subscription: Subscription?
         
@@ -23,9 +24,10 @@ extension VisitorView {
         @Published var membership: Membership?
         @Published var memberships: [Membership] = []
         
-        init(member: Member, event: Event) {
+        init(member: Member, event: Event, storage: Storage) {
             self.member = member
             self.event = event
+            self.storage = storage
             
             membershipsFetcher = storage.fetch()
                 .filter(by: {$0.team.id == event.team.id})

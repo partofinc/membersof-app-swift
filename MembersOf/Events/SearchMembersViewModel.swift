@@ -15,11 +15,13 @@ extension SearchMembersView {
     final class ViewModel: ObservableObject {
         
         let event: Event
-        private let storage: Storage = .shared
-        private var membersFetcher: Storage.Fetcher<Member>?
+        let storage: Storage
+        
+        private var membersFetcher: CoreDataStorage.Fetcher<Member>?
         private var sort: [SortDescriptor<Member.Entity>] = [.init(\.firstName)]
         
-        init(_ event: Event) {
+        init(_ event: Event, storage: Storage) {
+            self.storage = storage
             self.event = event
             search()
         }

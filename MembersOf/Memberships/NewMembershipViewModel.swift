@@ -47,16 +47,21 @@ extension NewMembershipView {
             return formatter
         }()
         
-        private let storage: Storage = .shared
-        private var teamsFetcher: Storage.Fetcher<Team>?
+        let sigmer: Signer
+        let storage: Storage
+        
+        private var teamsFetcher: CoreDataStorage.Fetcher<Team>?
         
         var canCreate: Bool {
             guard let team = teams.first else { return false }
             return name.count > 2 && team != .loading
         }
         
-        init(_ team: Team? = nil) {
+        init(_ team: Team? = nil, signer: Signer) {
             self.team = team
+            self.sigmer = signer
+            self.storage = signer.storage
+            
             guard team == nil else { return }
             teamsFetcher = storage.fetch()
                 .sink { [unowned self] teams in

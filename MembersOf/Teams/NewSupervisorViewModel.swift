@@ -23,10 +23,11 @@ extension NewSupervisorView {
         }
         
         private let id: UUID = .init()
-        private let storage: Storage = .shared
+        private let storage: Storage
         
-        init(_ team: Team) {
+        init(_ team: Team, storage: Storage) {
             self.team = team
+            self.storage = storage
         }
         
         func save() {

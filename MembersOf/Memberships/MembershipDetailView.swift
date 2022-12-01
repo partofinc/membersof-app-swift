@@ -67,25 +67,25 @@ struct MembershipDetailView: View {
     }
 }
 
-struct MembershipDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            MembershipDetailView(viewModel:
-                    .init(
-                        .init(
-                            id: UUID(),
-                            name: "One Time",
-                            visits: 1,
-                            period: .day,
-                            length: 1,
-                            createDate: .now,
-                            teamId: UUID(),
-                            pricing: [
-                                .init(id: UUID(), currency: "USD", value: 50),
-                                .init(id: UUID(), currency: "CAD", value: 60),
-                                .init(id: UUID(), currency: "RUB", value: 5080)
-                            ]))
-            )
-        }
-    }
-}
+//struct MembershipDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack {
+//            MembershipDetailView(viewModel:
+//                    .init(
+//                        .init(
+//                            id: UUID(),
+//                            name: "One Time",
+//                            visits: 1,
+//                            period: .day,
+//                            length: 1,
+//                            createDate: .now,
+//                            teamId: UUID(),
+//                            pricing: [
+//                                .init(id: UUID(), currency: "USD", value: 50),
+//                                .init(id: UUID(), currency: "CAD", value: 60),
+//                                .init(id: UUID(), currency: "RUB", value: 5080)
+//                            ]))
+//            )
+//        }
+//    }
+//}

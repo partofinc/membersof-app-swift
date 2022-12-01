@@ -10,7 +10,7 @@ import Models
 
 struct NewTeamView: View {
     
-    @StateObject var viewModel = ViewModel()
+    @StateObject var viewModel: ViewModel
     @Environment(\.dismiss) private var dismiss
     @FocusState private var addingSocial
     @FocusState private var editingName
@@ -107,7 +107,7 @@ struct NewTeamView_Previews: PreviewProvider {
             .padding()
         }
         .sheet(isPresented: $creatingNew) {
-            NewTeamView()
+            NewTeamView(viewModel: .init(PreviewSigner.default))
                 .presentationDetents([.fraction(0.6)])
         }
     }

@@ -9,21 +9,24 @@ extension EventDetailView {
     @MainActor
     final class ViewModel: ObservableObject {
         
-        let event: Event
-        
         @Published var visits: [Visit] = []
         @Published var progress: Progress = .upcoming
         @Published var duration: String = ""
         
-        private let storage: Storage = .shared
-        private var visitsFetcher: Storage.Fetcher<Visit>?
+        let event: Event
+        let signer: Signer
+        let storage: Storage
+        
+        private var visitsFetcher: CoreDataStorage.Fetcher<Visit>?
         private var sort: [SortDescriptor<Visit.Entity>] = [
             .init(\.checkInDate, order: .reverse)
         ]
         private let calendar: Calendar = .current
         
-        init(event: Event) {
+        init(event: Event, signer: Signer) {
             self.event = event
+            self.signer = signer
+            self.storage = signer.storage
             calculateProgress()
             calculateDuration()
             visitsFetcher = storage.fetch()

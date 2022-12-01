@@ -46,8 +46,8 @@ struct NewSupervisorView: View {
     }
 }
 
-struct NewSupervisorView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewSupervisorView(viewModel: .init(Mock.teams.first!))
-    }
-}
+//struct NewSupervisorView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NewSupervisorView(viewModel: .init(Mock.teams.first!))
+//    }
+//}

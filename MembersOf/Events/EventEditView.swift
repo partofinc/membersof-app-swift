@@ -22,7 +22,7 @@ struct EventEditView: View {
                 Toggle("Finished", isOn: $viewModel.isEnded)
                 Section("Memberships") {
                     NavigationLink {
-                        TeamDetailView(viewModel: .init(team: viewModel.event.team))
+                        TeamDetailView(viewModel: .init(viewModel.event.team, storage: viewModel.storage))
                     } label: {
                         Text(viewModel.event.team.name)
                     }
@@ -55,15 +55,15 @@ struct EventEditView: View {
     }
 }
 
-struct EventEditView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            EventEditView(
-                viewModel: .init(event:
-                    .init(id: UUID(), name: "One time", createDate: .now, startDate: .now, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])
-                                          ),
-                sheet: .constant(nil)
-            )
-        }
-    }
-}
+//struct EventEditView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack {
+//            EventEditView(
+//                viewModel: .init(event:
+//                    .init(id: UUID(), name: "One time", createDate: .now, startDate: .now, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])
+//                                          ),
+//                sheet: .constant(nil)
+//            )
+//        }
+//    }
+//}
