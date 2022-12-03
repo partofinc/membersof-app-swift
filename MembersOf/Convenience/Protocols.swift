@@ -11,6 +11,7 @@ import Models
 
 protocol Storage {
 
+    func sub<T: Storable>(_ type: T.Type) -> AnyFetcher<T>
     func fetch<T>() -> CoreDataStorage.Fetcher<T>
     func delete(_ entities: [any Storable]) async throws
     func delete(_ entity: some Storable) async throws

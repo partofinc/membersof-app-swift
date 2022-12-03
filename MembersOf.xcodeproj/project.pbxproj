@@ -46,6 +46,7 @@
 		F19A66B828D86D2E00CB884B /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = F19A66B728D86D2E00CB884B /* SwiftDate */; };
 		F1A14DA628AE569A001F00E3 /* Membership+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */; };
 		F1A27FF12938AE1A00C17E6A /* PreviewSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A27FF02938AE1A00C17E6A /* PreviewSigner.swift */; };
+		F1A27FF3293B31EF00C17E6A /* CoreDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A27FF2293B31EF00C17E6A /* CoreDataFetcher.swift */; };
 		F1A6C047292E3C3600EF0FFF /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = F1A6C046292E3C3600EF0FFF /* Models */; };
 		F1A6C04829320CCF00EF0FFF /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976F82893BC5D00AB778D /* Mock.swift */; };
 		F1A6C04A2932293200EF0FFF /* LightStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A6C0492932293200EF0FFF /* LightStorage.swift */; };
@@ -120,6 +121,7 @@
 		F1954F3428A2B87900B8D3C5 /* NewVisitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewVisitorViewModel.swift; sourceTree = "<group>"; };
 		F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Membership+Entity.swift"; sourceTree = "<group>"; };
 		F1A27FF02938AE1A00C17E6A /* PreviewSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSigner.swift; sourceTree = "<group>"; };
+		F1A27FF2293B31EF00C17E6A /* CoreDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFetcher.swift; sourceTree = "<group>"; };
 		F1A6C0492932293200EF0FFF /* LightStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightStorage.swift; sourceTree = "<group>"; };
 		F1A6C04C2937641700EF0FFF /* ModelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelExtensions.swift; sourceTree = "<group>"; };
 		F1A6C04E2937642200EF0FFF /* MockStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStorage.swift; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 			children = (
 				F1C6491628A50A2800811CAC /* CoreData */,
 				F1C6491428A50A1F00811CAC /* CoreDataStorage.swift */,
+				F1A27FF2293B31EF00C17E6A /* CoreDataFetcher.swift */,
 				F1ABE21628AD045E00798E5D /* Fetcher.swift */,
 				F1A6C0492932293200EF0FFF /* LightStorage.swift */,
 				F1BBCD7828BCB199003B49E9 /* AppSigner.swift */,
@@ -462,6 +465,7 @@
 				F12A85EE28B8F7D00041B85B /* NewSupervisorViewModel.swift in Sources */,
 				F1C60BED28A272E200F944BD /* SearchMembersViewModel.swift in Sources */,
 				F1A6C04D2937641700EF0FFF /* ModelExtensions.swift in Sources */,
+				F1A27FF3293B31EF00C17E6A /* CoreDataFetcher.swift in Sources */,
 				F154BACA28ABB915008F8374 /* Team+Entity.swift in Sources */,
 				F1487F89289D0BE90079934A /* ProfileView.swift in Sources */,
 				F152EBD428D1FCD50066E9C8 /* Payment+Entity.swift in Sources */,

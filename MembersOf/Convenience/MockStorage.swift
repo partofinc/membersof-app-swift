@@ -10,6 +10,10 @@ import Models
 
 final class MockStorage: Storage {
     
+    func sub<T>(_ type: T.Type) -> AnyFetcher<T> where T : Storable {
+        AnyFetcher(subscription: CoreDataSubscription(context: .init(concurrencyType: .mainQueueConcurrencyType)))
+    }
+    
     func fetch<T>() -> CoreDataStorage.Fetcher<T> where T : Storable {
         .init(.init(concurrencyType: .mainQueueConcurrencyType))
     }

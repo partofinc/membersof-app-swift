@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Models
 
 final class CoreDataStorage: Storage {
 
@@ -14,6 +15,10 @@ final class CoreDataStorage: Storage {
                 print("CoreData loading failed with error: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func sub<T: Storable>(_ type: T.Type) -> AnyFetcher<T> {
+        .init(subscription: CoreDataSubscription(context: container.viewContext))
     }
     
     func fetch<T>() -> Fetcher<T> where T : Storable {
