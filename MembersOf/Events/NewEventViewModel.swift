@@ -30,7 +30,6 @@ extension NewEventView {
         private var teamsFetcher: CoreDataStorage.Fetcher<Team>?
         private var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
         private var memberFetcher: AnyCancellable?
-        private var can: AnyCancellable?
         
         var canCreate: Bool {
             name.count > 2 && !selectedMemberships.isEmpty
@@ -78,19 +77,12 @@ extension NewEventView {
             if !teams.contains(where: {$0.id == team.id}), let team = teams.first {
                 self.team = team
             }
-            can = storage.sub(Membership.self)
-                .filter { [unowned self] ship in
+            membershipsFetcher = storage.fetch()
+                .assign(to: \.memberships, on: self)
+                .filter(by: { [unowned self] ship in
                     ship.team.id == self.team.id
-                }
-                .sink { [unowned self] ships in
-                    self.memberships = ships
-                }
-//            membershipsFetcher = storage.fetch()
-//                .assign(to: \.memberships, on: self)
-//                .filter(by: { [unowned self] ship in
-//                    ship.team.id == self.team.id
-//                })
-//                .run(sort: [.init(\.createDate)])
+                })
+                .run(sort: [.init(\.createDate)])
             selectedMemberships.removeAll()
         }
         
@@ -134,10 +126,7 @@ extension NewEventView {
                 .filter(by: { [unowned self] team in
                     team.isAccessable(by: me)
                 })
-                .sink { [unowned self] teams in
-                    self.teams = teams
-                }
-//                .assign(to: \.teams, on: self)
+                .assign(to: \.teams, on: self)
                 .run(sort: [.init(\.createDate)])
         }
     }

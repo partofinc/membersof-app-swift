@@ -17,10 +17,6 @@ final class CoreDataStorage: Storage {
         }
     }
     
-    func sub<T: Storable>(_ type: T.Type) -> AnyFetcher<T> {
-        .init(subscription: CoreDataSubscription(context: container.viewContext))
-    }
-    
     func fetch<T>() -> Fetcher<T> where T : Storable {
         Fetcher(container.viewContext)
     }
