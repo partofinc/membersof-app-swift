@@ -66,9 +66,7 @@ struct NewMembershipView: View {
                 }
                 .sheet(isPresented: $choosingCurrency) {
                     NavigationStack {
-                        CurrencySelectionView { currency in
-                            viewModel.add(currency)
-                        }
+                        CurrencySelectionView(currency: $viewModel.currency, existing: viewModel.pricing.map(\.currency))
                     }
                 }
             }
@@ -92,39 +90,35 @@ struct NewMembershipView: View {
         Section("Pricing") {
             ForEach(viewModel.pricing) { price in
                 HStack {
-                    Text(viewModel.fromat(price))
+                    Text(price.value.formatted(.currency(code: price.currency)))
                     Spacer()
-                    Button(role: .destructive) {
+                    Button {
                         viewModel.delete(price)
                     } label: {
                         Image(systemName: "trash")
                     }
+                    .foregroundColor(.red)
+                    .buttonStyle(.plain)
                 }
             }
-            if let currency = viewModel.priceCurrency {
+            if let currency = viewModel.currency {
                 HStack {
-                    Text(currency.symbol)
+                    Button {
+                        choosingCurrency.toggle()
+                    } label: {
+                        Text(currency.symbol)
+                    }
+                    .buttonStyle(.primarySmall)
                     TextField("0.00", value: $viewModel.price, format: Decimal.FormatStyle.init(locale: .current))
                         .keyboardType(.decimalPad)
                     Button {
-                        viewModel.addPrice()
+                        viewModel.addTier()
                     } label: {
                         Image(systemName: "checkmark.circle")
                     }
                     .buttonStyle(.plain)
                     .foregroundColor(.accentColor)
                     .disabled(viewModel.price == nil)
-                }
-            } else if let currency = viewModel.defaultCurrency {
-                Menu {
-                    Button(currency.display) {
-                        viewModel.add(currency)
-                    }
-                    Button("Other") {
-                        choosingCurrency.toggle()
-                    }
-                } label: {
-                    Label("Add", systemImage: "plus")
                 }
             } else {
                 Button {
@@ -136,6 +130,8 @@ struct NewMembershipView: View {
         }
     }
 }
+
+
 
 //struct NewMembershipView_Previews: PreviewProvider {
 //    

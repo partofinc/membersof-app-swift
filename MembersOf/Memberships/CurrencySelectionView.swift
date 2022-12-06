@@ -9,17 +9,19 @@ import SwiftUI
 
 struct CurrencySelectionView: View {
     
-    let select: (Currency) -> Void
+    
+    @Binding var currency: Currency?
+    let existing: [String]
     @StateObject var viewModel: ViewModel = .init()
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         List(viewModel.currencies) { currency in
             Button {
-                select(currency)
-                dismiss()
+                self.currency = currency
             } label: {
                 HStack {
+                    Image(systemName: isSelected(currency) ? "checkmark.circle" : "circle.dotted")
                     Text(currency.code)
                     Text(currency.symbol)
                     Spacer()
@@ -28,16 +30,30 @@ struct CurrencySelectionView: View {
                 }
             }
             .buttonStyle(.plain)
+            .disabled(existing.contains(where: {$0 == currency.id}))
         }
         .searchable(text: $viewModel.search)
         .navigationTitle("Currency")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Done") {
+                    dismiss()
+                }
+            }
+        }
+    }
+    
+    func isSelected(_ currecny: Currency) -> Bool {
+        guard let c = self.currency else { return false }
+        return c.id == currecny.id
     }
 }
 
 struct CurrencySelectionView_Previews: PreviewProvider {
+    @State static var currency: Currency?
     static var previews: some View {
         NavigationStack {
-            CurrencySelectionView() { _ in }
+            CurrencySelectionView(currency: $currency, existing: [])
         }
     }
 }
@@ -97,5 +113,10 @@ struct Currency: Identifiable {
             return code
         }
         return code + "(\(symbol))"
+    }
+    
+    var localizedName: String {
+        var locale = Locale.autoupdatingCurrent
+        return locale.currencySymbol ?? symbol
     }
 }

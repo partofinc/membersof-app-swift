@@ -33,19 +33,8 @@ extension NewMembershipView {
         @Published var visitsText: String = "Unlimited visits"
         
         @Published var price: Decimal?
-        @Published var priceCurrency: Currency?
+        @Published var currency: Currency?
         @Published var pricing: [Price] = []
-        
-        @Published var defaultCurrency: Currency? = .default
-        
-        private let priceFormatter: NumberFormatter = {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.locale = .autoupdatingCurrent
-            formatter.maximumFractionDigits = 2
-            formatter.minimumFractionDigits = 0
-            return formatter
-        }()
         
         let sigmer: Signer
         let storage: Storage
@@ -89,32 +78,17 @@ extension NewMembershipView {
             }
             visitsText = "\(visits) Visits"
         }
-        
-        func fromat(_ price: Price) -> String {
-            priceFormatter.currencyCode = price.currency
-            return priceFormatter.string(for: price.value)!
-        }
-        
-        func add(_ currency: Currency) {
-            priceCurrency = currency
-        }
-        
-        func addPrice() {
-            guard let currncy = priceCurrency?.code, let price else { return }
+
+        func addTier() {
+            guard let currncy = currency?.code, let price else { return }
             let p = Price(id: UUID(), currency: currncy, value: price)
-            priceCurrency = nil
-            self.price = 0
-            if let defaultCurrency, defaultCurrency.code == currncy {
-                self.defaultCurrency = nil
-            }
+            currency = nil
+            self.price = nil
             pricing.append(p)
         }
         
         func delete(_ price: Price) {
             pricing.removeAll(where: {$0 == price})
-            if let def = Currency.default, def.code == price.currency {
-                defaultCurrency = def
-            }
         }
         
         func create() {
