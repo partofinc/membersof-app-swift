@@ -46,6 +46,7 @@ extension NewEventView {
                 .eraseToAnyPublisher()
                 .sink(receiveValue: { [unowned self] member in
                     self.me = member
+                    self.fetchTeams()
                 })
             calculateDuration()
             fetchTeams()
@@ -74,9 +75,6 @@ extension NewEventView {
         }
         
         func teamChanged() {
-            if !teams.contains(where: {$0.id == team.id}), let team = teams.first {
-                self.team = team
-            }
             membershipsFetcher = storage.fetch()
                 .assign(to: \.memberships, on: self)
                 .filter(by: { [unowned self] ship in
@@ -126,8 +124,13 @@ extension NewEventView {
                 .filter(by: { [unowned self] team in
                     team.isAccessable(by: me)
                 })
-                .assign(to: \.teams, on: self)
-                .run(sort: [.init(\.createDate)])
+                .sink { [unowned self] teams in
+                    if !teams.contains(self.team), let first = teams.first {
+                        self.team = first
+                    }
+                    self.teams = teams
+                }
+                .run(sort: [.init(\.createDate, order: .reverse)])
         }
     }
 }

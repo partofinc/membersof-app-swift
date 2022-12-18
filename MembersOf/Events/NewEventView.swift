@@ -43,7 +43,7 @@ struct NewEventView: View {
                     Section {
                         if viewModel.teams.isEmpty {
                             NavigationLink {
-                                NewTeamView(viewModel: .init(viewModel.signer))
+                                NewTeamView(viewModel: .init(viewModel.signer), team: $viewModel.team)
                             } label: {
                                 HStack {
                                     Text("Team")
@@ -55,7 +55,7 @@ struct NewEventView: View {
                         } else {
                             Picker("Team", selection: $viewModel.team) {
                                 ForEach(viewModel.teams, id: \.self) { team in
-                                    Text(team.name).tag(team.id)
+                                    Text(team.name).tag(team)
                                 }
                             }
                         }
@@ -81,8 +81,17 @@ struct NewEventView: View {
                                 Label(ship.name, systemImage: viewModel.isSelected(ship) ? "checkmark.circle.fill" : "circle")
                             }
                         }
-                        NavigationLink {
-                            NewMembershipView(viewModel: .init(signer: viewModel.signer))
+                        Menu {
+                            NavigationLink {
+                                NewTeamView(viewModel: .init(viewModel.signer), team: $viewModel.team)
+                            } label: {
+                                Label("Team", systemImage: "person.3")
+                            }
+                            NavigationLink {
+                                NewMembershipView(viewModel: .init(team: viewModel.team, signer: viewModel.signer))
+                            } label: {
+                                Label("Membership", systemImage: "creditcard")
+                            }
                         } label: {
                             Label("Add", systemImage: "plus")
                         }
@@ -91,12 +100,6 @@ struct NewEventView: View {
             }
             .onChange(of: viewModel.team) { _ in
                 viewModel.teamChanged()
-            }
-            .onChange(of: viewModel.teams) { _ in
-                viewModel.teamChanged()
-            }
-            .onChange(of: viewModel.me) { _ in
-                viewModel.fetchTeams()
             }
             .navigationTitle("Event")
             .navigationBarTitleDisplayMode(.inline)

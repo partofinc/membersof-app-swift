@@ -58,7 +58,7 @@ extension NewTeamView {
             medias.insert(social.media, at: 0)
         }
         
-        func create() {
+        func create() -> Team {
             let supervisor = Supervisor(id: UUID(), role: .owner, order: 0, member: me, teamId: nil)
             let team = Team(
                 id: UUID(),
@@ -75,6 +75,7 @@ extension NewTeamView {
                     print(error)
                 }
             }
+            return team
         }
     }
 }

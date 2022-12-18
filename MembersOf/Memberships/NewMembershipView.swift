@@ -12,6 +12,7 @@ struct NewMembershipView: View {
     @StateObject var viewModel: ViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var choosingCurrency = false
+    @FocusState private var isPriceEditing
     
     var body: some View {
         NavigationStack {
@@ -30,7 +31,7 @@ struct NewMembershipView: View {
                         }
                     } else if viewModel.teams.isEmpty {
                         NavigationLink {
-                            NewTeamView(viewModel: .init(viewModel.sigmer))
+                            NewTeamView(viewModel: .init(viewModel.sigmer), team: $viewModel.selectedTeam)
                         } label: {
                             HStack {
                                 Text("Team")
@@ -66,7 +67,7 @@ struct NewMembershipView: View {
                 }
                 .sheet(isPresented: $choosingCurrency) {
                     NavigationStack {
-                        CurrencySelectionView(currency: $viewModel.currency, existing: viewModel.pricing.map(\.currency))
+                        CurrencyPickerView(currency: $viewModel.currency, existing: viewModel.pricing.map(\.currency))
                     }
                 }
             }
@@ -87,7 +88,7 @@ struct NewMembershipView: View {
     
     @ViewBuilder
     private var pricing: some View {
-        Section("Pricing") {
+        Section(header: Text("Pricing"), footer: Text(viewModel.pricingFooter)) {
             ForEach(viewModel.pricing) { price in
                 HStack {
                     Text(price.value.formatted(.currency(code: price.currency)))
@@ -109,8 +110,9 @@ struct NewMembershipView: View {
                         Text(currency.symbol)
                     }
                     .buttonStyle(.primarySmall)
-                    TextField("0.00", value: $viewModel.price, format: Decimal.FormatStyle.init(locale: .current))
+                    TextField("0.00", value: $viewModel.price, format: Decimal.FormatStyle())
                         .keyboardType(.decimalPad)
+                        .focused($isPriceEditing)
                     Button {
                         viewModel.addTier()
                     } label: {
@@ -120,13 +122,24 @@ struct NewMembershipView: View {
                     .foregroundColor(.accentColor)
                     .disabled(viewModel.price == nil)
                 }
+                Button {
+                    viewModel.cancelTier()
+                } label: {
+                    Label("Cancel", systemImage: "xmark")
+                }
             } else {
                 Button {
-                    choosingCurrency.toggle()
+                    if viewModel.hasDefaultCurrency() {
+                        choosingCurrency.toggle()
+                    }
                 } label: {
                     Label("Add", systemImage: "plus")
                 }
             }
+        }
+        .onChange(of: viewModel.currency) { newValue in
+            guard newValue != nil else { return }
+            isPriceEditing = true
         }
     }
 }

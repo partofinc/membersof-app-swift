@@ -38,7 +38,7 @@ struct TeamsView: View {
             }
             .sheet(isPresented: $creatingNew) {
                 NavigationStack {
-                    NewTeamView(viewModel: .init(viewModel.signer))
+                    NewTeamView(viewModel: .init(viewModel.signer), team: .constant(.loading))
                 }
                     .presentationDetents([.medium, .large])
             }

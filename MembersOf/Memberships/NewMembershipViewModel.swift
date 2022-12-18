@@ -43,15 +43,27 @@ extension NewMembershipView {
         
         var canCreate: Bool {
             guard let team = teams.first else { return false }
-            return name.count > 2 && team != .loading
+            return name.count > 2 && team != .loading && price == nil && currency == nil
         }
         
-        init(_ team: Team? = nil, signer: Signer) {
+        var pricingFooter: String {
+            if let currency {
+                return currency.name
+            } else {
+                return "You can add pricing in multiple currencies"
+            }
+        }
+        
+        init(team: Team? = nil, signer: Signer) {
             self.team = team
             self.sigmer = signer
             self.storage = signer.storage
             
-            guard team == nil else { return }
+            if let team {
+                selectedTeam = team
+            } else {
+                return
+            }
             teamsFetcher = storage.fetch()
                 .sink { [unowned self] teams in
                     self.teams = teams
@@ -78,13 +90,30 @@ extension NewMembershipView {
             }
             visitsText = "\(visits) Visits"
         }
+        
+        func hasDefaultCurrency() -> Bool {
+            guard let d = Currency.default else { return true }
+            if pricing.contains(where: {$0.currency == d.id}) {
+                return true
+            }
+            currency = d
+            return false
+        }
 
         func addTier() {
             guard let currncy = currency?.code, let price else { return }
             let p = Price(id: UUID(), currency: currncy, value: price)
             currency = nil
-            self.price = nil
             pricing.append(p)
+            Task {
+                try await Task.sleep(seconds: 0.3)
+                self.price = nil
+            }
+        }
+        
+        func cancelTier() {
+            currency = nil
+            price = nil
         }
         
         func delete(_ price: Price) {
@@ -116,6 +145,13 @@ extension Currency {
               let symbol = locale.currencySymbol,
                 let name = locale.localizedString(forCurrencyCode: currency) else { return nil }
         return .init(code: currency, symbol: symbol, name: name)
+    }
+}
+
+extension Task where Success == Never, Failure == Never {
+    static func sleep(seconds: Double) async throws {
+        let duration = UInt64(seconds * 1_000_000_000)
+        try await Task.sleep(nanoseconds: duration)
     }
 }
 

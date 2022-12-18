@@ -11,6 +11,8 @@ import Models
 struct NewTeamView: View {
     
     @StateObject var viewModel: ViewModel
+    @Binding var team: Team // Communicate back newly created team
+    
     @Environment(\.dismiss) private var dismiss
     @FocusState private var addingSocial
     @FocusState private var editingName
@@ -82,7 +84,7 @@ struct NewTeamView: View {
         .toolbar {
             ToolbarItem {
                 Button("Create") {
-                    viewModel.create()
+                    team = viewModel.create()
                     dismiss()
                 }
                 .disabled(!viewModel.canCreate)
@@ -107,7 +109,7 @@ struct NewTeamView_Previews: PreviewProvider {
             .padding()
         }
         .sheet(isPresented: $creatingNew) {
-            NewTeamView(viewModel: .init(PreviewSigner.default))
+            NewTeamView(viewModel: .init(PreviewSigner.default), team: .constant(.loading))
                 .presentationDetents([.fraction(0.6)])
         }
     }

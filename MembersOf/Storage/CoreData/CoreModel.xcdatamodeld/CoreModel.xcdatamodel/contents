@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="22A5342f" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Debt" representedClassName="DebtEntity" syncable="YES">
         <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="currency" attributeType="String"/>
@@ -24,8 +24,7 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="role" optional="YES" attributeType="String"/>
-        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member"/>
-        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team"/>
+        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="invites" inverseEntity="Team"/>
     </entity>
     <entity name="Member" representedClassName="MemberEntity" syncable="YES">
         <attribute name="firstName" attributeType="String"/>
@@ -33,6 +32,7 @@
         <attribute name="lastName" optional="YES" attributeType="String"/>
         <relationship name="debts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Debt" inverseName="member" inverseEntity="Debt"/>
         <relationship name="management" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Supervisor" inverseName="member" inverseEntity="Supervisor"/>
+        <relationship name="payments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Payment" inverseName="member" inverseEntity="Payment"/>
         <relationship name="social" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Social" inverseName="member" inverseEntity="Social"/>
         <relationship name="subscriptions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Subscription" inverseName="member" inverseEntity="Subscription"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="member" inverseEntity="Visit"/>
@@ -57,8 +57,8 @@
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="debt" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Debt" inverseName="payments" inverseEntity="Debt"/>
-        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member"/>
-        <relationship name="price" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Price"/>
+        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="payments" inverseEntity="Member"/>
+        <relationship name="price" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Price" inverseName="payments" inverseEntity="Price"/>
         <relationship name="subscription" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Subscription" inverseName="payments" inverseEntity="Subscription"/>
     </entity>
     <entity name="Price" representedClassName="PriceEntity" syncable="YES">
@@ -66,6 +66,7 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="value" attributeType="Decimal" defaultValueString="0.0"/>
         <relationship name="membership" maxCount="1" deletionRule="Nullify" destinationEntity="Membership" inverseName="pricing" inverseEntity="Membership"/>
+        <relationship name="payments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Payment" inverseName="price" inverseEntity="Payment"/>
     </entity>
     <entity name="Social" representedClassName="SocialEntity" syncable="YES">
         <attribute name="account" attributeType="String"/>
@@ -99,6 +100,7 @@
         <relationship name="crew" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Supervisor" inverseName="team" inverseEntity="Supervisor"/>
         <relationship name="debts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Debt" inverseName="team" inverseEntity="Debt"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="team" inverseEntity="Event"/>
+        <relationship name="invites" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Invite" inverseName="team" inverseEntity="Invite"/>
         <relationship name="memberships" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Membership" inverseName="team" inverseEntity="Membership"/>
         <relationship name="social" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Social" inverseName="team" inverseEntity="Social"/>
     </entity>
