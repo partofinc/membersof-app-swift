@@ -23,7 +23,7 @@ struct NewTeamView: View {
                 Section {
                     TextField("Name", text: $viewModel.name)
                         .focused($editingName)
-                    TextEditor(text: $viewModel.brief)
+                    TextField("Introduction", text: $viewModel.brief, axis: .vertical)
                 } footer: {
                     Text("Briefly describe yor team")
                 }

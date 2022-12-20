@@ -34,3 +34,10 @@ extension Price: Storable {
         Price.first(in: context, key: "id", value: id.uuidString)
     }
 }
+
+extension Price {
+    
+    var formatted: String {
+        value.formatted(.currency(code: currency))
+    }
+}

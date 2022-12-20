@@ -61,7 +61,6 @@ extension NewMembershipView {
             
             if let team {
                 selectedTeam = team
-            } else {
                 return
             }
             teamsFetcher = storage.fetch()

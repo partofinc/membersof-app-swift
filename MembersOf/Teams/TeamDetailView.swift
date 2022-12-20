@@ -12,177 +12,110 @@ struct TeamDetailView: View {
     
     @StateObject var viewModel: ViewModel
     @State var subscribed = false
-    @State private var sheet: Sheet?
-    @State private var removingSocial = false
-    @State private var socialToRemove: Social?
-    @FocusState private var addingSocial: Bool
-    @Environment(\.dismiss) var dismiss
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var editMode: Bool = false
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
-                Text(viewModel.brief)
-                    .font(.title3)
-                Button {
-                    sheet = .brief
-                } label: {
-                    Label("Edit", systemImage: "pencil")
-                        .padding()
-                        .font(.headline)
+            LazyVStack(alignment: .leading) {
+                HStack {
+                    Text(viewModel.team.brief)
+                        .font(.title2)
+                    Spacer()
                 }
-                socialMedia
+                .cardStyle()
+                if !viewModel.team.social.isEmpty {
+                    socialMedia
+                }
                 subscription
-                Group {
-                    crew
-                }
-                .disabled(!subscribed)
-                .opacity(subscribed ? 1 : 0.5)
-                footer
+                crew
             }
             .padding()
         }
+        .edit($editMode) {
+            TeamDetailsEditView(viewModel: .init(viewModel.team, storage: viewModel.storage), editMode: $editMode)
+        }
         .scrollDismissesKeyboard(.immediately)
-        .navigationTitle(viewModel.name)
+        .navigationTitle(viewModel.team.name)
         .toolbar {
-            ToolbarItem {
-                Button {
-                    sheet = .name
-                } label: {
-                    Image(systemName: "square.and.pencil")
-                }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                EditButton(editMode: $editMode)
             }
         }
-        .sheet(item: $sheet) { sheet in
-            switch sheet {
-            case .name:
-                TextEditDialogView(title: "Name", text: viewModel.name) {
-                    viewModel.update(name: $0)
-                }
-                .presentationDetents([.medium])
-            case .brief:
-                TextEditDialogView(title: "Description", text: viewModel.brief) {
-                    viewModel.update(brief: $0)
-                }
-                .presentationDetents([.medium])
-            case .supervisor(let supervisor):
-                SupervisorView(viewModel: .init(supervisor), save: {viewModel.update($0)}, delete: {viewModel.delete($0)})
-                    .presentationDetents([.medium])
-            case .newSupervisor:
-                NewSupervisorView(viewModel: .init(viewModel.team, storage: viewModel.storage))
-                    .presentationDetents([.medium])
-            }
-        }
-        .animation(.easeInOut, value: viewModel.socials)
     }
     
     @ViewBuilder
     private var socialMedia: some View {
-        Text("Social media")
-            .font(.title2)
-            .padding(.top)
-        ForEach(viewModel.socials) { social in
-            SocialMediaRow(social, style: .fancy, edit: .constant(true)) {
-                socialToRemove = social
-                removingSocial = true
-            }
-            .padding(.bottom, 5)
-        }
-        .confirmationDialog(
-            socialToRemove == nil ? "" : socialToRemove!.title,
-            isPresented: $removingSocial,
-            titleVisibility: .visible,
-            presenting: socialToRemove,
-            actions: { social in
-                Button("Delete", role: .destructive) {
-                    viewModel.delete(social)
-                }
-                Button("Cancel", role: .cancel) {}
-        })
-        if let media = viewModel.media {
+        VStack(alignment: .leading) {
             HStack {
-                HStack {
-                    Text(media.rawValue.capitalized)
-                    Spacer()
-                    TextField("Account", text: $viewModel.account)
-                        .multilineTextAlignment(.trailing)
-                        .focused($addingSocial)
-                        .keyboardType(.emailAddress)
-                        .submitLabel(.done)
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                        .onSubmit {
-                            viewModel.addSocial()
-                        }
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.blue.opacity(0.4).gradient)
-                        .shadow(radius: 3)
-                )
-                Button {
-                    viewModel.addSocial()
-                } label: {
-                    Image(systemName: "checkmark")
-                        .font(.headline)
-                }
-            }
-            .padding(.bottom, 5)
-        }
-        if !viewModel.socialMedias.isEmpty {
-            Menu {
-                ForEach(viewModel.socialMedias) { media in
-                    Button(media.rawValue.capitalized) {
-                        viewModel.media = media
-                        addingSocial = true
-                    }
-                }
-            } label: {
-                Label("Add", systemImage: "plus")
+                Text("Social media")
                     .font(.headline)
-                    .padding()
+                Spacer()
+            }
+            ForEach(viewModel.team.social) { social in
+                SocialMediaRow(social, style: .fancy, edit: .constant(true)) {
+                    
+                }
+                .padding(.bottom, 5)
             }
         }
+        .cardStyle()
     }
     
     @ViewBuilder
     private var subscription: some View {
-        Text("Subscription")
-            .font(.title2)
-            .padding(.top)
-        HStack {
-            Text("Tier")
-            Spacer()
-            Text(subscribed ? "$5/Month" : "Free")
+        VStack(alignment: .leading, spacing: 5) {
+            Text("Subscription")
                 .font(.headline)
+            HStack {
+                Text("Tier")
+                Spacer()
+                Text(subscribed ? "$5/Month" : "Free")
+                    .font(.headline)
+            }
+            if subscribed {
+                HStack {
+                    Text("Next payment")
+                    Spacer()
+                    Text("December 22")
+                        .font(.headline)
+                }
+                HStack {
+                    Text("Managed by")
+                    Spacer()
+                    Text("Yanis Y.")
+                        .font(.headline)
+                }
+            } else {
+                Button {
+                    subscribed.toggle()
+                } label: {
+                    Label("Upgrade", systemImage: "lock.open")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.red.opacity(0.5).gradient)
+                                .shadow(radius: 3)
+                        )
+                }
+                .foregroundColor(.white)
+            }
         }
-        .padding(.top, 5)
-        if subscribed {
-            HStack {
-                Text("Next payment")
-                Spacer()
-                Text("December 22")
-                    .font(.headline)
-            }
-            .padding(.top, 5)
-            HStack {
-                Text("Managed by")
-                Spacer()
-                Text("Yanis Y.")
-                    .font(.headline)
-            }
-            .padding(.top, 5)
-            Button(role: .destructive) {
-                subscribed.toggle()
-            } label: {
-                Label("Cancel", systemImage: "xmark")
-                    .padding()
-            }
-        } else {
+        .cardStyle()
+    }
+    
+    @ViewBuilder
+    private var paymentSection: some View {
+        VStack {
+            Text("Payment")
+                .font(.title2)
+                .padding(.top)
             Button {
-                subscribed.toggle()
+                
             } label: {
-                Label("Upgrade", systemImage: "lock.open")
+                Label("Connect Stripe", systemImage: "link")
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(
@@ -193,110 +126,56 @@ struct TeamDetailView: View {
             }
             .foregroundColor(.white)
         }
-    }
-    
-    @ViewBuilder
-    private var paymentSection: some View {
-        Text("Payment")
-            .font(.title2)
-            .padding(.top)
-        Button {
-            
-        } label: {
-            Label("Connect Stripe", systemImage: "link")
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.red.opacity(0.5).gradient)
-                        .shadow(radius: 3)
-                )
-        }
-        .foregroundColor(.white)
+        .cardStyle()
     }
     
     @ViewBuilder
     private var crew: some View {
-        Text("Crew")
-            .font(.title2)
-            .padding(.top)
-        ForEach(viewModel.crew) { supervisor in
-            Button {
-                sheet = .supervisor(supervisor)
-            } label: {
-                HStack {
-                    Text(supervisor.member.fullName)
-                        .font(.headline)
-                    Spacer()
-                    Text(supervisor.role.rawValue.capitalized)
-                        .font(.body)
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.purple.opacity(0.7).gradient)
-                        .shadow(radius: 3)
-                )
-            }
-            .buttonStyle(.plain)
-        }
-        ForEach(viewModel.invites) { invite in
-            Button {
-                
-            } label: {
-                HStack {
-                    Text(invite.title)
-                        .font(.headline)
-                    Spacer()
-                    Text(invite.role!.rawValue.capitalized)
-                        .font(.body)
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.purple.opacity(0.4).gradient)
-                        .shadow(radius: 3)
-                )
-            }
-            .buttonStyle(.plain)
-        }
-        Button {
-            sheet = .newSupervisor
-        } label: {
-            Label("Add", systemImage: "plus")
-                .font(.headline)
-                .padding()
-        }
-    }
-    
-    @ViewBuilder
-    private var notesSection: some View {
-        Text("Notes")
-            .font(.title2)
-            .padding(.top)
-        Button {
-            
-        } label: {
-            Label("Add", systemImage: "plus")
-                .font(.headline)
-                .padding()
-        }
-    }
-    
-    @ViewBuilder
-    private var footer: some View {
-        Button {
-            viewModel.deleteTeam()
-            dismiss()
-        } label: {
+        VStack {
             HStack {
-                Spacer()
-                Text("Delete team")
+                Text("Crew")
+                    .font(.headline)
                 Spacer()
             }
+            ForEach(viewModel.team.crew) { supervisor in
+                    HStack {
+                        Text(supervisor.member.fullName)
+                            .font(.headline)
+                        Spacer()
+                        Text(supervisor.role.rawValue.capitalized)
+                            .font(.body)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.purple.opacity(0.7).gradient)
+                            .shadow(radius: 3)
+                    )
+            }
+            ForEach(viewModel.invites) { invite in
+                Button {
+                    
+                } label: {
+                    HStack {
+                        Text(invite.title)
+                            .font(.headline)
+                        Spacer()
+                        Text(invite.role!.rawValue.capitalized)
+                            .font(.body)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.purple.opacity(0.4).gradient)
+                            .shadow(radius: 3)
+                    )
+                }
+                .buttonStyle(.plain)
+            }
         }
-        .padding()
-        .foregroundColor(.red)
+        .cardStyle()
+        .disabled(!subscribed)
+        .opacity(subscribed ? 1 : 0.5)
     }
 }
 

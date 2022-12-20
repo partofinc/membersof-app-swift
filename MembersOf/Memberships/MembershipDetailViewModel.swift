@@ -14,27 +14,23 @@ extension MembershipDetailView {
     final class ViewModel: ObservableObject {
         
         let membership: Membership
+        let storage: any Storage
+        
         @Published var team: Team = .loading
         
-        private let storage: any Storage
-        
-        private let priceFormatter: NumberFormatter = {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.locale = .autoupdatingCurrent
-            formatter.maximumFractionDigits = 2
-            formatter.minimumFractionDigits = 0
-            return formatter
-        }()
+        private var teamFetcher: CoreDataStorage.Fetcher<Team>?
         
         init(_ membership: Membership, storage: some Storage) {
             self.storage = storage
             self.membership = membership
-        }
-        
-        func format(_ price: Price) -> String {
-            priceFormatter.currencyCode = price.currency
-            return priceFormatter.string(for: price.value)!
+            
+            teamFetcher = storage.fetch()
+                .filter(by: {$0.id == membership.teamId})
+                .sink { [unowned self] teams in
+                    guard let t = teams.first else { return }
+                    self.team = t
+                }
+                .run(sort: [.init(\.createDate)])
         }
         
         func delete() {

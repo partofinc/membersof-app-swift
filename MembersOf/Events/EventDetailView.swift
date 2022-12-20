@@ -18,25 +18,20 @@ struct EventDetailView: View {
     @State private var editMode: Bool = false
     
     var body: some View {
-        Group {
-            if editMode {
-                EventEditView(
-                    viewModel: .init(event: viewModel.event, storage: viewModel.storage),
-                    sheet: $sheet
-                )
-            } else {
-                VStack {
-                    ScrollView {
-                        LazyVStack(alignment: .leading) {
-                            timing
-                            team
-                            visits
-                            notes
-                        }
-                        .padding()
-                    }
-                }
+        ScrollView {
+            LazyVStack(alignment: .leading) {
+                timing
+                team
+                visits
+                notes
             }
+            .padding()
+        }
+        .edit($editMode) {
+            EventEditView(
+                viewModel: .init(event: viewModel.event, storage: viewModel.storage),
+                sheet: $sheet
+            )
         }
         .navigationTitle(viewModel.event.name)
         .sheet(item: $sheet) { sheet in
@@ -54,9 +49,7 @@ struct EventDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(editMode ? "Cancel" : "Edit") {
-                    editMode.toggle()
-                }
+                EditButton(editMode: $editMode)
             }
         }
         .animation(.easeInOut, value: viewModel.visits)

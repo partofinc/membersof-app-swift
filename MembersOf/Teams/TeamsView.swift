@@ -48,8 +48,3 @@ struct TeamsView: View {
     }
 }
 
-//struct ClubsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TeamsView()
-//    }
-//}

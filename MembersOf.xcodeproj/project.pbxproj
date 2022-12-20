@@ -27,6 +27,8 @@
 		F152EBD428D1FCD50066E9C8 /* Payment+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F152EBD328D1FCD50066E9C8 /* Payment+Entity.swift */; };
 		F152EBD628D1FE6D0066E9C8 /* Debt+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F152EBD528D1FE6D0066E9C8 /* Debt+Entity.swift */; };
 		F154BACA28ABB915008F8374 /* Team+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F154BAC928ABB915008F8374 /* Team+Entity.swift */; };
+		F156AB7D2950A3E800CF8D3F /* EditViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156AB7C2950A3E800CF8D3F /* EditViewModifier.swift */; };
+		F156AB7F2950A77800CF8D3F /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156AB7E2950A77800CF8D3F /* EditButton.swift */; };
 		F1589F7228A27C9900EE1E92 /* NewVisitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589F7128A27C9900EE1E92 /* NewVisitorView.swift */; };
 		F1589F7428A282A700EE1E92 /* VisitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589F7328A282A700EE1E92 /* VisitorView.swift */; };
 		F159F061289BA3CF00375BE3 /* SupervisorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F159F060289BA3CF00375BE3 /* SupervisorView.swift */; };
@@ -75,6 +77,8 @@
 		F1C8314F289A714B004E34F9 /* TeamRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C8314E289A714B004E34F9 /* TeamRow.swift */; };
 		F1C83151289A872E004E34F9 /* TeamDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C83150289A872E004E34F9 /* TeamDetailView.swift */; };
 		F1C83153289A8EF3004E34F9 /* TeamDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C83152289A8EF3004E34F9 /* TeamDetailViewModel.swift */; };
+		F1D452442951AD3500A68169 /* TeamDetailsEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D452432951AD3500A68169 /* TeamDetailsEditView.swift */; };
+		F1D452462951AD5100A68169 /* TeamDetailsEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D452452951AD5100A68169 /* TeamDetailsEditViewModel.swift */; };
 		F1E25F1728A247F000B1511D /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E25F1628A247F000B1511D /* EventRow.swift */; };
 		F1FA94B428AA1F4700EE949D /* Visit+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FA94B328AA1F4700EE949D /* Visit+Entity.swift */; };
 /* End PBXBuildFile section */
@@ -100,6 +104,8 @@
 		F152EBD328D1FCD50066E9C8 /* Payment+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Payment+Entity.swift"; sourceTree = "<group>"; };
 		F152EBD528D1FE6D0066E9C8 /* Debt+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Debt+Entity.swift"; sourceTree = "<group>"; };
 		F154BAC928ABB915008F8374 /* Team+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Team+Entity.swift"; sourceTree = "<group>"; };
+		F156AB7C2950A3E800CF8D3F /* EditViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModifier.swift; sourceTree = "<group>"; };
+		F156AB7E2950A77800CF8D3F /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
 		F1589F7128A27C9900EE1E92 /* NewVisitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewVisitorView.swift; sourceTree = "<group>"; };
 		F1589F7328A282A700EE1E92 /* VisitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorView.swift; sourceTree = "<group>"; };
 		F159F060289BA3CF00375BE3 /* SupervisorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupervisorView.swift; sourceTree = "<group>"; };
@@ -148,6 +154,8 @@
 		F1C8314E289A714B004E34F9 /* TeamRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamRow.swift; sourceTree = "<group>"; };
 		F1C83150289A872E004E34F9 /* TeamDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailView.swift; sourceTree = "<group>"; };
 		F1C83152289A8EF3004E34F9 /* TeamDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailViewModel.swift; sourceTree = "<group>"; };
+		F1D452432951AD3500A68169 /* TeamDetailsEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailsEditView.swift; sourceTree = "<group>"; };
+		F1D452452951AD5100A68169 /* TeamDetailsEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailsEditViewModel.swift; sourceTree = "<group>"; };
 		F1E25F1628A247F000B1511D /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
 		F1FA94B328AA1F4700EE949D /* Visit+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Visit+Entity.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -173,6 +181,8 @@
 				F1B84A1729138541004C6BCD /* ButtonStyles.swift */,
 				F15E33E92914F1D500AC9E48 /* ColorExtensions.swift */,
 				F15E33EB2914F21A00AC9E48 /* ViewStyles.swift */,
+				F156AB7C2950A3E800CF8D3F /* EditViewModifier.swift */,
+				F156AB7E2950A77800CF8D3F /* EditButton.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -297,6 +307,8 @@
 				F1B71D8C289924EF00AD2E2C /* NewTeamViewModel.swift */,
 				F1C83150289A872E004E34F9 /* TeamDetailView.swift */,
 				F1C83152289A8EF3004E34F9 /* TeamDetailViewModel.swift */,
+				F1D452432951AD3500A68169 /* TeamDetailsEditView.swift */,
+				F1D452452951AD5100A68169 /* TeamDetailsEditViewModel.swift */,
 				F159F060289BA3CF00375BE3 /* SupervisorView.swift */,
 				F12A85E928B8E0810041B85B /* NewSupervisorView.swift */,
 				F12A85ED28B8F7D00041B85B /* NewSupervisorViewModel.swift */,
@@ -424,6 +436,7 @@
 				F105F41028E2E71D00736E72 /* EventEditViwModel.swift in Sources */,
 				F1024357294F183400F71517 /* CurrencyPickerViewModel.swift in Sources */,
 				F1C6491528A50A1F00811CAC /* CoreDataStorage.swift in Sources */,
+				F156AB7D2950A3E800CF8D3F /* EditViewModifier.swift in Sources */,
 				F1B71D8D289924EF00AD2E2C /* NewTeamViewModel.swift in Sources */,
 				F1C8314B289A620A004E34F9 /* TeamsView.swift in Sources */,
 				F15E33EA2914F1D500AC9E48 /* ColorExtensions.swift in Sources */,
@@ -460,6 +473,7 @@
 				F1B71D8B2899238C00AD2E2C /* NewTeamView.swift in Sources */,
 				F15FB6A328B3687E00BE15C3 /* CurrencyPickerView.swift in Sources */,
 				F1B71D882899017800AD2E2C /* MembershipsViewModel.swift in Sources */,
+				F1D452442951AD3500A68169 /* TeamDetailsEditView.swift in Sources */,
 				F16976E12893B94100AB778D /* MembersOfApp.swift in Sources */,
 				F152EBD228D1D2F30066E9C8 /* VisitorViewModel.swift in Sources */,
 				F133060428B507CF0043C487 /* ProfileViewModel.swift in Sources */,
@@ -475,10 +489,12 @@
 				F103BD4F289D32F40041D2EF /* NewEventView.swift in Sources */,
 				F103BD4D289D259F0041D2EF /* EventsViewModel.swift in Sources */,
 				F16976F52893BAFD00AB778D /* NewMembershipView.swift in Sources */,
+				F1D452462951AD5100A68169 /* TeamDetailsEditViewModel.swift in Sources */,
 				F1BBCD7928BCB199003B49E9 /* AppSigner.swift in Sources */,
 				F15E33EC2914F21A00AC9E48 /* ViewStyles.swift in Sources */,
 				F12A85E828B8A6210041B85B /* SocialMediaRow.swift in Sources */,
 				F1A6C05129376A7A00EF0FFF /* Protocols.swift in Sources */,
+				F156AB7F2950A77800CF8D3F /* EditButton.swift in Sources */,
 				F16976F72893BB1200AB778D /* NewMembershipViewModel.swift in Sources */,
 				F1C6492328A50F3700811CAC /* Member+Entity.swift in Sources */,
 			);
