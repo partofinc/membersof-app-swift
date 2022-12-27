@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import Models
 
 extension NewVisitorView {
@@ -26,7 +27,7 @@ extension NewVisitorView {
         @Published var price: Price = .init(id: UUID(), currency: "USD", value: 0)
         
         fileprivate let storage: Storage
-        fileprivate var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
+        fileprivate var cancelllers: Set<AnyCancellable> = []
         
         init(_ event: Event, storage: Storage) {
             self.event = event

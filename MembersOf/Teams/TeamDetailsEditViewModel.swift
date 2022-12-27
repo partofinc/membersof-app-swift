@@ -27,9 +27,7 @@ extension TeamDetailsEditView {
         let team: Team
         let storage: Storage
         
-        fileprivate var socialFetcher: CoreDataStorage.Fetcher<Social>?
-        fileprivate var crewFetcher: CoreDataStorage.Fetcher<Supervisor>?
-        fileprivate var inviteFetcher: CoreDataStorage.Fetcher<Invite>?
+        private var cancellers: Set<AnyCancellable> = []
         
         init(_ team: Team, storage: Storage) {
             self.storage = storage
@@ -40,17 +38,25 @@ extension TeamDetailsEditView {
             self.socials = team.social
             self.socialMedias = .all
             self.socialMedias.removeAll(where: {socials.map(\.media).contains($0)})
-            socialFetcher = storage.fetch()
-                .filter(by: {$0.team?.id == team.id})
+            fetch()
+        }
+        
+        private func fetch() {
+            storage.fetch(Social.self)
+                .filter(by: {$0.team?.id == self.team.id})
+                .sort(by: [.init(\.order)])
                 .assign(to: \.socials, on: self)
-                .run(sort: [.init(\.order)])
-            crewFetcher = storage.fetch()
-                .filter(by: {$0.team.id == team.id})
+                .store(in: &cancellers)
+            storage.fetch(Supervisor.self)
+                .filter(by: {$0.team.id == self.team.id})
+                .sort(by: [.init(\.order)])
                 .assign(to: \.crew, on: self)
-                .run(sort: [.init(\.order)])
-            inviteFetcher = storage.fetch()
+                .store(in: &cancellers)
+            storage.fetch(Invite.self)
+                .filter(by: {$0.team?.id == self.team.id})
+                .sort(by: [.init(\.createDate)])
                 .assign(to: \.invites, on: self)
-                .run(sort: [.init(\.createDate)])
+                .store(in: &cancellers)
         }
         
         func update(brief: String) {

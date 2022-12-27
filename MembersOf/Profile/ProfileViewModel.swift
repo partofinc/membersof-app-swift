@@ -40,24 +40,25 @@ extension ProfileView {
         let storage: Storage
         let signer: Signer
         
-        private var socialFetcher: CoreDataStorage.Fetcher<Social>?
-        private var memberFetcher: AnyCancellable?
+        private var cancellers: Set<AnyCancellable> = []
         
         init(_ signer: Signer) {
             self.signer = signer
             self.storage = signer.storage
             
-            memberFetcher = signer.me
+             signer.me
                 .sink { [unowned self] member in
                     self.me = member
                 }
+                .store(in: &cancellers)
         }
         
         func fetch() {
-            socialFetcher = storage.fetch()
-                .assign(to: \.social, on: self)
+            storage.fetch(Social.self)
                 .filter(by: {$0.member?.id == self.me.id})
-                .run(sort: [.init(\.order)])
+                .sort(by: [.init(\.order)])
+                .assign(to: \.social, on: self)
+                .store(in: &cancellers)
         }
         
         func addSocial() {

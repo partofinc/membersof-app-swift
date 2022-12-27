@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct MembersOfApp: App {
     
-    private let signer: AppSigner = .init(CoreDataStorage("CoreModel"))
+    private let signer: AppSigner = .app
     
     var body: some Scene {
         WindowGroup {

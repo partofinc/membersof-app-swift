@@ -17,8 +17,8 @@ final class CoreDataStorage: Storage {
         }
     }
     
-    func fetch<T>() -> Fetcher<T> where T : Storable {
-        Fetcher(container.viewContext)
+    func fetch<T>(_ type: T.Type) -> StoragePublisher<T> where T : Storable {
+        StoragePublisher(fetcher: CoreDataFetcher(container.viewContext))
     }
     
     func find<Entity: Storable>(key: String, value: String) -> Entity? {
@@ -67,30 +67,4 @@ extension NSManagedObjectContext {
         try save()
     }
 }
-
-//@propertyWrapper
-//class StorageBacked<Value: Storable> {
-//    
-//    let key: String
-//    let value: String
-//    let defaultValue: Value
-//    let storage: CoreDataStorage
-//    
-//    init(key: String, value: String, defaultValue: Value) {
-//        self.key = key
-//        self.value = value
-//        self.defaultValue = defaultValue
-//    }
-//    
-//    var wrappedValue: Value {
-//        get {
-//            storage.find(key: key, value: value) ?? defaultValue
-//        }
-//        set {
-//            Task {
-//                try await storage.save(newValue)
-//            }
-//        }
-//    }
-//}
 

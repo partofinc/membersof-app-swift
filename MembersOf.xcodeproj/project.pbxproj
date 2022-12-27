@@ -45,6 +45,7 @@
 		F16976E92893B94500AB778D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F16976E82893B94500AB778D /* Preview Assets.xcassets */; };
 		F16976F52893BAFD00AB778D /* NewMembershipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976F42893BAFD00AB778D /* NewMembershipView.swift */; };
 		F16976F72893BB1200AB778D /* NewMembershipViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976F62893BB1200AB778D /* NewMembershipViewModel.swift */; };
+		F16CB3CC295B078D001184A7 /* StoragePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16CB3CB295B078D001184A7 /* StoragePublisher.swift */; };
 		F1954F3528A2B87900B8D3C5 /* NewVisitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1954F3428A2B87900B8D3C5 /* NewVisitorViewModel.swift */; };
 		F19A66B828D86D2E00CB884B /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = F19A66B728D86D2E00CB884B /* SwiftDate */; };
 		F1A14DA628AE569A001F00E3 /* Membership+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */; };
@@ -57,7 +58,7 @@
 		F1A6C05129376A7A00EF0FFF /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A6C05029376A7A00EF0FFF /* Protocols.swift */; };
 		F1ABC48D28B4AA600075E3F9 /* MembershipDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABC48C28B4AA600075E3F9 /* MembershipDetailView.swift */; };
 		F1ABC48F28B4AA700075E3F9 /* MembershipDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABC48E28B4AA700075E3F9 /* MembershipDetailViewModel.swift */; };
-		F1ABE21728AD045E00798E5D /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABE21628AD045E00798E5D /* Fetcher.swift */; };
+		F1ABE21728AD045E00798E5D /* CoreDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ABE21628AD045E00798E5D /* CoreDataFetcher.swift */; };
 		F1B651C728B6431100044E98 /* ExitDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B651C628B6431100044E98 /* ExitDialogView.swift */; };
 		F1B71D862899011E00AD2E2C /* MembershipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D852899011E00AD2E2C /* MembershipsView.swift */; };
 		F1B71D882899017800AD2E2C /* MembershipsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B71D872899017800AD2E2C /* MembershipsViewModel.swift */; };
@@ -125,6 +126,7 @@
 		F16976F42893BAFD00AB778D /* NewMembershipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMembershipView.swift; sourceTree = "<group>"; };
 		F16976F62893BB1200AB778D /* NewMembershipViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMembershipViewModel.swift; sourceTree = "<group>"; };
 		F16976F82893BC5D00AB778D /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
+		F16CB3CB295B078D001184A7 /* StoragePublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoragePublisher.swift; sourceTree = "<group>"; };
 		F1954F3428A2B87900B8D3C5 /* NewVisitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewVisitorViewModel.swift; sourceTree = "<group>"; };
 		F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Membership+Entity.swift"; sourceTree = "<group>"; };
 		F1A27FF02938AE1A00C17E6A /* PreviewSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSigner.swift; sourceTree = "<group>"; };
@@ -134,7 +136,7 @@
 		F1A6C05029376A7A00EF0FFF /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		F1ABC48C28B4AA600075E3F9 /* MembershipDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipDetailView.swift; sourceTree = "<group>"; };
 		F1ABC48E28B4AA700075E3F9 /* MembershipDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipDetailViewModel.swift; sourceTree = "<group>"; };
-		F1ABE21628AD045E00798E5D /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
+		F1ABE21628AD045E00798E5D /* CoreDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFetcher.swift; sourceTree = "<group>"; };
 		F1B651C628B6431100044E98 /* ExitDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitDialogView.swift; sourceTree = "<group>"; };
 		F1B71D852899011E00AD2E2C /* MembershipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipsView.swift; sourceTree = "<group>"; };
 		F1B71D872899017800AD2E2C /* MembershipsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipsViewModel.swift; sourceTree = "<group>"; };
@@ -321,9 +323,10 @@
 			children = (
 				F1C6491628A50A2800811CAC /* CoreData */,
 				F1C6491428A50A1F00811CAC /* CoreDataStorage.swift */,
-				F1ABE21628AD045E00798E5D /* Fetcher.swift */,
+				F1ABE21628AD045E00798E5D /* CoreDataFetcher.swift */,
 				F1A6C0492932293200EF0FFF /* LightStorage.swift */,
 				F1BBCD7828BCB199003B49E9 /* AppSigner.swift */,
+				F16CB3CB295B078D001184A7 /* StoragePublisher.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				F1589F7228A27C9900EE1E92 /* NewVisitorView.swift in Sources */,
 				F1B651C728B6431100044E98 /* ExitDialogView.swift in Sources */,
 				F160721228ACC9E700538A4F /* Supervisor+Entity.swift in Sources */,
+				F16CB3CC295B078D001184A7 /* StoragePublisher.swift in Sources */,
 				F152EBD628D1FE6D0066E9C8 /* Debt+Entity.swift in Sources */,
 				F1447F7228A7E8CF002AF148 /* Event+Entity.swift in Sources */,
 				F15FB69D28B3589E00BE15C3 /* Price+Entity.swift in Sources */,
@@ -468,7 +472,7 @@
 				F1C60BE728A252DB00F944BD /* EventDetailViewModel.swift in Sources */,
 				F1A6C04A2932293200EF0FFF /* LightStorage.swift in Sources */,
 				F1023370289BEFB80009B0B7 /* TextEditDialogView.swift in Sources */,
-				F1ABE21728AD045E00798E5D /* Fetcher.swift in Sources */,
+				F1ABE21728AD045E00798E5D /* CoreDataFetcher.swift in Sources */,
 				F1C83153289A8EF3004E34F9 /* TeamDetailViewModel.swift in Sources */,
 				F1B71D8B2899238C00AD2E2C /* NewTeamView.swift in Sources */,
 				F15FB6A328B3687E00BE15C3 /* CurrencyPickerView.swift in Sources */,

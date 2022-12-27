@@ -27,9 +27,10 @@ extension NewEventView {
         let storage: Storage
         let signer: Signer
         
-        private var teamsFetcher: CoreDataStorage.Fetcher<Team>?
-        private var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
-        private var memberFetcher: AnyCancellable?
+//        private var teamsFetcher: CoreDataStorage.Fetcher<Team>?
+//        private var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
+//        private var memberFetcher: AnyCancellable?
+        private var cancellers: Set<AnyCancellable> = []
         
         var canCreate: Bool {
             name.count > 2 && !selectedMemberships.isEmpty
@@ -42,12 +43,14 @@ extension NewEventView {
             let date = Date.now.dateRoundedAt(at: .toCeil5Mins)
             startDate = date
             endDate = date + 90.minutes
-            memberFetcher = signer.me
+            
+            signer.me
                 .eraseToAnyPublisher()
-                .sink(receiveValue: { [unowned self] member in
+                .sink { [unowned self] member in
                     self.me = member
                     self.fetchTeams()
-                })
+                }
+                .store(in: &cancellers)
             calculateDuration()
             fetchTeams()
         }
@@ -75,12 +78,14 @@ extension NewEventView {
         }
         
         func teamChanged() {
-            membershipsFetcher = storage.fetch()
-                .assign(to: \.memberships, on: self)
+            storage.fetch(Membership.self)
                 .filter(by: { [unowned self] ship in
                     ship.team.id == self.team.id
                 })
-                .run(sort: [.init(\.createDate)])
+                .sort(by: [.init(\.createDate)])
+                .assign(to: \.memberships, on: self)
+                .store(in: &cancellers)
+                
             selectedMemberships.removeAll()
         }
         
@@ -120,17 +125,18 @@ extension NewEventView {
         }
         
         func fetchTeams() {
-            teamsFetcher = storage.fetch()
+            storage.fetch(Team.self)
                 .filter(by: { [unowned self] team in
                     team.isAccessable(by: me)
                 })
+                .sort(by: [.init(\.createDate, order: .reverse)])
                 .sink { [unowned self] teams in
                     if !teams.contains(self.team), let first = teams.first {
                         self.team = first
                     }
                     self.teams = teams
                 }
-                .run(sort: [.init(\.createDate, order: .reverse)])
+                .store(in: &cancellers)
         }
     }
 }

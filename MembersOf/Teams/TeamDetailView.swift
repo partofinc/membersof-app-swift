@@ -179,10 +179,11 @@ struct TeamDetailView: View {
     }
 }
 
-//struct ClubDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NavigationStack {
-//            TeamDetailView(viewModel: .init(team: Mock.teams.first!))
-//        }
-//    }
-//}
+struct ClubDetailView_Previews: PreviewProvider {
+    static let storage = MockStorage()
+    static var previews: some View {
+        NavigationStack {
+            TeamDetailView(viewModel: .init(storage.teams.first!, storage: storage))
+        }
+    }
+}

@@ -15,8 +15,7 @@ extension EventsView {
         let signer: any Signer
         let storage: any Storage
         
-        private var eventsFetcher: CoreDataStorage.Fetcher<Event>?
-        private var memberFetcher: AnyCancellable?
+        private var cancellers: Set<AnyCancellable> = []
         
         private let sort: [SortDescriptor<Event.Entity>] = [
             .init(\.createDate, order: .reverse),
@@ -27,21 +26,23 @@ extension EventsView {
             self.signer = signer
             self.storage = signer.storage
             
-            memberFetcher = signer.me
+            signer.me
                 .sink { [unowned self] member in
                     self.me = member
                     self.fetch()
                 }
+                .store(in: &cancellers)
         }
         
         private func fetch() {
-            eventsFetcher = storage.fetch()
+            storage.fetch(Event.self)
                 .filter(by: { [unowned self] event in
                     guard let crew = event.team.crew else { return false }
                     return crew.contains(where: {$0.member.id == self.me.id})
                 })
+                .sort(by: [.init(\.createDate, order: .reverse), .init(\.startDate, order: .reverse)])
                 .assign(to: \.events, on: self)
-                .run(sort: sort)
+                .store(in: &cancellers)
         }
         
         func delete(_ event: Event) {

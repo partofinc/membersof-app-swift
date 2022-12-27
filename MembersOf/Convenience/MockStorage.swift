@@ -10,9 +10,9 @@ import Models
 import Combine
 
 final class MockStorage: Storage {
-
-    func fetch<T>() -> CoreDataStorage.Fetcher<T> where T : Storable {
-        .init(.init(concurrencyType: .mainQueueConcurrencyType))
+    
+    func fetch<T>(_ type: T.Type) -> StoragePublisher<T> where T : Storable {
+        .init(fetcher: MockFetcher(storage: self))
     }
     
     func delete(_ entities: [any Storable]) async throws {
@@ -32,8 +32,8 @@ final class MockStorage: Storage {
     }
     
     
-    private var teams: [Team] = []
-    private var members: [Member] = []
+    private(set) var teams: [Team] = []
+    private(set) var members: [Member] = []
     
     init() {
         
@@ -66,5 +66,22 @@ final class MockStorage: Storage {
         )
         
         teams = [strela, kimura]
+    }
+}
+
+struct MockFetcher<E: Storable>: Fetcher {
+    
+    typealias T = E
+    
+    let storage: MockStorage
+    
+    func sink(receiveValue: @escaping ([E]) -> Void, in queue: DispatchQueue, failure: @escaping (Error) -> Void, query: StorageQuery<E>) -> AnyCancellable {
+        let subject: PassthroughSubject<[T.EntityType], Error> = .init()
+        return subject.eraseToAnyPublisher()
+            .sink { completion in
+                
+            } receiveValue: { output in
+                
+            }
     }
 }

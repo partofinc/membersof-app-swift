@@ -15,7 +15,7 @@ final class AppSigner: ObservableObject, Signer {
     @LightStorage(key: .userId)
     private var userId: String?
     
-    private var fetcher: CoreDataStorage.Fetcher<Member>?
+    private var canceler: AnyCancellable?
     
     init(_ storage: some Storage) {
         self.storage = storage
@@ -29,20 +29,21 @@ final class AppSigner: ObservableObject, Signer {
     
     func signOut() {
         userId = nil
-        fetcher = nil
+        canceler?.cancel()
+        canceler = nil
         me.send(.local)
     }
     
     private func fetch() {
         guard let userId, let id = UUID(uuidString: userId) else { return }
-        fetcher = storage.fetch()
+        canceler = storage.fetch(Member.self)
+            .sort(by: [.init(\.firstName)])
             .filter(by: {$0.id == id})
-            .sink(receiveValue: { [unowned self] users in
+            .sink { [unowned self] users in
                 if let first = users.first {
                     self.me.send(first)
                 }
-            })
-            .run(sort: [.init(\.firstName)])
+            }
     }
 }
 
