@@ -35,6 +35,7 @@ extension TeamsView {
                     team.isAccessable(by: me)
                 })
                 .sort(by: [.init(\.createDate, order: .reverse)])
+                .catch{_ in Just([])}
                 .assign(to: \.teams, on: self)
                 .store(in: &cancellers)
         }

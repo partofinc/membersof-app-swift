@@ -28,6 +28,7 @@ extension MembershipDetailView {
             teamCanceller = storage.fetch(Team.self)
                 .filter(by: {$0.id == membership.teamId})
                 .sort(by: [.init(\.createDate)])
+                .catch{_ in Just([])}
                 .sink { [unowned self] teams in
                     guard let t = teams.first else { return }
                     self.team = t

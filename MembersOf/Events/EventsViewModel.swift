@@ -41,6 +41,7 @@ extension EventsView {
                     return crew.contains(where: {$0.member.id == self.me.id})
                 })
                 .sort(by: [.init(\.createDate, order: .reverse), .init(\.startDate, order: .reverse)])
+                .catch{_ in Just([])}
                 .assign(to: \.events, on: self)
                 .store(in: &cancellers)
         }

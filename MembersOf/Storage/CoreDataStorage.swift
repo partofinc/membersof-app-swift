@@ -2,6 +2,7 @@
 
 import Foundation
 import CoreData
+import Combine
 import Models
 
 final class CoreDataStorage: Storage {
@@ -18,7 +19,9 @@ final class CoreDataStorage: Storage {
     }
     
     func fetch<T>(_ type: T.Type) -> StoragePublisher<T> where T : Storable {
-        StoragePublisher(fetcher: CoreDataFetcher(container.viewContext))
+        StoragePublisher {
+            CoreDataFetcher(context: self.container.viewContext, query: $0)
+        }
     }
     
     func find<Entity: Storable>(key: String, value: String) -> Entity? {

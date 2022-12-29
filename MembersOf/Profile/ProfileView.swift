@@ -142,7 +142,7 @@ struct ProfileView: View {
         }
         Section("Social media") {
             ForEach(viewModel.social) { media in
-                SocialMediaRow(media, edit: $editing) {
+                SocialMediaRow(media) {
                     viewModel.deletingSocial = media
                     deletingSocial.toggle()
                 }

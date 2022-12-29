@@ -23,6 +23,11 @@ struct TeamDetailsEditView: View {
                 TextField("Introduction", text: $viewModel.brief, axis: .vertical)
             }
             Section("Social media") {
+                ForEach(viewModel.socials) { media in
+                    SocialMediaRow(media) {
+                        
+                    }
+                }
                 Button {
                     
                 } label: {
@@ -30,6 +35,14 @@ struct TeamDetailsEditView: View {
                 }
             }
             Section("Crew") {
+                ForEach(viewModel.crew) { supervisor in
+                    HStack {
+                        Text(supervisor.member.fullName)
+                        Spacer()
+                        Text(supervisor.role.rawValue)
+                            .font(.headline)
+                    }
+                }
                 Button {
                     
                 } label: {

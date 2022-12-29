@@ -56,7 +56,8 @@ struct MembershipsView: View {
 }
 
 struct MembershipsView_Previews: PreviewProvider {
+    static let signer = PreviewSigner.default
     static var previews: some View {
-        MembershipsView(viewModel: .init(PreviewSigner(storage: CoreDataStorage("CoreModel"))))
+        MembershipsView(viewModel: .init(signer))
     }
 }

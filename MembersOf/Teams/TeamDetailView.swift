@@ -54,9 +54,7 @@ struct TeamDetailView: View {
                 Spacer()
             }
             ForEach(viewModel.team.social) { social in
-                SocialMediaRow(social, style: .fancy, edit: .constant(true)) {
-                    
-                }
+                SocialMediaRow(social, style: .fancy)
                 .padding(.bottom, 5)
             }
         }

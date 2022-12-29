@@ -18,16 +18,10 @@ protocol Storage {
     func save(_ entity: some Storable) async throws
 }
 
-protocol Fetcher<T> {
+protocol Fetcher<T>: Combine.Subscription {
     
     associatedtype T: Storable
-    
-    func sink(
-        receiveValue: @escaping ([T]) -> Void,
-        in queue: DispatchQueue,
-        failure: @escaping (Error) -> Void,
-        query: StorageQuery<T>
-    ) -> AnyCancellable
+    func start<S: Subscriber>(with subscriber: S) where S.Input == [T], S.Failure == Error
 }
 
 protocol Signer: AnyObject {

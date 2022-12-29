@@ -32,12 +32,14 @@ extension VisitorView {
             storage.fetch(Membership.self)
                 .filter(by: {$0.team.id == event.team.id})
                 .sort(by: [.init(\.createDate, order: .reverse)])
+                .catch{_ in Just([])}
                 .assign(to: \.memberships, on: self)
                 .store(in: &cancellers)
 
             storage.fetch(Subscription.self)
                 .filter(by: {$0.member.id == member.id && $0.membership.team.id == event.team.id})
                 .sort(by: [.init(\.startDate)])
+                .catch{_ in Just([])}
                 .sink { [unowned self] subs in
                     self.subscription = subs.last
                 }

@@ -8,51 +8,38 @@
 import Foundation
 import Combine
 
-struct StoragePublisher<T: Storable> {
-        
-    let fetcher: any Fetcher<T>
-    let queue: DispatchQueue
-    let failure: (Error) -> Void
+struct StoragePublisher<T: Storable>: Publisher {
+    
+    typealias Output = [T]
+    typealias Failure = Error
+    typealias Constructor = (StorageQuery<T>) -> any Fetcher<T>
+            
+    let constructor: Constructor
     let filter: (T.EntityType) -> Bool
     let descriptors: [SortDescriptor<T.EntityType>]
     
-    init(
-        fetcher: some Fetcher<T>,
-        queue: DispatchQueue = .main,
-        failure: @escaping (Error) -> Void = {_ in},
-        filter: @escaping (T.EntityType) -> Bool = {_ in true},
-        descriptors: [SortDescriptor<T.EntityType>] = []) {
-            self.fetcher = fetcher
-            self.queue = queue
-            self.failure = failure
+    init(constructor: @escaping Constructor, filter: @escaping (T.EntityType) -> Bool = {_ in true}, descriptors: [SortDescriptor<T.EntityType>] = []) {
+            self.constructor = constructor
             self.filter = filter
             self.descriptors = descriptors
         }
     
     func subscribe(in queue: DispatchQueue) -> Self {
-        .init(fetcher: fetcher, queue: queue, failure: failure, filter: filter, descriptors: descriptors)
-    }
-    
-    func `catch`(_ failure: @escaping (Error) -> Void) -> Self {
-        .init(fetcher: fetcher, queue: queue, failure: failure, filter: filter, descriptors: descriptors)
+        .init(constructor: constructor, filter: filter, descriptors: descriptors)
     }
     
     func filter(by condition: @escaping (T.EntityType) -> Bool) -> Self {
-        .init(fetcher: fetcher, queue: queue, failure: failure, filter: condition, descriptors: descriptors)
+        .init(constructor: constructor, filter: condition, descriptors: descriptors)
     }
     
     func sort(by descriptors: [SortDescriptor<T.EntityType>]) -> Self {
-        .init(fetcher: fetcher, queue: queue, failure: failure, filter: filter, descriptors: descriptors)
+        .init(constructor: constructor, filter: filter, descriptors: descriptors)
     }
     
-    func sink(receiveValue: @escaping ([T]) -> Void) -> AnyCancellable {
-        fetcher.sink(receiveValue: receiveValue, in: queue, failure: failure, query: .init(filter: filter, descriptors: descriptors))
-    }
-    
-    func assign<Root: AnyObject>(to keyPath: ReferenceWritableKeyPath<Root, [T]>, on object: Root) -> AnyCancellable {
-        sink { [unowned object] value in
-            object[keyPath: keyPath] = value
-        }
+    func receive<S>(subscriber: S) where S : Subscriber, Failure == S.Failure, [T] == S.Input {
+        let fetcher = constructor(.init(filter: filter, descriptors: descriptors))
+        subscriber.receive(subscription: fetcher)
+        fetcher.start(with: subscriber)
     }
 }
 
@@ -60,3 +47,4 @@ struct StorageQuery<T: Storable> {
     let filter: (T.EntityType) -> Bool
     let descriptors: [SortDescriptor<T.EntityType>]
 }
+

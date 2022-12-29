@@ -39,8 +39,9 @@ final class AppSigner: ObservableObject, Signer {
         canceler = storage.fetch(Member.self)
             .sort(by: [.init(\.firstName)])
             .filter(by: {$0.id == id})
-            .sink { [unowned self] users in
-                if let first = users.first {
+            .catch { error in Just([.local])}
+            .sink { members in
+                if let first = members.first {
                     self.me.send(first)
                 }
             }

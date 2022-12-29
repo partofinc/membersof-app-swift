@@ -30,6 +30,7 @@ extension EventDetailView {
             visitsCanceler = storage.fetch(Visit.self)
                 .sort(by: [.init(\.checkInDate, order: .reverse)])
                 .filter(by: {$0.event.id == event.id})
+                .catch{ _ in Just([])}
                 .assign(to: \.visits, on: self)
         }
         

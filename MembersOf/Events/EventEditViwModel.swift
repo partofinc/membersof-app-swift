@@ -39,6 +39,7 @@ extension EventEditView {
             shipsCanceler = storage.fetch(Membership.self)
                 .filter(by: {$0.team.id == event.team.id})
                 .sort(by: [.init(\.createDate)])
+                .catch{ _ in Just([])}
                 .assign(to: \.memberships, on: self)
         }
         

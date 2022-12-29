@@ -45,16 +45,19 @@ extension TeamDetailsEditView {
             storage.fetch(Social.self)
                 .filter(by: {$0.team?.id == self.team.id})
                 .sort(by: [.init(\.order)])
+                .catch{_ in Just([])}
                 .assign(to: \.socials, on: self)
                 .store(in: &cancellers)
             storage.fetch(Supervisor.self)
                 .filter(by: {$0.team.id == self.team.id})
                 .sort(by: [.init(\.order)])
+                .catch{_ in Just([])}
                 .assign(to: \.crew, on: self)
                 .store(in: &cancellers)
             storage.fetch(Invite.self)
                 .filter(by: {$0.team?.id == self.team.id})
                 .sort(by: [.init(\.createDate)])
+                .catch{_ in Just([])}
                 .assign(to: \.invites, on: self)
                 .store(in: &cancellers)
         }

@@ -41,6 +41,7 @@ extension MembershipsView {
                     return crew.contains(where: {$0.member.id == self.me.id})
                 })
                 .sort(by: [.init(\.createDate, order: .reverse)])
+                .catch{_ in Just([])}
                 .assign(to: \.memberships, on: self)
                 .store(in: &cancellers)
         }

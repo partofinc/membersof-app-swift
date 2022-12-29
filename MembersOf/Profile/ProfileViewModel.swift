@@ -57,6 +57,7 @@ extension ProfileView {
             storage.fetch(Social.self)
                 .filter(by: {$0.member?.id == self.me.id})
                 .sort(by: [.init(\.order)])
+                .catch{_ in Just([])}
                 .assign(to: \.social, on: self)
                 .store(in: &cancellers)
         }

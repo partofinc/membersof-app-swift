@@ -65,6 +65,7 @@ extension NewMembershipView {
             }
             teamsCanceller = storage.fetch(Team.self)
                 .sort(by: [.init(\.createDate, order: .reverse)])
+                .catch{_ in Just([])}
                 .sink { [unowned self] teams in
                     self.teams = teams
                     if !teams.contains(where: {$0.id == self.selectedTeam.id}), let team = teams.first {

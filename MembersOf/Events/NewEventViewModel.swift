@@ -83,6 +83,7 @@ extension NewEventView {
                     ship.team.id == self.team.id
                 })
                 .sort(by: [.init(\.createDate)])
+                .catch{_ in Just([])}
                 .assign(to: \.memberships, on: self)
                 .store(in: &cancellers)
                 
@@ -130,6 +131,7 @@ extension NewEventView {
                     team.isAccessable(by: me)
                 })
                 .sort(by: [.init(\.createDate, order: .reverse)])
+                .catch{_ in Just([])}
                 .sink { [unowned self] teams in
                     if !teams.contains(self.team), let first = teams.first {
                         self.team = first

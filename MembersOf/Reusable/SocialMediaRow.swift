@@ -12,13 +12,11 @@ struct SocialMediaRow: View {
     
     let social: Social
     let style: Style
-    @Binding var edit: Bool
     let onDelete: () -> Void
     
-    init(_ social: Social, style: Style = .plain, edit: Binding<Bool> = .constant(false), onDelete: @escaping () -> Void = {}) {
+    init(_ social: Social, style: Style = .plain, onDelete: @escaping () -> Void = {}) {
         self.social = social
         self.style = style
-        self._edit = edit
         self.onDelete = onDelete
     }
     
@@ -38,14 +36,6 @@ struct SocialMediaRow: View {
                         .fill(Color.blue.opacity(0.4).gradient)
                         .shadow(radius: 3)
                 )
-                if edit {
-                    Button(role: .destructive) {
-                        onDelete()
-                    } label: {
-                        Image(systemName: "trash")
-                            .font(.headline)
-                    }
-                }
             }
         default:
             HStack {
@@ -53,15 +43,13 @@ struct SocialMediaRow: View {
                 Spacer()
                 Text(social.account)
                     .font(.headline)
-                if edit {
-                    Button(role: .destructive) {
-                        onDelete()
-                    } label: {
-                        Image(systemName: "trash")
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundColor(.red)
+                Button(role: .destructive) {
+                    onDelete()
+                } label: {
+                    Image(systemName: "trash")
                 }
+                .buttonStyle(.plain)
+                .foregroundColor(.red)
             }
         }
     }
@@ -119,13 +107,14 @@ extension SocialMediaRow {
 }
 
 struct SocialMediaRow_Previews: PreviewProvider {
+    static let media = Social(id: UUID(), media: .instagram, account: "rawillk", order: 0, memberId: nil, teamId: nil)
     static var previews: some View {
-        List {
-            SocialMediaRow(
-                .init(id: UUID(), media: .instagram, account: "rawillk", order: 0, memberId: nil, teamId: nil),
-                style: .fancy,
-                edit: .constant(true)
-            )
+        VStack {
+            List {
+                SocialMediaRow(media)
+                NewSocialMediaRow(media: .facebook, account: .constant("red"))
+            }
+            SocialMediaRow(media, style: .fancy)
         }
     }
 }

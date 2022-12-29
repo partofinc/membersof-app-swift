@@ -12,7 +12,7 @@ import Combine
 final class MockStorage: Storage {
     
     func fetch<T>(_ type: T.Type) -> StoragePublisher<T> where T : Storable {
-        .init(fetcher: MockFetcher(storage: self))
+        .init { _ in MockFetcher(storage: self) }
     }
     
     func delete(_ entities: [any Storable]) async throws {
@@ -69,19 +69,23 @@ final class MockStorage: Storage {
     }
 }
 
-struct MockFetcher<E: Storable>: Fetcher {
-    
-    typealias T = E
+final class MockFetcher<T: Storable>: Fetcher {
     
     let storage: MockStorage
     
-    func sink(receiveValue: @escaping ([E]) -> Void, in queue: DispatchQueue, failure: @escaping (Error) -> Void, query: StorageQuery<E>) -> AnyCancellable {
-        let subject: PassthroughSubject<[T.EntityType], Error> = .init()
-        return subject.eraseToAnyPublisher()
-            .sink { completion in
-                
-            } receiveValue: { output in
-                
-            }
+    init(storage: MockStorage) {
+        self.storage = storage
+    }
+    
+    func start<S: Subscriber>(with subscriber: S) where S.Input == [T], S.Failure == Error {
+        
+    }
+    
+    func cancel() {
+        
+    }
+    
+    func request(_ demand: Subscribers.Demand) {
+        
     }
 }
