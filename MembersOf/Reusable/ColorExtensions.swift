@@ -12,4 +12,7 @@ extension Color {
     static var systemBackground: Color {
         .init(uiColor: .systemBackground)
     }
+    static var primaryButtonColor: Color {
+        .init("PrimaryButtonColor")
+    }
 }

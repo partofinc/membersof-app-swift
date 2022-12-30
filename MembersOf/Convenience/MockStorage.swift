@@ -34,6 +34,7 @@ final class MockStorage: Storage {
     
     private(set) var teams: [Team] = []
     private(set) var members: [Member] = []
+    private(set) var memberships: [Membership] = []
     
     init() {
         
@@ -64,8 +65,20 @@ final class MockStorage: Storage {
                 .init(id: UUID(), role: .owner, order: 0, member: murat, teamId: nil)
             ]
         )
-        
         teams = [strela, kimura]
+        
+        let oneTime: Membership = .init(
+            id: UUID(),
+            name: "Visitor",
+            visits: 1,
+            period: .day,
+            length: 1,
+            createDate: .now,
+            team: strela,
+            pricing: [
+                .init(id: UUID(), currency: "RUB", value: 3500)
+            ])
+        memberships = [oneTime]
     }
 }
 

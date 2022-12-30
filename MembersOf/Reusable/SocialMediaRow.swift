@@ -107,7 +107,7 @@ extension SocialMediaRow {
 }
 
 struct SocialMediaRow_Previews: PreviewProvider {
-    static let media = Social(id: UUID(), media: .instagram, account: "rawillk", order: 0, memberId: nil, teamId: nil)
+    static let media = Social(id: UUID(), media: .instagram, account: "rawillk", createDate: .now, memberId: nil, teamId: nil)
     static var previews: some View {
         VStack {
             List {

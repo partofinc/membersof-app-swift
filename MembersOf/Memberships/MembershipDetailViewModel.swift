@@ -26,7 +26,7 @@ extension MembershipDetailView {
             self.membership = membership
             
             teamCanceller = storage.fetch(Team.self)
-                .filter(by: {$0.id == membership.teamId})
+                .filter(by: {$0.id == membership.team.id})
                 .sort(by: [.init(\.createDate)])
                 .catch{_ in Just([])}
                 .sink { [unowned self] teams in

@@ -54,8 +54,7 @@ private extension View {
     @ViewBuilder
     func primaryButtonStyle(padding: CGFloat?, cornerRadius: CGFloat, maxWidth: CGFloat? = nil) -> some View {
         let bg = RoundedRectangle(cornerRadius: cornerRadius)
-            .fill(Color.accentColor.gradient.opacity(0.3))
-            .shadow(radius: 3)
+            .fill(Color.primaryButtonColor.gradient)
         if let padding {
             self
                 .padding(padding)

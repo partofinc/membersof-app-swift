@@ -129,7 +129,7 @@ extension NewMembershipView {
                     period: period,
                     length: length,
                     createDate: .now,
-                    teamId: selectedTeam.id,
+                    team: selectedTeam,
                     pricing: self.pricing
                 )
                 try await self.storage.save(membership)

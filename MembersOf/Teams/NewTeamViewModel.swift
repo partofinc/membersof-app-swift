@@ -44,8 +44,7 @@ extension NewTeamView {
         
         func addSocial() {
             guard let media else { return }
-            let order = socials.last?.order ?? 0
-            socials.append(.init(id: UUID(), media: media, account: account, order: order + 1, memberId: nil, teamId: nil))
+            socials.append(.init(id: UUID(), media: media, account: account, createDate: .now, memberId: nil, teamId: nil))
             
             account = ""
             self.media = nil

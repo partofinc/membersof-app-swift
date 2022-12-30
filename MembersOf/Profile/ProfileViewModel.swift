@@ -56,7 +56,7 @@ extension ProfileView {
         func fetch() {
             storage.fetch(Social.self)
                 .filter(by: {$0.member?.id == self.me.id})
-                .sort(by: [.init(\.order)])
+                .sort(by: [.init(\.createDate)])
                 .catch{_ in Just([])}
                 .assign(to: \.social, on: self)
                 .store(in: &cancellers)
@@ -65,9 +65,8 @@ extension ProfileView {
         func addSocial() {
             guard let addingMedia else { return }
             Task {
-                var order = self.social.map(\.order).last ?? 0
-                order += 1
-                try await self.storage.save(Social(id: UUID(), media: addingMedia, account: addingAccount, order: order, memberId: me.id, teamId: nil))
+                let social = Social(id: UUID(), media: addingMedia, account: addingAccount, createDate: .now, memberId: me.id, teamId: nil)
+                try await self.storage.save(social)
                 DispatchQueue.main.async {
                     self.addingAccount = ""
                     self.addingMedia = nil

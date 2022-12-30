@@ -158,7 +158,7 @@ struct TeamDetailView: View {
                         Text(invite.title)
                             .font(.headline)
                         Spacer()
-                        Text(invite.role!.rawValue.capitalized)
+                        Text(invite.role.rawValue.capitalized)
                             .font(.body)
                     }
                     .padding()

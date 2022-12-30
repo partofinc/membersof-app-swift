@@ -6,9 +6,7 @@ import Models
 final class AppSigner: ObservableObject, Signer {
                 
     let me: CurrentValueSubject<Member, Never> = .init(.local)
-    var signedIn: Bool {
-        userId != nil
-    }
+    var signedIn: Bool {userId != nil}
     
     let storage: any Storage
     

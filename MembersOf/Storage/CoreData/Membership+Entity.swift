@@ -24,7 +24,7 @@ extension Membership: Storable {
     }
     
     init(_ entity: Entity) {
-        self.init(id: entity.id, name: entity.name!, visits: .init(entity.visits), period: .init(rawValue: entity.period!)!, length: .init(entity.length), createDate: entity.createDate, teamId: entity.team.id, pricing: entity.pricing == nil ? [] : entity.pricing!.map(Price.init))
+        self.init(id: entity.id, name: entity.name!, visits: .init(entity.visits), period: .init(rawValue: entity.period!)!, length: .init(entity.length), createDate: entity.createDate, team: .init(entity.team), pricing: entity.pricing == nil ? [] : entity.pricing!.map(Price.init))
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
@@ -35,7 +35,7 @@ extension Membership: Storable {
         entity.visits = .init(visits)
         entity.length = .init(length)
         entity.createDate = createDate
-        if let team = Team.first(in: context, key: "id", value: teamId.uuidString) {
+        if let team = Team.first(in: context, key: "id", value: team.id.uuidString) {
             entity.team = team
         }
         if !pricing.isEmpty {

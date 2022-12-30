@@ -28,6 +28,7 @@ extension TeamDetailsEditView {
         let storage: Storage
         
         private var cancellers: Set<AnyCancellable> = []
+        private var socialsToDelete: [Social] = []
         
         init(_ team: Team, storage: Storage) {
             self.storage = storage
@@ -44,16 +45,20 @@ extension TeamDetailsEditView {
         private func fetch() {
             storage.fetch(Social.self)
                 .filter(by: {$0.team?.id == self.team.id})
-                .sort(by: [.init(\.order)])
+                .sort(by: [.init(\.createDate)])
                 .catch{_ in Just([])}
-                .assign(to: \.socials, on: self)
+                .sink { [unowned self] socials in
+                    self.socials = socials.filter{!self.socialsToDelete.contains($0)}
+                }
                 .store(in: &cancellers)
+            
             storage.fetch(Supervisor.self)
                 .filter(by: {$0.team.id == self.team.id})
                 .sort(by: [.init(\.order)])
                 .catch{_ in Just([])}
                 .assign(to: \.crew, on: self)
                 .store(in: &cancellers)
+            
             storage.fetch(Invite.self)
                 .filter(by: {$0.team?.id == self.team.id})
                 .sort(by: [.init(\.createDate)])
@@ -83,9 +88,11 @@ extension TeamDetailsEditView {
         }
         
         func delete(_ social: Social) {
-            Task {
-                try await storage.delete(social)
+            if let idx = socials.firstIndex(of: social) {
+                socials.remove(at: idx)
             }
+            socialsToDelete.append(social)
+            socialMedias.insert(social.media, at: 0)
         }
         
         func deleteTeam() {
@@ -96,10 +103,9 @@ extension TeamDetailsEditView {
         
         func addSocial() {
             guard let media, account.count > 2 else { return }
-            let order = socials.last?.order ?? 0
-            let a = account
+            let social = Social(id: UUID(), media: media, account: account, createDate: .now, memberId: nil, teamId: team.id)
             Task {
-                try await self.storage.save(Social(id: UUID(), media: media, account: a, order: order + 1, memberId: nil, teamId: team.id))
+                try await self.storage.save(social)
             }
             socialMedias.removeAll(where: {$0 == media})
             discardSocial()
@@ -108,6 +114,16 @@ extension TeamDetailsEditView {
         func discardSocial() {
             media = nil
             account = ""
+        }
+        
+        func save() async {
+            do {
+                try await storage.delete(socialsToDelete)
+                let team = Team(id: team.id, name: name, brief: brief, createDate: team.createDate, social: socials, crew: crew)
+                try await storage.save(team)
+            } catch {
+                print(error)
+            }
         }
     }
     
