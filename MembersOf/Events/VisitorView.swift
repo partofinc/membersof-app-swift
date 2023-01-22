@@ -82,7 +82,9 @@ struct VisitorView: View {
             Spacer()
             TextField("350", text: $viewModel.payment)
                 .multilineTextAlignment(.trailing)
+            #if os(iOS)
                 .keyboardType(.numberPad)
+            #endif
         }
     }
     

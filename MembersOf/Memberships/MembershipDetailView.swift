@@ -24,7 +24,7 @@ struct MembershipDetailView: View {
         }
         .navigationTitle(viewModel.membership.name)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 EditButton(editMode: $editMode)
             }
         }

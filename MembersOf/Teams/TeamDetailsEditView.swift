@@ -107,9 +107,11 @@ struct TeamDetailsEditView: View {
                 HStack {
                     Text(media.rawValue)
                     TextField("Account", text: $viewModel.account)
-                        .textContentType(.nickname)
+                        .textContentType(.username)
+                        #if os(iOS)
                         .keyboardType(.emailAddress)
                         .textInputAutocapitalization(.never)
+                        #endif
                         .autocorrectionDisabled()
                         .multilineTextAlignment(.trailing)
                         .focused($addingSocial)

@@ -30,10 +30,12 @@ struct NewSupervisorView: View {
                 }
             }
         }
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .navigationTitle("Supervisor")
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button("Save") {
                     viewModel.save()
                     dismiss()

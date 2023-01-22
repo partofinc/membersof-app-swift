@@ -72,7 +72,10 @@ struct NewMembershipView: View {
                 }
             }
             .navigationTitle("Membership")
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.visible, for: .navigationBar)
+            #endif
             .toolbar {
                 ToolbarItem {
                     Button("Create") {
@@ -82,7 +85,6 @@ struct NewMembershipView: View {
                     .disabled(!viewModel.canCreate)
                 }
             }
-            .toolbarBackground(.visible, for: .navigationBar)
         }
     }
     
@@ -111,7 +113,9 @@ struct NewMembershipView: View {
                     }
                     .buttonStyle(.primarySmall)
                     TextField("0.00", value: $viewModel.price, format: Decimal.FormatStyle())
+                    #if os(iOS)
                         .keyboardType(.decimalPad)
+                    #endif
                         .focused($isPriceEditing)
                     Button {
                         viewModel.addTier()

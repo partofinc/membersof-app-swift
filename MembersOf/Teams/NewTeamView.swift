@@ -46,9 +46,11 @@ struct NewTeamView: View {
                         HStack {
                             Text(media.rawValue)
                             TextField("Account", text: $viewModel.account)
-                                .textContentType(.nickname)
+                                .textContentType(.username)
+                            #if os(iOS)
                                 .keyboardType(.emailAddress)
                                 .textInputAutocapitalization(.never)
+                            #endif
                                 .autocorrectionDisabled()
                                 .multilineTextAlignment(.trailing)
                                 .focused($addingSocial)
@@ -80,7 +82,10 @@ struct NewTeamView: View {
             editingName.toggle()
         }
         .navigationTitle("Team")
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
+        #endif
         .toolbar {
             ToolbarItem {
                 Button("Create") {
@@ -90,7 +95,6 @@ struct NewTeamView: View {
                 .disabled(!viewModel.canCreate)
             }
         }
-        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

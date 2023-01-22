@@ -35,9 +35,11 @@ struct SupervisorView: View {
             .foregroundColor(.red)
         }
         .navigationTitle("Supervisor")
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button("Save") {
                     save(viewModel.save())
                     dismiss()

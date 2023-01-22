@@ -48,7 +48,7 @@ struct EventDetailView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 EditButton(editMode: $editMode)
             }
         }
@@ -228,10 +228,12 @@ struct EventDetailView: View {
         NavigationStack {
             Form {
                 DatePicker("", selection: $customDate, in: .now...)
+                #if os(iOS)
                     .datePickerStyle(.wheel)
+                #endif
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .primaryAction) {
                     Button("Save") {
                         endDate = customDate
                         sheet = nil

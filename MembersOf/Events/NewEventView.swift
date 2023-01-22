@@ -102,7 +102,10 @@ struct NewEventView: View {
                 viewModel.fetchMemberships()
             }
             .navigationTitle("Event")
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.visible, for: .navigationBar)
+            #endif
             .toolbar {
                 ToolbarItem {
                     Button("Create") {
@@ -112,11 +115,12 @@ struct NewEventView: View {
                     .disabled(!viewModel.canCreate)
                 }
             }
-            .toolbarBackground(.visible, for: .navigationBar)
             .onAppear {
                 nameFocus.toggle()
                 // NOTE: changing date picker minute interval
+                #if os(iOS)
                 UIDatePicker.appearance().minuteInterval = 5
+                #endif
             }
         }
     }

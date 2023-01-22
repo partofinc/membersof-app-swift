@@ -39,7 +39,7 @@ struct TeamDetailView: View {
         .scrollDismissesKeyboard(.immediately)
         .navigationTitle(viewModel.team.name)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 EditButton(editMode: $editMode)
             }
         }

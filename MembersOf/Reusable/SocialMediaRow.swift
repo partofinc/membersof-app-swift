@@ -77,11 +77,11 @@ struct NewSocialMediaRow: View {
             Spacer()
             TextField("Account", text: $account)
                 .multilineTextAlignment(.trailing)
-                .keyboardType(.emailAddress)
-                .textContentType(.nickname)
+                .textContentType(.username)
                 .autocorrectionDisabled()
-                .autocapitalization(.none)
             #if os(iOS)
+                .autocapitalization(.none)
+                .keyboardType(.emailAddress)
                 .focused($focus)
             #endif
             Button {
