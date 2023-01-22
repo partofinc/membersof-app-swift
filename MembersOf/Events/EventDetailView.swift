@@ -242,18 +242,3 @@ struct EventDetailView: View {
     }
 }
 
-//import SwiftDate
-//
-//struct EventDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NavigationStack {
-//            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now - 1.hours, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
-//        }
-//        NavigationStack {
-//            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now + 1.hours, estimatedEndDate: nil, endDate: nil, team: Mock.teams.first!, memberships: [])))
-//        }
-//        NavigationStack {
-//            EventDetailView(viewModel: .init(event: .init(id: UUID(), name: "Open mat", createDate: .now, startDate: .now - 1.hours, estimatedEndDate: .now + 90.minutes, endDate: .now + 2.hours, team: Mock.teams.first!, memberships: [])))
-//        }
-//    }
-//}

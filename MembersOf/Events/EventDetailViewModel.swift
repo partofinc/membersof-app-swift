@@ -13,12 +13,12 @@ extension EventDetailView {
         @Published var visits: [Visit] = []
         @Published var progress: Progress = .upcoming
         @Published var duration: String = ""
+        @Published var event: Event
         
-        let event: Event
         let signer: Signer
         let storage: Storage
         
-        private var visitsCanceler: AnyCancellable?
+        private var subscriptions: Set<AnyCancellable> = []
         private let calendar: Calendar = .current
         
         init(event: Event, signer: Signer) {
@@ -27,11 +27,18 @@ extension EventDetailView {
             self.storage = signer.storage
             calculateProgress()
             calculateDuration()
-            visitsCanceler = storage.fetch(Visit.self)
+            
+            storage.fetch(Visit.self)
                 .sort(by: [.init(\.checkInDate, order: .reverse)])
-                .filter(by: {$0.event.id == event.id})
+                .filter(by: \.event.id == event.id)
                 .catch{ _ in Just([])}
                 .assign(to: \.visits, on: self)
+                .store(in: &subscriptions)
+            
+            storage.fetch(Event.self)
+                .first(where: \.id == event.id)
+                .assign(to: \.event, on: self)
+                .store(in: &subscriptions)
         }
         
         var startDate: String {

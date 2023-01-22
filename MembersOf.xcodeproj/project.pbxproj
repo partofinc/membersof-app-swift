@@ -29,6 +29,7 @@
 		F154BACA28ABB915008F8374 /* Team+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F154BAC928ABB915008F8374 /* Team+Entity.swift */; };
 		F156AB7D2950A3E800CF8D3F /* EditViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156AB7C2950A3E800CF8D3F /* EditViewModifier.swift */; };
 		F156AB7F2950A77800CF8D3F /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F156AB7E2950A77800CF8D3F /* EditButton.swift */; };
+		F1587CDF297D720600DAFA0D /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1587CDE297D720600DAFA0D /* Operators.swift */; };
 		F1589F7228A27C9900EE1E92 /* NewVisitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589F7128A27C9900EE1E92 /* NewVisitorView.swift */; };
 		F1589F7428A282A700EE1E92 /* VisitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1589F7328A282A700EE1E92 /* VisitorView.swift */; };
 		F159F061289BA3CF00375BE3 /* SupervisorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F159F060289BA3CF00375BE3 /* SupervisorView.swift */; };
@@ -107,6 +108,7 @@
 		F154BAC928ABB915008F8374 /* Team+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Team+Entity.swift"; sourceTree = "<group>"; };
 		F156AB7C2950A3E800CF8D3F /* EditViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModifier.swift; sourceTree = "<group>"; };
 		F156AB7E2950A77800CF8D3F /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
+		F1587CDE297D720600DAFA0D /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		F1589F7128A27C9900EE1E92 /* NewVisitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewVisitorView.swift; sourceTree = "<group>"; };
 		F1589F7328A282A700EE1E92 /* VisitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorView.swift; sourceTree = "<group>"; };
 		F159F060289BA3CF00375BE3 /* SupervisorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupervisorView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 		F16976F82893BC5D00AB778D /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		F16CB3CB295B078D001184A7 /* StoragePublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoragePublisher.swift; sourceTree = "<group>"; };
 		F1954F3428A2B87900B8D3C5 /* NewVisitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewVisitorViewModel.swift; sourceTree = "<group>"; };
+		F199A541296319F300C32DFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Membership+Entity.swift"; sourceTree = "<group>"; };
 		F1A27FF02938AE1A00C17E6A /* PreviewSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSigner.swift; sourceTree = "<group>"; };
 		F1A6C0492932293200EF0FFF /* LightStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightStorage.swift; sourceTree = "<group>"; };
@@ -240,6 +243,7 @@
 		F16976DF2893B94100AB778D /* MembersOf */ = {
 			isa = PBXGroup;
 			children = (
+				F199A541296319F300C32DFC /* Info.plist */,
 				F1A6C04B2937640300EF0FFF /* Convenience */,
 				F12A85E628B8A5F10041B85B /* Reusable */,
 				F1C6491328A509E600811CAC /* Storage */,
@@ -280,6 +284,7 @@
 				F1A6C04E2937642200EF0FFF /* MockStorage.swift */,
 				F1A6C05029376A7A00EF0FFF /* Protocols.swift */,
 				F1A27FF02938AE1A00C17E6A /* PreviewSigner.swift */,
+				F1587CDE297D720600DAFA0D /* Operators.swift */,
 			);
 			path = Convenience;
 			sourceTree = "<group>";
@@ -447,6 +452,7 @@
 				F12A85F028B8FA680041B85B /* Invite+Entity.swift in Sources */,
 				F1B84A1829138541004C6BCD /* ButtonStyles.swift in Sources */,
 				F159F061289BA3CF00375BE3 /* SupervisorView.swift in Sources */,
+				F1587CDF297D720600DAFA0D /* Operators.swift in Sources */,
 				F1C83151289A872E004E34F9 /* TeamDetailView.swift in Sources */,
 				F1C6491928A50A6300811CAC /* CoreModel.xcdatamodeld in Sources */,
 				F1C8314D289A621B004E34F9 /* TeamsViewModel.swift in Sources */,
@@ -634,6 +640,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MembersOf/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -675,6 +682,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MembersOf/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

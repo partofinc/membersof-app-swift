@@ -27,9 +27,6 @@ extension NewEventView {
         let storage: Storage
         let signer: Signer
         
-//        private var teamsFetcher: CoreDataStorage.Fetcher<Team>?
-//        private var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
-//        private var memberFetcher: AnyCancellable?
         private var cancellers: Set<AnyCancellable> = []
         
         var canCreate: Bool {
@@ -77,7 +74,7 @@ extension NewEventView {
             selectedMemberships.removeAll()
         }
         
-        func teamChanged() {
+        func fetchMemberships() {
             storage.fetch(Membership.self)
                 .filter(by: { [unowned self] ship in
                     ship.team.id == self.team.id
@@ -135,6 +132,7 @@ extension NewEventView {
                 .sink { [unowned self] teams in
                     if !teams.contains(self.team), let first = teams.first {
                         self.team = first
+                        self.fetchMemberships()
                     }
                     self.teams = teams
                 }

@@ -34,7 +34,7 @@ extension SearchMembersView {
                 return
             }
             storage.fetch(Member.self)
-                .filter {$0.name(contains: self.pattern)}
+                .filter(by: \.fullName ~~ pattern)//{$0.name(contains: self.pattern)}
                 .sort(by:  [.init(\.firstName)])
                 .catch{_ in Just([])}
                 .assign(to: \.members, on: self)

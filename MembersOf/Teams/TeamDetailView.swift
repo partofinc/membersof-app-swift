@@ -28,8 +28,8 @@ struct TeamDetailView: View {
                 if !viewModel.team.social.isEmpty {
                     socialMedia
                 }
-                subscription
-                crew
+                members
+                events
             }
             .padding()
         }
@@ -57,6 +57,49 @@ struct TeamDetailView: View {
                 SocialMediaRow(social, style: .fancy)
                 .padding(.bottom, 5)
             }
+        }
+        .cardStyle()
+    }
+    
+    @ViewBuilder
+    private var members: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            NavigationLink {
+                Text("All members")
+            } label: {
+                HStack {
+                    Text("Members")
+                    Image(systemName: "chevron.right")
+                    Spacer()
+                    Text("67")
+                }
+                .font(.headline)
+            }
+            .buttonStyle(.plain)
+            Button {
+                
+            } label: {
+                Label("Add", systemImage: "plus")
+            }
+        }
+        .cardStyle()
+    }
+    
+    @ViewBuilder
+    private var events: some View {
+        VStack(alignment: .leading) {
+            NavigationLink {
+                Text("All events")
+            } label: {
+                HStack {
+                    Text("Events")
+                    Image(systemName: "chevron.right")
+                    Spacer()
+                    Text("12")
+                }
+            }
+            .buttonStyle(.plain)
+            .font(.headline)
         }
         .cardStyle()
     }

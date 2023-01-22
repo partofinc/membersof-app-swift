@@ -34,3 +34,12 @@ extension Member: Storable {
     }
 }
 
+extension Member.Entity {
+    var fullName: String {
+        if let lastName {
+            return firstName + " " + lastName
+        }
+        return firstName
+    }
+}
+

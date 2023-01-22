@@ -24,16 +24,24 @@ struct StoragePublisher<T: Storable>: Publisher {
             self.descriptors = descriptors
         }
     
-    func subscribe(in queue: DispatchQueue) -> Self {
-        .init(constructor: constructor, filter: filter, descriptors: descriptors)
-    }
-    
     func filter(by condition: @escaping (T.EntityType) -> Bool) -> Self {
         .init(constructor: constructor, filter: condition, descriptors: descriptors)
     }
     
     func sort(by descriptors: [SortDescriptor<T.EntityType>]) -> Self {
         .init(constructor: constructor, filter: filter, descriptors: descriptors)
+    }
+    
+    func first() -> AnyPublisher<T, Never> {
+        self
+            .compactMap { $0.first }
+            .catch { _ in Empty<T, Never>()}
+            .eraseToAnyPublisher()
+    }
+    
+    func first(where condition: @escaping (T.EntityType) -> Bool) -> AnyPublisher<T, Never> {
+        StoragePublisher(constructor: constructor, filter: condition, descriptors: descriptors)
+            .first()
     }
     
     func receive<S>(subscriber: S) where S : Subscriber, Failure == S.Failure, [T] == S.Input {

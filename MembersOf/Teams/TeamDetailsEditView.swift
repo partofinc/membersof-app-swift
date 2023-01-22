@@ -79,9 +79,9 @@ struct TeamDetailsEditView: View {
                     
                 } label: {
                     HStack {
-                        Text(invite.name ?? "No name")
+                        Text(invite.title)
                         Spacer()
-                        Text("Role")
+                        Text(invite.role.rawValue)
                             .font(.headline)
                     }
                 }

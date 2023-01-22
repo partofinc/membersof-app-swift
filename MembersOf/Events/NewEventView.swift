@@ -99,7 +99,7 @@ struct NewEventView: View {
                 }
             }
             .onChange(of: viewModel.team) { _ in
-                viewModel.teamChanged()
+                viewModel.fetchMemberships()
             }
             .navigationTitle("Event")
             .navigationBarTitleDisplayMode(.inline)

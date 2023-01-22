@@ -29,7 +29,8 @@ final class CoreDataFetcher<T: Storable>: NSObject, NSFetchedResultsControllerDe
         do {
             try self.controller.performFetch()
             if let obj = self.controller.fetchedObjects {
-                _ = subscriber.receive(obj.filter(query.filter).map(T.init))
+                receive(obj)
+//                _ = subscriber.receive(obj.filter(query.filter).map(T.init))
             }
         } catch {
             subscriber.receive(completion: .failure(error))
