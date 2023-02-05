@@ -23,19 +23,13 @@ struct SocialMediaRow: View {
     var body: some View {
         switch style {
         case .fancy:
-            HStack {
+            GroupBox {
                 HStack {
                     Text(social.media.rawValue.capitalized)
                     Spacer()
                     Text(social.account)
                         .font(.headline)
                 }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.blue.opacity(0.4).gradient)
-                        .shadow(radius: 3)
-                )
             }
         default:
             HStack {

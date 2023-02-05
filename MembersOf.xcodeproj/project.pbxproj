@@ -79,6 +79,13 @@
 		F1C8314F289A714B004E34F9 /* TeamRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C8314E289A714B004E34F9 /* TeamRow.swift */; };
 		F1C83151289A872E004E34F9 /* TeamDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C83150289A872E004E34F9 /* TeamDetailView.swift */; };
 		F1C83153289A8EF3004E34F9 /* TeamDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C83152289A8EF3004E34F9 /* TeamDetailViewModel.swift */; };
+		F1D1C5242987BB9300E36E8D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D1C5232987BB9300E36E8D /* Schedule.swift */; };
+		F1D1C5262987BCB200E36E8D /* ScheduleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D1C5252987BCB200E36E8D /* ScheduleRow.swift */; };
+		F1D1C5282987DC9300E36E8D /* EventCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D1C5272987DC9300E36E8D /* EventCreationView.swift */; };
+		F1D1C52A2987E01A00E36E8D /* NewScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D1C5292987E01A00E36E8D /* NewScheduleView.swift */; };
+		F1D1C52C2987F34D00E36E8D /* Schedule+Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D1C52B2987F34D00E36E8D /* Schedule+Entity.swift */; };
+		F1D1C52E2988F7E400E36E8D /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D1C52D2988F7E400E36E8D /* Place.swift */; };
+		F1D1C5302989659400E36E8D /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D1C52F2989659400E36E8D /* JSONHelper.swift */; };
 		F1D452442951AD3500A68169 /* TeamDetailsEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D452432951AD3500A68169 /* TeamDetailsEditView.swift */; };
 		F1D452462951AD5100A68169 /* TeamDetailsEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D452452951AD5100A68169 /* TeamDetailsEditViewModel.swift */; };
 		F1E25F1728A247F000B1511D /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E25F1628A247F000B1511D /* EventRow.swift */; };
@@ -159,6 +166,13 @@
 		F1C8314E289A714B004E34F9 /* TeamRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamRow.swift; sourceTree = "<group>"; };
 		F1C83150289A872E004E34F9 /* TeamDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailView.swift; sourceTree = "<group>"; };
 		F1C83152289A8EF3004E34F9 /* TeamDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailViewModel.swift; sourceTree = "<group>"; };
+		F1D1C5232987BB9300E36E8D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		F1D1C5252987BCB200E36E8D /* ScheduleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRow.swift; sourceTree = "<group>"; };
+		F1D1C5272987DC9300E36E8D /* EventCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreationView.swift; sourceTree = "<group>"; };
+		F1D1C5292987E01A00E36E8D /* NewScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewScheduleView.swift; sourceTree = "<group>"; };
+		F1D1C52B2987F34D00E36E8D /* Schedule+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schedule+Entity.swift"; sourceTree = "<group>"; };
+		F1D1C52D2988F7E400E36E8D /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		F1D1C52F2989659400E36E8D /* JSONHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
 		F1D452432951AD3500A68169 /* TeamDetailsEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailsEditView.swift; sourceTree = "<group>"; };
 		F1D452452951AD5100A68169 /* TeamDetailsEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailsEditViewModel.swift; sourceTree = "<group>"; };
 		F1E25F1628A247F000B1511D /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
@@ -197,8 +211,11 @@
 			children = (
 				F1487F85289D09D90079934A /* EventsView.swift */,
 				F103BD4C289D259F0041D2EF /* EventsViewModel.swift */,
+				F1D1C5252987BCB200E36E8D /* ScheduleRow.swift */,
+				F1D1C5272987DC9300E36E8D /* EventCreationView.swift */,
 				F103BD4E289D32F40041D2EF /* NewEventView.swift */,
 				F103BD50289D333C0041D2EF /* NewEventViewModel.swift */,
+				F1D1C5292987E01A00E36E8D /* NewScheduleView.swift */,
 				F1E25F1628A247F000B1511D /* EventRow.swift */,
 				F1C60BE428A252BC00F944BD /* EventDetailView.swift */,
 				F1C60BE628A252DB00F944BD /* EventDetailViewModel.swift */,
@@ -273,6 +290,8 @@
 			isa = PBXGroup;
 			children = (
 				F16976F82893BC5D00AB778D /* Mock.swift */,
+				F1D1C5232987BB9300E36E8D /* Schedule.swift */,
+				F1D1C52D2988F7E400E36E8D /* Place.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -285,6 +304,7 @@
 				F1A6C05029376A7A00EF0FFF /* Protocols.swift */,
 				F1A27FF02938AE1A00C17E6A /* PreviewSigner.swift */,
 				F1587CDE297D720600DAFA0D /* Operators.swift */,
+				F1D1C52F2989659400E36E8D /* JSONHelper.swift */,
 			);
 			path = Convenience;
 			sourceTree = "<group>";
@@ -352,6 +372,7 @@
 				F152EBD528D1FE6D0066E9C8 /* Debt+Entity.swift */,
 				F15FB6A028B359C100BE15C3 /* Subscription+Entity.swift */,
 				F12A85EF28B8FA680041B85B /* Invite+Entity.swift */,
+				F1D1C52B2987F34D00E36E8D /* Schedule+Entity.swift */,
 				F1447F7328A7E9A2002AF148 /* Storable.swift */,
 			);
 			path = CoreData;
@@ -437,12 +458,14 @@
 			files = (
 				F1C60BE528A252BC00F944BD /* EventDetailView.swift in Sources */,
 				F12A85EA28B8E0810041B85B /* NewSupervisorView.swift in Sources */,
+				F1D1C52A2987E01A00E36E8D /* NewScheduleView.swift in Sources */,
 				F1ABC48D28B4AA600075E3F9 /* MembershipDetailView.swift in Sources */,
 				F1954F3528A2B87900B8D3C5 /* NewVisitorViewModel.swift in Sources */,
 				F1A27FF12938AE1A00C17E6A /* PreviewSigner.swift in Sources */,
 				F16976E32893B94100AB778D /* ContentView.swift in Sources */,
 				F105F41028E2E71D00736E72 /* EventEditViwModel.swift in Sources */,
 				F1024357294F183400F71517 /* CurrencyPickerViewModel.swift in Sources */,
+				F1D1C5302989659400E36E8D /* JSONHelper.swift in Sources */,
 				F1C6491528A50A1F00811CAC /* CoreDataStorage.swift in Sources */,
 				F156AB7D2950A3E800CF8D3F /* EditViewModifier.swift in Sources */,
 				F1B71D8D289924EF00AD2E2C /* NewTeamViewModel.swift in Sources */,
@@ -461,6 +484,7 @@
 				F1447F7428A7E9A2002AF148 /* Storable.swift in Sources */,
 				F1ABC48F28B4AA700075E3F9 /* MembershipDetailViewModel.swift in Sources */,
 				F1487F86289D09D90079934A /* EventsView.swift in Sources */,
+				F1D1C52E2988F7E400E36E8D /* Place.swift in Sources */,
 				F105F40E28E2E70A00736E72 /* EventEditView.swift in Sources */,
 				F1589F7228A27C9900EE1E92 /* NewVisitorView.swift in Sources */,
 				F1B651C728B6431100044E98 /* ExitDialogView.swift in Sources */,
@@ -484,6 +508,7 @@
 				F15FB6A328B3687E00BE15C3 /* CurrencyPickerView.swift in Sources */,
 				F1B71D882899017800AD2E2C /* MembershipsViewModel.swift in Sources */,
 				F1D452442951AD3500A68169 /* TeamDetailsEditView.swift in Sources */,
+				F1D1C5262987BCB200E36E8D /* ScheduleRow.swift in Sources */,
 				F16976E12893B94100AB778D /* MembersOfApp.swift in Sources */,
 				F152EBD228D1D2F30066E9C8 /* VisitorViewModel.swift in Sources */,
 				F133060428B507CF0043C487 /* ProfileViewModel.swift in Sources */,
@@ -497,15 +522,18 @@
 				F15FB6A128B359C100BE15C3 /* Subscription+Entity.swift in Sources */,
 				F1589F7428A282A700EE1E92 /* VisitorView.swift in Sources */,
 				F103BD4F289D32F40041D2EF /* NewEventView.swift in Sources */,
+				F1D1C52C2987F34D00E36E8D /* Schedule+Entity.swift in Sources */,
 				F103BD4D289D259F0041D2EF /* EventsViewModel.swift in Sources */,
 				F16976F52893BAFD00AB778D /* NewMembershipView.swift in Sources */,
 				F1D452462951AD5100A68169 /* TeamDetailsEditViewModel.swift in Sources */,
 				F1BBCD7928BCB199003B49E9 /* AppSigner.swift in Sources */,
 				F15E33EC2914F21A00AC9E48 /* ViewStyles.swift in Sources */,
 				F12A85E828B8A6210041B85B /* SocialMediaRow.swift in Sources */,
+				F1D1C5282987DC9300E36E8D /* EventCreationView.swift in Sources */,
 				F1A6C05129376A7A00EF0FFF /* Protocols.swift in Sources */,
 				F156AB7F2950A77800CF8D3F /* EditButton.swift in Sources */,
 				F16976F72893BB1200AB778D /* NewMembershipViewModel.swift in Sources */,
+				F1D1C5242987BB9300E36E8D /* Schedule.swift in Sources */,
 				F1C6492328A50F3700811CAC /* Member+Entity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

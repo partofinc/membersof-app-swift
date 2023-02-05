@@ -16,31 +16,54 @@ struct EventsView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                ScrollView(.horizontal) {
-                    LazyHStack {
-                        ForEach(viewModel.events) { event in
-                            NavigationLink {
-                                EventDetailView(viewModel: .init(event: event, signer: viewModel.signer))
-                            } label: {
-                                EventRow(event: event)
-                            }
-                            .buttonStyle(.plain)
-                            .frame(minWidth: 150)
-                            .contextMenu {
-                                Button(role: .destructive) {
-                                    viewModel.delete(event)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    if !viewModel.events.isEmpty {
+                        ScrollView(.horizontal) {
+                            LazyHStack {
+                                ForEach(viewModel.events) { event in
+                                    NavigationLink {
+                                        EventDetailView(viewModel: .init(event: event, signer: viewModel.signer))
+                                    } label: {
+                                        EventRow(event: event)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .frame(minWidth: 150)
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            viewModel.delete(event)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
                                 }
                             }
                         }
+                        .frame(height: 150)
                     }
-                    .padding()
+                    Text("Schedule")
+                        .font(.title)
+                    ForEach(viewModel.scheduled) { sched in
+                        NavigationLink {
+                            VStack {
+                                Text(sched.name)
+                                Text(sched.team)
+                                Text(sched.location)
+                                ForEach(sched.repeats, id: \.weekday) { rep in
+                                    if let day = Calendar.localized.weekdaySymbol(by: rep.weekday) {
+                                        Text(day)
+                                    }
+                                    Text(rep.start)
+                                    Text(rep.end)
+                                }
+                            }
+                        } label: {
+                            ScheduleRow(schedule: sched)
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
-                .frame(height: 150)
-                Spacer()
-                
+                .padding()
             }
             .safeAreaInset(edge: .bottom) {
                 Button {
@@ -52,11 +75,20 @@ struct EventsView: View {
                 .padding()
             }
             .navigationTitle("Events")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    NavigationLink {
+                        Text("History")
+                    } label: {
+                        Image(systemName: "clock.arrow.circlepath")
+                    }
+                }
+            }
             .sheet(item: $sheet) { sheet in
                 switch sheet {
                 case .new:
-                    NewEventView(viewModel: .init(viewModel.signer))
-                        .presentationDetents([.medium, .large])
+                    EventCreationView(signer: viewModel.signer)
+//                    NewEventView(viewModel: .init(viewModel.signer))
                 }
             }
             .animation(.easeInOut, value: viewModel.events)

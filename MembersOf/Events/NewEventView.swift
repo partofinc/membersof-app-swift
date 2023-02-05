@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Models
 
 struct NewEventView: View {
     
@@ -14,8 +15,8 @@ struct NewEventView: View {
     @FocusState private var nameFocus
     
     var body: some View {
-        NavigationStack {
-            VStack {
+//        NavigationStack {
+//            VStack {
                 Form {
                     Section {
                         TextField("Name", text: $viewModel.name)
@@ -58,6 +59,11 @@ struct NewEventView: View {
                                     Text(team.name).tag(team)
                                 }
                             }
+                            Picker("Schedule", selection: $viewModel.schedule) {
+                                ForEach(viewModel.scheduled, id: \.self) { sched in
+                                    Text(sched.name)
+                                }
+                            }
                         }
                         HStack {
                             Text("Memberships")
@@ -97,24 +103,36 @@ struct NewEventView: View {
                         }
                     }
                 }
-            }
-            .onChange(of: viewModel.team) { _ in
-                viewModel.fetchMemberships()
-            }
-            .navigationTitle("Event")
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(.visible, for: .navigationBar)
-            #endif
-            .toolbar {
-                ToolbarItem {
-                    Button("Create") {
-                        viewModel.create()
-                        dismiss()
-                    }
-                    .disabled(!viewModel.canCreate)
-                }
-            }
+//            }
+//            .onChange(of: viewModel.team) { _ in
+//                viewModel.fetchMemberships()
+//            }
+            
+//            #if os(iOS)
+//            .navigationBarTitleDisplayMode(.inline)
+//            .toolbarBackground(.visible, for: .navigationBar)
+//            #endif
+//            .toolbar {
+//                ToolbarItem(placement: .cancellationAction) {
+//                    Button("Cancel") {
+//                        dismiss()
+//                    }
+//                }
+//                ToolbarItem(placement: .principal) {
+//                    Picker("Event type", selection: $creation) {
+//                        Text("Event").tag(Event.Creation.event)
+//                        Text("Schedule").tag(Event.Creation.schedule)
+//                    }
+//                    .pickerStyle(.segmented)
+//                }
+//                ToolbarItem(placement: .primaryAction) {
+//                    Button("Create") {
+//                        viewModel.create()
+//                        dismiss()
+//                    }
+//                    .disabled(!viewModel.canCreate)
+//                }
+//            }
             .onAppear {
                 nameFocus.toggle()
                 // NOTE: changing date picker minute interval
@@ -122,7 +140,7 @@ struct NewEventView: View {
                 UIDatePicker.appearance().minuteInterval = 5
                 #endif
             }
-        }
+//        }
     }
 }
 

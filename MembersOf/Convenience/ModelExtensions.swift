@@ -20,6 +20,22 @@ extension Member {
     }
 }
 
+extension Schedule {
+    static var none: Schedule {
+        .init(id: .zero, name: "None", location: "", team: "", repeats: [], nearestDate: nil)
+    }
+}
+
+extension Event {
+    
+    enum Creation: String, Identifiable, Hashable, Equatable {
+        case event
+        case schedule
+        
+        var id: Self { self }
+    }
+}
+
 extension Array where Element == Supervisor.Role {
     static var all: Self {[
         .owner,

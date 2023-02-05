@@ -20,7 +20,23 @@ extension Color {
         .init(nsColor: .black)
         #endif
     }
+    
     static var primaryButtonColor: Color {
         .init("PrimaryButtonColor")
+    }
+}
+
+extension LinearGradient {
+    
+    static func primary(colorScheme: ColorScheme) -> Self {
+        switch colorScheme {
+        case .dark:
+            return .init(colors: [.indigo, .blue], startPoint: .bottomLeading, endPoint: .topTrailing)
+        case .light:
+            return .init(colors: [.cyan, .teal], startPoint: .bottomLeading, endPoint: .topTrailing)
+        @unknown default:
+            return .init(colors: [.teal, .blue], startPoint: .bottomLeading, endPoint: .topTrailing)
+        }
+        
     }
 }

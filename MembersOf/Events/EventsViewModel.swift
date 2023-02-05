@@ -11,11 +11,12 @@ extension EventsView {
         
         @Published private(set) var events: [Event] = []
         @Published private(set) var me: Member = .local
+        @Published private(set) var scheduled: [Schedule] = []
         
         let signer: any Signer
         let storage: any Storage
         
-        private var cancellers: Set<AnyCancellable> = []
+        private var subs: Set<AnyCancellable> = []
         
         private let sort: [SortDescriptor<Event.Entity>] = [
             .init(\.createDate, order: .reverse),
@@ -31,7 +32,7 @@ extension EventsView {
                     self.me = member
                     self.fetch()
                 }
-                .store(in: &cancellers)
+                .store(in: &subs)
         }
         
         private func fetch() {
@@ -43,7 +44,14 @@ extension EventsView {
                 .sort(by: [.init(\.createDate, order: .reverse), .init(\.startDate, order: .reverse)])
                 .catch{_ in Just([])}
                 .assign(to: \.events, on: self)
-                .store(in: &cancellers)
+                .store(in: &subs)
+            
+            storage.fetch(Schedule.self)
+                .sort(by: [.init(\.nearestDate)])
+                .catch{_ in Just([])}
+                .assign(to: \.scheduled, on: self)
+                .store(in: &subs)
+                
         }
         
         func delete(_ event: Event) {

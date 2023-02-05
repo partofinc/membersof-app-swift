@@ -19,12 +19,13 @@ struct TeamDetailView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
-                HStack {
-                    Text(viewModel.team.brief)
-                        .font(.title2)
-                    Spacer()
+                GroupBox {
+                    HStack {
+                        Text(viewModel.team.brief)
+                            .font(.title3)
+                        Spacer()
+                    }
                 }
-                .cardStyle()
                 if !viewModel.team.social.isEmpty {
                     socialMedia
                 }
@@ -47,23 +48,28 @@ struct TeamDetailView: View {
     
     @ViewBuilder
     private var socialMedia: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text("Social media")
-                    .font(.headline)
-                Spacer()
-            }
+        GroupBox("Social media") {
             ForEach(viewModel.team.social) { social in
                 SocialMediaRow(social, style: .fancy)
-                .padding(.bottom, 5)
             }
         }
-        .cardStyle()
     }
     
     @ViewBuilder
     private var members: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        GroupBox {
+            VStack(spacing: 10) {
+                HStack {
+                    Button {
+                        
+                    } label: {
+                        Label("New Member", systemImage: "plus")
+                    }
+                    .buttonStyle(.primarySmall)
+                    Spacer()
+                }
+            }
+        } label: {
             NavigationLink {
                 Text("All members")
             } label: {
@@ -76,18 +82,14 @@ struct TeamDetailView: View {
                 .font(.headline)
             }
             .buttonStyle(.plain)
-            Button {
-                
-            } label: {
-                Label("Add", systemImage: "plus")
-            }
         }
-        .cardStyle()
     }
     
     @ViewBuilder
     private var events: some View {
-        VStack(alignment: .leading) {
+        GroupBox {
+            
+        } label: {
             NavigationLink {
                 Text("All events")
             } label: {
@@ -101,7 +103,6 @@ struct TeamDetailView: View {
             .buttonStyle(.plain)
             .font(.headline)
         }
-        .cardStyle()
     }
     
     @ViewBuilder

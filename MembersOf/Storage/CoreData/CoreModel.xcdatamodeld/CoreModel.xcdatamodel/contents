@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Debt" representedClassName="DebtEntity" syncable="YES">
         <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="currency" attributeType="String"/>
@@ -61,12 +61,28 @@
         <relationship name="price" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Price" inverseName="payments" inverseEntity="Price"/>
         <relationship name="subscription" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Subscription" inverseName="payments" inverseEntity="Subscription"/>
     </entity>
+    <entity name="Place" representedClassName="PlaceEntity" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="schedules" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Schedule" inverseName="place" inverseEntity="Schedule"/>
+    </entity>
     <entity name="Price" representedClassName="PriceEntity" syncable="YES">
         <attribute name="currency" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="value" attributeType="Decimal" defaultValueString="0.0"/>
         <relationship name="membership" maxCount="1" deletionRule="Nullify" destinationEntity="Membership" inverseName="pricing" inverseEntity="Membership"/>
         <relationship name="payments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Payment" inverseName="price" inverseEntity="Payment"/>
+    </entity>
+    <entity name="Schedule" representedClassName="ScheduleEntity" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="location" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="nearestDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="repeats" optional="YES" attributeType="Binary"/>
+        <attribute name="team" attributeType="String"/>
+        <relationship name="place" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Place" inverseName="schedules" inverseEntity="Place"/>
     </entity>
     <entity name="Social" representedClassName="SocialEntity" syncable="YES">
         <attribute name="account" attributeType="String"/>

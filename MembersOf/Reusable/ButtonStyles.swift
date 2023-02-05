@@ -13,10 +13,13 @@ struct PrimaryButtonStyle: ButtonStyle {
     let cornerRadius: CGFloat
     let maxWidth: CGFloat?
     
+    @Environment(\.colorScheme) var colorScheme
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .foregroundColor(.accentColor)
-            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius, maxWidth: maxWidth)
+            .foregroundColor(.white)
+            .bold()
+            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius, maxWidth: maxWidth, colorScheme: colorScheme)
             .opacity(configuration.isPressed ? 0.2 : 1)
     }
 }
@@ -36,9 +39,12 @@ struct PrimaryMenuStyle: MenuStyle {
     let padding: CGFloat
     let cornerRadius: CGFloat
     
+    @Environment(\.colorScheme) var colorScheme
+    
     func makeBody(configuration: Configuration) -> some View {
         Menu(configuration)
-            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius)
+            .foregroundColor(.white)
+            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius, colorScheme: colorScheme)
     }
 }
 
@@ -52,9 +58,9 @@ extension MenuStyle where Self == PrimaryMenuStyle {
 private extension View {
     
     @ViewBuilder
-    func primaryButtonStyle(padding: CGFloat?, cornerRadius: CGFloat, maxWidth: CGFloat? = nil) -> some View {
+    func primaryButtonStyle(padding: CGFloat?, cornerRadius: CGFloat, maxWidth: CGFloat? = nil, colorScheme: ColorScheme = .dark) -> some View {
         let bg = RoundedRectangle(cornerRadius: cornerRadius)
-            .fill(Color.primaryButtonColor.gradient)
+            .fill(LinearGradient.primary(colorScheme: colorScheme))
         if let padding {
             self
                 .padding(padding)
@@ -72,9 +78,12 @@ private extension View {
 
 struct SecondaryActive_Previews: PreviewProvider {
     static var previews: some View {
-        Button(action: { print("Pressed") }) {
-            Label("Press Me", systemImage: "star")
+        VStack {
+            Button(action: { print("Pressed") }) {
+                Label("Press Me", systemImage: "star")
+            }
+            .buttonStyle(.primary)
+            .padding()
         }
-        .buttonStyle(.plain)
     }
 }

@@ -12,6 +12,8 @@ extension NewEventView {
         
         @Published private(set) var teams: [Team] = [.loading]
         @Published var team: Team = .loading
+        @Published var schedule: Schedule = .none
+        @Published var scheduled: [Schedule] = []
         
         @Published private(set) var memberships: [Membership] = []
         @Published private(set) var selectedMemberships: [UUID] = []
@@ -27,7 +29,7 @@ extension NewEventView {
         let storage: Storage
         let signer: Signer
         
-        private var cancellers: Set<AnyCancellable> = []
+        private var subs: Set<AnyCancellable> = []
         
         var canCreate: Bool {
             name.count > 2 && !selectedMemberships.isEmpty
@@ -41,15 +43,43 @@ extension NewEventView {
             startDate = date
             endDate = date + 90.minutes
             
+            subscribe()
+            
+            calculateDuration()
+            fetchTeams()
+        }
+        
+        func subscribe() {
+            
             signer.me
-                .eraseToAnyPublisher()
                 .sink { [unowned self] member in
                     self.me = member
                     self.fetchTeams()
                 }
-                .store(in: &cancellers)
-            calculateDuration()
-            fetchTeams()
+                .store(in: &subs)
+            
+            $schedule
+                .sink { [unowned self] sched in
+                    if sched == .none {
+                        name = ""
+                    } else {
+                        name = sched.name
+                    }
+                }
+                .store(in: &subs)
+            
+            $team
+                .sink { [unowned self] _ in
+                    self.fetchMemberships()
+                }
+                .store(in: &subs)
+            
+            storage.fetch(Schedule.self)
+                .sort(by: [.init(\.name)])
+                .catch({_ in Just([])})
+                .map{ [Schedule.none] + $0 }
+                .assign(to: \.scheduled, on: self)
+                .store(in: &subs)
         }
         
         func isSelected(_ membership: Membership) -> Bool {
@@ -82,7 +112,7 @@ extension NewEventView {
                 .sort(by: [.init(\.createDate)])
                 .catch{_ in Just([])}
                 .assign(to: \.memberships, on: self)
-                .store(in: &cancellers)
+                .store(in: &subs)
                 
             selectedMemberships.removeAll()
         }
@@ -136,7 +166,7 @@ extension NewEventView {
                     }
                     self.teams = teams
                 }
-                .store(in: &cancellers)
+                .store(in: &subs)
         }
     }
 }
