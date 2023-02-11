@@ -36,21 +36,27 @@ extension ButtonStyle where Self == PrimaryButtonStyle {
 
 struct PrimaryMenuStyle: MenuStyle {
     
-    let padding: CGFloat
+    let padding: CGFloat?
     let cornerRadius: CGFloat
+    let maxWidth: CGFloat?
     
     @Environment(\.colorScheme) var colorScheme
     
     func makeBody(configuration: Configuration) -> some View {
         Menu(configuration)
             .foregroundColor(.white)
-            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius, colorScheme: colorScheme)
+            .bold()
+            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius, maxWidth: maxWidth, colorScheme: colorScheme)
     }
 }
 
 extension MenuStyle where Self == PrimaryMenuStyle {
     static var primarySmall: PrimaryMenuStyle {
-        .init(padding: 6, cornerRadius: 8)
+        .init(padding: 6, cornerRadius: 4, maxWidth: nil)
+    }
+    
+    static var primary: PrimaryMenuStyle {
+        .init(padding: nil, cornerRadius: 6, maxWidth: .infinity)
     }
 }
 

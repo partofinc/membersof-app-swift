@@ -66,12 +66,21 @@ struct EventsView: View {
                 .padding()
             }
             .safeAreaInset(edge: .bottom) {
-                Button {
-                    sheet = .new
+                Menu {
+                    Button {
+                        sheet = .event
+                    } label: {
+                        Text("Event")
+                    }
+                    Button {
+                        sheet = .schedule
+                    } label: {
+                        Text("Schedule")
+                    }
                 } label: {
                     Label("New", systemImage: "plus")
                 }
-                .buttonStyle(.primary)
+                .menuStyle(.primary)
                 .padding()
             }
             .navigationTitle("Events")
@@ -86,9 +95,10 @@ struct EventsView: View {
             }
             .sheet(item: $sheet) { sheet in
                 switch sheet {
-                case .new:
-                    EventCreationView(signer: viewModel.signer)
-//                    NewEventView(viewModel: .init(viewModel.signer))
+                case .event:
+                    NewEventView(viewModel: .init(viewModel.signer))
+                case .schedule:
+                    NewScheduleView(viewModel: .init(storage: viewModel.storage))
                 }
             }
             .animation(.easeInOut, value: viewModel.events)

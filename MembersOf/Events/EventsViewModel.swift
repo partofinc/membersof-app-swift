@@ -26,7 +26,7 @@ extension EventsView {
         init(_ signer: some Signer) {
             self.signer = signer
             self.storage = signer.storage
-            
+                        
             signer.me
                 .sink { [unowned self] member in
                     self.me = member
@@ -62,7 +62,8 @@ extension EventsView {
     }
     
     enum Sheet: Identifiable {
-        case new
+        case event
+        case schedule
         
         var id: Self { self }
     }

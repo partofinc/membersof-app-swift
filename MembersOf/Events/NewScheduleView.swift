@@ -9,62 +9,101 @@ import SwiftUI
 
 struct NewScheduleView: View {
     
-    @State var name: String = ""
-    @State var days: [String] = Calendar.localized.localizedWeekdaySymbols
-    @State var selectedDays: Set<String> = []
-    @State var startDate: Date = .now
-    @State var endDate: Date = .now
-    @Environment(\.dismiss) var dismiss
-    
-    let storage: Storage
-    
+    @StateObject var viewModel: ViewModel
+    @Environment(\.dismiss) private var dismiss
+    @FocusState private var nameFocus
+        
     var body: some View {
-        Form {
-            TextField("Name", text: $name)
-            Section("Day") {
-                ForEach(days, id: \.self) { day in
-                    HStack {
-                        Button {
-                            if selectedDays.contains(day) {
-                                selectedDays.remove(day)
-                            } else {
-                                selectedDays.insert(day)
-                            }
-                        } label: {
-                            Label(day, systemImage: selectedDays.contains(day) ? "checkmark.circle.fill" : "circle")
-                        }
-                    }
-                    if selectedDays.contains(day) {
+        NavigationStack {
+            Form {
+                Section {
+                    TextField("Name", text: $viewModel.name)
+#if os(iOS)
+                        .focused($nameFocus)
+#endif
+                    ForEach(viewModel.days, id: \.self) { day in
                         HStack {
-                            DatePicker("Start time", selection: $startDate, displayedComponents: [.hourAndMinute])
-                                .labelsHidden()
-                            Spacer()
-                            Text("2 hours")
-                            Spacer()
-                            DatePicker("End time", selection: $startDate, displayedComponents: [.hourAndMinute])
-                                .labelsHidden()
+                            Button {
+                                viewModel.toggle(day)
+                            } label: {
+                                Label(day, systemImage: viewModel.isSelected(day) ? "checkmark.circle.fill" : "circle")
+                            }
+                        }
+                        if viewModel.isSelected(day) {
+                            HStack {
+                                DatePicker("Start time", selection: binding(for: day).0, displayedComponents: [.hourAndMinute])
+                                    .labelsHidden()
+                                Spacer()
+                                Text("2 hours")
+                                Spacer()
+                                DatePicker("End time", selection: binding(for: day).1, displayedComponents: [.hourAndMinute])
+                                    .labelsHidden()
+                            }
                         }
                     }
                 }
-            }
-        }
-        .safeAreaInset(edge: .bottom) {
-            Button("Save") {
-                Task {
-                    let repeats = selectedDays.compactMap(rep(for:))
-                    let sched = Schedule(id: UUID(), name: name, location: "Old Scool", team: "Kimura Jiu Jitsu", repeats: repeats, nearestDate: nil)
-                    try await storage.save(sched)
+                Section {
+                    Picker("Team", selection: $viewModel.team) {
+                        ForEach(viewModel.teams, id: \.self) { team in
+                            Text(team.name).tag(team)
+                        }
+                    }
+                    Picker("Place", selection: $viewModel.place) {
+                        ForEach(viewModel.places, id: \.self) { place in
+                            Text(place.name).tag(place)
+                        }
+                    }
+                    Text("Memberships")
+                    Button {
+                        
+                    } label: {
+                        Label("Add", systemImage: "plus")
+                    }
                 }
-                dismiss()
             }
-            .buttonStyle(.primary)
-            .padding()
+            .navigationTitle("Schedule")
+#if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.visible, for: .navigationBar)
+#endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Create") {
+                        viewModel.create()
+                        dismiss()
+                    }
+                    .disabled(!viewModel.canCreate)
+                }
+            }
+            .onAppear {
+                nameFocus.toggle()
+                // NOTE: changing date picker minute interval
+#if os(iOS)
+                UIDatePicker.appearance().minuteInterval = 5
+#endif
+            }
         }
     }
     
     func rep(for day: String) -> Schedule.Repeat? {
         guard let idx = Calendar.localized.indexOfWeek(day: day) else { return nil }
         return .init(weekday: idx, start: "20:00", end: "22:00")
+    }
+    
+    private func binding(for day: String) -> Binding<(Date, Date)> {
+        Binding(
+            get: {
+                return viewModel.dates[day] ?? (.now, .now)
+            },
+            set: {
+                viewModel.dates[day] = $0
+            }
+        )
     }
 }
 

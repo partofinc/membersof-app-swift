@@ -26,13 +26,9 @@ extension Schedule {
     }
 }
 
-extension Event {
-    
-    enum Creation: String, Identifiable, Hashable, Equatable {
-        case event
-        case schedule
-        
-        var id: Self { self }
+extension Place {
+    static var none: Place {
+        .init(id: .zero, name: "None", latitude: 0, longitude: 0)
     }
 }
 

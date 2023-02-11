@@ -15,132 +15,130 @@ struct NewEventView: View {
     @FocusState private var nameFocus
     
     var body: some View {
-//        NavigationStack {
-//            VStack {
-                Form {
-                    Section {
-                        TextField("Name", text: $viewModel.name)
-                            .focused($nameFocus)
-                        DatePicker("Start", selection: $viewModel.startDate)
-                            .onChange(of: viewModel.startDate) { date in
-                                viewModel.startChanged(date: date)
-                            }
-                        if viewModel.endDefined {
-                            DatePicker("End", selection: $viewModel.endDate, in: viewModel.startDate...)
-                                .onChange(of: viewModel.endDate) { date in
-                                    viewModel.endChanged(date: date)
-                                }
-                            Stepper(viewModel.durationTitle, value: $viewModel.duration, step: 30*60, onEditingChanged: { _ in
-                                viewModel.durationChanged()
-                            })
-                        } else {
-                            Button {
-                                viewModel.endDefined.toggle()
-                            } label: {
-                                Label("End", systemImage: "plus")
-                            }
+        NavigationStack {
+            Form {
+                Section {
+                    TextField("Name", text: $viewModel.name)
+                        .focused($nameFocus)
+                    DatePicker("Start", selection: $viewModel.startDate)
+                        .onChange(of: viewModel.startDate) { date in
+                            viewModel.startChanged(date: date)
                         }
-                    }
-                    Section {
-                        if viewModel.teams.isEmpty {
-                            NavigationLink {
-                                NewTeamView(viewModel: .init(viewModel.signer), team: $viewModel.team)
-                            } label: {
-                                HStack {
-                                    Text("Team")
-                                    Spacer()
-                                    Text("New")
-                                        .foregroundColor(.accentColor)
-                                }
+                    if viewModel.endDefined {
+                        DatePicker("End", selection: $viewModel.endDate, in: viewModel.startDate...)
+                            .onChange(of: viewModel.endDate) { date in
+                                viewModel.endChanged(date: date)
                             }
-                        } else {
-                            Picker("Team", selection: $viewModel.team) {
-                                ForEach(viewModel.teams, id: \.self) { team in
-                                    Text(team.name).tag(team)
-                                }
-                            }
-                            Picker("Schedule", selection: $viewModel.schedule) {
-                                ForEach(viewModel.scheduled, id: \.self) { sched in
-                                    Text(sched.name)
-                                }
-                            }
-                        }
-                        HStack {
-                            Text("Memberships")
-                            Spacer()
-                            Button("All") {
-                                viewModel.selectMemberships()
-                            }
-                            .buttonStyle(.plain)
-                            .foregroundColor(.accentColor)
-                            Text("|")
-                            Button("None") {
-                                viewModel.deselectMemberships()
-                            }
-                            .buttonStyle(.plain)
-                            .foregroundColor(.accentColor)
-                        }
-                        ForEach(viewModel.memberships) { ship in
-                            Button {
-                                viewModel.toggle(ship)
-                            } label: {
-                                Label(ship.name, systemImage: viewModel.isSelected(ship) ? "checkmark.circle.fill" : "circle")
-                            }
-                        }
-                        Menu {
-                            NavigationLink {
-                                NewTeamView(viewModel: .init(viewModel.signer), team: $viewModel.team)
-                            } label: {
-                                Label("Team", systemImage: "person.3")
-                            }
-                            NavigationLink {
-                                NewMembershipView(viewModel: .init(team: viewModel.team, signer: viewModel.signer))
-                            } label: {
-                                Label("Membership", systemImage: "creditcard")
-                            }
+                        Stepper(viewModel.durationTitle, value: $viewModel.duration, step: 30*60, onEditingChanged: { _ in
+                            viewModel.durationChanged()
+                        })
+                    } else {
+                        Button {
+                            viewModel.endDefined.toggle()
                         } label: {
-                            Label("Add", systemImage: "plus")
+                            Label("End", systemImage: "plus")
                         }
                     }
                 }
-//            }
-//            .onChange(of: viewModel.team) { _ in
-//                viewModel.fetchMemberships()
-//            }
-            
-//            #if os(iOS)
-//            .navigationBarTitleDisplayMode(.inline)
-//            .toolbarBackground(.visible, for: .navigationBar)
-//            #endif
-//            .toolbar {
-//                ToolbarItem(placement: .cancellationAction) {
-//                    Button("Cancel") {
-//                        dismiss()
-//                    }
-//                }
-//                ToolbarItem(placement: .principal) {
-//                    Picker("Event type", selection: $creation) {
-//                        Text("Event").tag(Event.Creation.event)
-//                        Text("Schedule").tag(Event.Creation.schedule)
-//                    }
-//                    .pickerStyle(.segmented)
-//                }
-//                ToolbarItem(placement: .primaryAction) {
-//                    Button("Create") {
-//                        viewModel.create()
-//                        dismiss()
-//                    }
-//                    .disabled(!viewModel.canCreate)
-//                }
-//            }
+                Section {
+                    if viewModel.teams.isEmpty {
+                        NavigationLink {
+                            NewTeamView(viewModel: .init(viewModel.signer), team: $viewModel.team)
+                        } label: {
+                            HStack {
+                                Text("Team")
+                                Spacer()
+                                Text("New")
+                                    .foregroundColor(.accentColor)
+                            }
+                        }
+                    } else {
+                        Picker("Team", selection: $viewModel.team) {
+                            ForEach(viewModel.teams, id: \.self) { team in
+                                Text(team.name).tag(team)
+                            }
+                        }
+                        Picker("Schedule", selection: $viewModel.schedule) {
+                            ForEach(viewModel.scheduled, id: \.self) { sched in
+                                Text(sched.name).tag(sched)
+                            }
+                        }
+                        Picker("Place", selection: $viewModel.place) {
+                            ForEach(viewModel.places, id: \.self) { place in
+                                Text(place.name).tag(place)
+                            }
+                        }
+                    }
+                    HStack {
+                        Text("Memberships")
+                        Spacer()
+                        Button("All") {
+                            viewModel.selectMemberships()
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundColor(.accentColor)
+                        Text("|")
+                        Button("None") {
+                            viewModel.deselectMemberships()
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundColor(.accentColor)
+                    }
+                    ForEach(viewModel.memberships) { ship in
+                        Button {
+                            viewModel.toggle(ship)
+                        } label: {
+                            Label(ship.name, systemImage: viewModel.isSelected(ship) ? "checkmark.circle.fill" : "circle")
+                        }
+                    }
+                    Menu {
+                        NavigationLink {
+                            NewTeamView(viewModel: .init(viewModel.signer), team: $viewModel.team)
+                        } label: {
+                            Label("Team", systemImage: "person.3")
+                        }
+                        NavigationLink {
+                            NewMembershipView(viewModel: .init(team: viewModel.team, signer: viewModel.signer))
+                        } label: {
+                            Label("Membership", systemImage: "creditcard")
+                        }
+                        NavigationLink {
+                            Text("New place")
+                        } label: {
+                            Label("Place", systemImage: "mappin.and.ellipse")
+                        }
+                    } label: {
+                        Label("Add", systemImage: "plus")
+                    }
+                }
+            }
+            .navigationTitle("Event")
+#if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.visible, for: .navigationBar)
+#endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Create") {
+                        viewModel.create()
+                        dismiss()
+                    }
+                    .disabled(!viewModel.canCreate)
+                }
+            }
             .onAppear {
                 nameFocus.toggle()
                 // NOTE: changing date picker minute interval
-                #if os(iOS)
+#if os(iOS)
                 UIDatePicker.appearance().minuteInterval = 5
-                #endif
+#endif
             }
-//        }
+        }
     }
 }
 

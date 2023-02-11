@@ -13,7 +13,9 @@ extension NewEventView {
         @Published private(set) var teams: [Team] = [.loading]
         @Published var team: Team = .loading
         @Published var schedule: Schedule = .none
-        @Published var scheduled: [Schedule] = []
+        @Published private(set) var scheduled: [Schedule] = []
+        @Published private(set) var places: [Place] = [.none]
+        @Published var place: Place = .none
         
         @Published private(set) var memberships: [Membership] = []
         @Published private(set) var selectedMemberships: [UUID] = []
@@ -64,6 +66,9 @@ extension NewEventView {
                         name = ""
                     } else {
                         name = sched.name
+                        if let date = sched.nearestDate {
+                            startDate = date
+                        }
                     }
                 }
                 .store(in: &subs)
