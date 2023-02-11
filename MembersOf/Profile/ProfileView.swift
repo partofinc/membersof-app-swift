@@ -136,13 +136,17 @@ struct ProfileView: View {
     private var edit: some View {
         Section("") {
             TextField("First Name", text: $viewModel.firstName)
+            #if os(iOS)
                 .textContentType(.givenName)
+            #endif
             TextField("Last Name", text: $viewModel.lastName)
+            #if os(iOS)
                 .textContentType(.familyName)
+            #endif
         }
         Section("Social media") {
             ForEach(viewModel.social) { media in
-                SocialMediaRow(media, edit: $editing) {
+                SocialMediaRow(media) {
                     viewModel.deletingSocial = media
                     deletingSocial.toggle()
                 }

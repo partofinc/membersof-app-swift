@@ -10,9 +10,9 @@ import Models
 import Combine
 
 final class MockStorage: Storage {
-
-    func fetch<T>() -> CoreDataStorage.Fetcher<T> where T : Storable {
-        .init(.init(concurrencyType: .mainQueueConcurrencyType))
+    
+    func fetch<T>(_ type: T.Type) -> StoragePublisher<T> where T : Storable {
+        .init { _ in MockFetcher(storage: self) }
     }
     
     func delete(_ entities: [any Storable]) async throws {
@@ -32,8 +32,9 @@ final class MockStorage: Storage {
     }
     
     
-    private var teams: [Team] = []
-    private var members: [Member] = []
+    private(set) var teams: [Team] = []
+    private(set) var members: [Member] = []
+    private(set) var memberships: [Membership] = []
     
     init() {
         
@@ -64,7 +65,40 @@ final class MockStorage: Storage {
                 .init(id: UUID(), role: .owner, order: 0, member: murat, teamId: nil)
             ]
         )
-        
         teams = [strela, kimura]
+        
+        let oneTime: Membership = .init(
+            id: UUID(),
+            name: "Visitor",
+            visits: 1,
+            period: .day,
+            length: 1,
+            createDate: .now,
+            team: strela,
+            pricing: [
+                .init(id: UUID(), currency: "RUB", value: 3500)
+            ])
+        memberships = [oneTime]
+    }
+}
+
+final class MockFetcher<T: Storable>: Fetcher {
+    
+    let storage: MockStorage
+    
+    init(storage: MockStorage) {
+        self.storage = storage
+    }
+    
+    func start<S: Subscriber>(with subscriber: S) where S.Input == [T], S.Failure == Error {
+        
+    }
+    
+    func cancel() {
+        
+    }
+    
+    func request(_ demand: Subscribers.Demand) {
+        
     }
 }

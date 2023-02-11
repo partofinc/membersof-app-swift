@@ -1,7 +1,8 @@
 
 
 import Foundation
-import SwiftDate
+//import SwiftDate
+import Combine
 import Models
 
 extension EventDetailView {
@@ -12,15 +13,12 @@ extension EventDetailView {
         @Published var visits: [Visit] = []
         @Published var progress: Progress = .upcoming
         @Published var duration: String = ""
+        @Published var event: Event
         
-        let event: Event
         let signer: Signer
         let storage: Storage
         
-        private var visitsFetcher: CoreDataStorage.Fetcher<Visit>?
-        private var sort: [SortDescriptor<Visit.Entity>] = [
-            .init(\.checkInDate, order: .reverse)
-        ]
+        private var subscriptions: Set<AnyCancellable> = []
         private let calendar: Calendar = .current
         
         init(event: Event, signer: Signer) {
@@ -29,10 +27,18 @@ extension EventDetailView {
             self.storage = signer.storage
             calculateProgress()
             calculateDuration()
-            visitsFetcher = storage.fetch()
+            
+            storage.fetch(Visit.self)
+                .sort(by: [.init(\.checkInDate, order: .reverse)])
+                .filter(by: \.event.id == event.id)
+                .catch{ _ in Just([])}
                 .assign(to: \.visits, on: self)
-                .filter(by: {$0.event.id == event.id})
-                .run(sort: sort)
+                .store(in: &subscriptions)
+            
+            storage.fetch(Event.self)
+                .first(where: \.id == event.id)
+                .assign(to: \.event, on: self)
+                .store(in: &subscriptions)
         }
         
         var startDate: String {

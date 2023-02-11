@@ -15,27 +15,29 @@ extension TeamsView {
         let storage: Storage
         let signer: Signer
         
-        private var teamsFetcher: CoreDataStorage.Fetcher<Team>?
-        private var userFetcher: AnyCancellable?
+        private var cancellers: Set<AnyCancellable> = []
         
         init(_ signer: Signer) {
             self.signer = signer
             self.storage = signer.storage
             
-            userFetcher = signer.me
+            signer.me
                 .sink { [unowned self] member in
                     self.me = member
                     self.fetchTeams()
                 }
+                .store(in: &cancellers)
         }
         
         private func fetchTeams() {
-            teamsFetcher = storage.fetch()
-                .assign(to: \.teams, on: self)
+            storage.fetch(Team.self)
                 .filter(by: { [unowned self] team in
                     team.isAccessable(by: me)
                 })
-                .run(sort: [.init(\.createDate, order: .reverse)])
+                .sort(by: [.init(\.createDate, order: .reverse)])
+                .catch{_ in Just([])}
+                .assign(to: \.teams, on: self)
+                .store(in: &cancellers)
         }
     }
 }

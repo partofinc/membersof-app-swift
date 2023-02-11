@@ -17,43 +17,42 @@ struct SupervisorView: View {
     @State private var removalConfirmation = false
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("Supervisor")
-                Spacer()
+        Form {
+            Section {
+                Text(viewModel.supervisor.member.fullName)
+                    .font(.title2)
+                Picker("Role", selection: $viewModel.role) {
+                    ForEach([Supervisor.Role].all) { role in
+                        Text(role.rawValue.capitalized)
+                    }
+                }
+            }
+            Button {
+                removalConfirmation = true
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+            .foregroundColor(.red)
+        }
+        .navigationTitle("Supervisor")
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
                 Button("Save") {
                     save(viewModel.save())
                     dismiss()
                 }
                 .disabled(!viewModel.canSave)
             }
-            .padding(.horizontal)
-            .frame(height: 44)
-            .font(.headline)
-            Form {
-                Section {
-                    Text(viewModel.supervisor.member.fullName)
-                        .font(.title2)
-                    Picker("Role", selection: $viewModel.role) {
-                        ForEach([Supervisor.Role].all) { role in
-                            Text(role.rawValue.capitalized)
-                        }
-                    }
-                }
-                Button {
-                    removalConfirmation = true
-                } label: {
-                    Label("Delete", systemImage: "trash")
-                }
-                .foregroundColor(.red)
+        }
+        .confirmationDialog("Please confirm supervisor removal", isPresented: $removalConfirmation, titleVisibility: .visible) {
+            Button("Confrim", role: .destructive) {
+                delete(viewModel.supervisor)
+                dismiss()
             }
-            .confirmationDialog("Please confirm supervisor removal", isPresented: $removalConfirmation, titleVisibility: .visible) {
-                Button("Confrim", role: .destructive) {
-                    delete(viewModel.supervisor)
-                    dismiss()
-                }
-                Button("Cancel", role: .cancel) {}
-            }
+            Button("Cancel", role: .cancel) {}
         }
     }
     

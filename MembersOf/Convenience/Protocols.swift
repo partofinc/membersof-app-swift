@@ -11,11 +11,17 @@ import Models
 
 protocol Storage {
 
-    func fetch<T>() -> CoreDataStorage.Fetcher<T>
+    func fetch<T: Storable>(_ type: T.Type) -> StoragePublisher<T>
     func delete(_ entities: [any Storable]) async throws
     func delete(_ entity: some Storable) async throws
     func save(_ entities: [any Storable]) async throws
     func save(_ entity: some Storable) async throws
+}
+
+protocol Fetcher<T>: Combine.Subscription {
+    
+    associatedtype T: Storable
+    func start<S: Subscriber>(with subscriber: S) where S.Input == [T], S.Failure == Error
 }
 
 protocol Signer: AnyObject {

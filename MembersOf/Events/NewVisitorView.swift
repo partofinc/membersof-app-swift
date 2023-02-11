@@ -19,9 +19,13 @@ struct NewVisitorView: View {
             Form {
                 Section("") {
                     TextField("First name", text: $viewModel.firstName)
+                        #if os(iOS)
                         .textContentType(.givenName)
+                        #endif
                     TextField("Last name", text: $viewModel.lastName)
+                        #if os(iOS)
                         .textContentType(.familyName)
+                        #endif
                 }
                 Section("Membership") {
                     ForEach(viewModel.memberships) { ship in
@@ -78,7 +82,9 @@ struct NewVisitorView: View {
         }
         HStack {
             TextField("Amount", value: $viewModel.payment, format: .number)
+                #if os(iOS)
                 .keyboardType(.decimalPad)
+                #endif
                 .onChange(of: viewModel.payment) { payment in
                     viewModel.calculate(payment)
                 }

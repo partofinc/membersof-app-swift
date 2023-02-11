@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import Models
 
 extension MembershipDetailView {
@@ -18,19 +19,20 @@ extension MembershipDetailView {
         
         @Published var team: Team = .loading
         
-        private var teamFetcher: CoreDataStorage.Fetcher<Team>?
+        private var teamCanceller: AnyCancellable?
         
         init(_ membership: Membership, storage: some Storage) {
             self.storage = storage
             self.membership = membership
             
-            teamFetcher = storage.fetch()
-                .filter(by: {$0.id == membership.teamId})
+            teamCanceller = storage.fetch(Team.self)
+                .filter(by: {$0.id == membership.team.id})
+                .sort(by: [.init(\.createDate)])
+                .catch{_ in Just([])}
                 .sink { [unowned self] teams in
                     guard let t = teams.first else { return }
                     self.team = t
                 }
-                .run(sort: [.init(\.createDate)])
         }
         
         func delete() {

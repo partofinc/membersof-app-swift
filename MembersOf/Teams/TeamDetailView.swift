@@ -19,17 +19,18 @@ struct TeamDetailView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
-                HStack {
-                    Text(viewModel.team.brief)
-                        .font(.title2)
-                    Spacer()
+                GroupBox {
+                    HStack {
+                        Text(viewModel.team.brief)
+                            .font(.title3)
+                        Spacer()
+                    }
                 }
-                .cardStyle()
                 if !viewModel.team.social.isEmpty {
                     socialMedia
                 }
-                subscription
-                crew
+                members
+                events
             }
             .padding()
         }
@@ -39,7 +40,7 @@ struct TeamDetailView: View {
         .scrollDismissesKeyboard(.immediately)
         .navigationTitle(viewModel.team.name)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 EditButton(editMode: $editMode)
             }
         }
@@ -47,20 +48,61 @@ struct TeamDetailView: View {
     
     @ViewBuilder
     private var socialMedia: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text("Social media")
-                    .font(.headline)
-                Spacer()
-            }
+        GroupBox("Social media") {
             ForEach(viewModel.team.social) { social in
-                SocialMediaRow(social, style: .fancy, edit: .constant(true)) {
-                    
-                }
-                .padding(.bottom, 5)
+                SocialMediaRow(social, style: .fancy)
             }
         }
-        .cardStyle()
+    }
+    
+    @ViewBuilder
+    private var members: some View {
+        GroupBox {
+            VStack(spacing: 10) {
+                HStack {
+                    Button {
+                        
+                    } label: {
+                        Label("New Member", systemImage: "plus")
+                    }
+                    .buttonStyle(.primarySmall)
+                    Spacer()
+                }
+            }
+        } label: {
+            NavigationLink {
+                Text("All members")
+            } label: {
+                HStack {
+                    Text("Members")
+                    Image(systemName: "chevron.right")
+                    Spacer()
+                    Text("67")
+                }
+                .font(.headline)
+            }
+            .buttonStyle(.plain)
+        }
+    }
+    
+    @ViewBuilder
+    private var events: some View {
+        GroupBox {
+            
+        } label: {
+            NavigationLink {
+                Text("All events")
+            } label: {
+                HStack {
+                    Text("Events")
+                    Image(systemName: "chevron.right")
+                    Spacer()
+                    Text("12")
+                }
+            }
+            .buttonStyle(.plain)
+            .font(.headline)
+        }
     }
     
     @ViewBuilder
@@ -160,7 +202,7 @@ struct TeamDetailView: View {
                         Text(invite.title)
                             .font(.headline)
                         Spacer()
-                        Text(invite.role!.rawValue.capitalized)
+                        Text(invite.role.rawValue.capitalized)
                             .font(.body)
                     }
                     .padding()
@@ -179,10 +221,11 @@ struct TeamDetailView: View {
     }
 }
 
-//struct ClubDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NavigationStack {
-//            TeamDetailView(viewModel: .init(team: Mock.teams.first!))
-//        }
-//    }
-//}
+struct ClubDetailView_Previews: PreviewProvider {
+    static let storage = MockStorage()
+    static var previews: some View {
+        NavigationStack {
+            TeamDetailView(viewModel: .init(storage.teams.first!, storage: storage))
+        }
+    }
+}

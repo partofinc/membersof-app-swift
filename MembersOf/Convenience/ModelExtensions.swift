@@ -20,6 +20,18 @@ extension Member {
     }
 }
 
+extension Schedule {
+    static var none: Schedule {
+        .init(id: .zero, name: "None", location: "", team: "", repeats: [], nearestDate: nil)
+    }
+}
+
+extension Place {
+    static var none: Place {
+        .init(id: .zero, name: "None", latitude: 0, longitude: 0)
+    }
+}
+
 extension Array where Element == Supervisor.Role {
     static var all: Self {[
         .owner,

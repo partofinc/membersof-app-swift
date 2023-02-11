@@ -35,6 +35,6 @@ final class PreviewSigner: Signer {
 extension PreviewSigner {
     
     static var `default`: PreviewSigner {
-        PreviewSigner(storage: CoreDataStorage("CoreModel"))
+        PreviewSigner(storage: MockStorage())
     }
 }

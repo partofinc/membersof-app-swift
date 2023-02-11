@@ -17,8 +17,7 @@ extension SearchMembersView {
         let event: Event
         let storage: Storage
         
-        private var membersFetcher: CoreDataStorage.Fetcher<Member>?
-        private var sort: [SortDescriptor<Member.Entity>] = [.init(\.firstName)]
+        private var cancellers: Set<AnyCancellable> = []
         
         init(_ event: Event, storage: Storage) {
             self.storage = storage
@@ -34,11 +33,12 @@ extension SearchMembersView {
                 members = []
                 return
             }
-            membersFetcher = storage.fetch()
+            storage.fetch(Member.self)
+                .filter(by: \.fullName ~~ pattern)//{$0.name(contains: self.pattern)}
+                .sort(by:  [.init(\.firstName)])
+                .catch{_ in Just([])}
                 .assign(to: \.members, on: self)
-                .filter(with: .init(format: "firstName CONTAINS[cd] %@", pattern), skip: pattern.isEmpty)
-                .filter(with: .init(format: "lastName CONTAINS[cd] %@", pattern), type: .or, skip: pattern.isEmpty)
-                .run(sort: sort)
+                .store(in: &cancellers)
         }
         
         func delete(_ member: Member) {
@@ -46,5 +46,13 @@ extension SearchMembersView {
                 try await storage.delete(member)
             }
         }
+    }
+}
+
+extension Member.Entity {
+    func name(contains pattern: String) -> Bool {
+        let normal = pattern.lowercased()
+        let last = lastName ?? ""
+        return firstName.lowercased().contains(normal) || last.lowercased().contains(normal)
     }
 }

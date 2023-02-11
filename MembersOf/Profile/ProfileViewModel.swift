@@ -40,32 +40,33 @@ extension ProfileView {
         let storage: Storage
         let signer: Signer
         
-        private var socialFetcher: CoreDataStorage.Fetcher<Social>?
-        private var memberFetcher: AnyCancellable?
+        private var cancellers: Set<AnyCancellable> = []
         
         init(_ signer: Signer) {
             self.signer = signer
             self.storage = signer.storage
             
-            memberFetcher = signer.me
+             signer.me
                 .sink { [unowned self] member in
                     self.me = member
                 }
+                .store(in: &cancellers)
         }
         
         func fetch() {
-            socialFetcher = storage.fetch()
-                .assign(to: \.social, on: self)
+            storage.fetch(Social.self)
                 .filter(by: {$0.member?.id == self.me.id})
-                .run(sort: [.init(\.order)])
+                .sort(by: [.init(\.createDate)])
+                .catch{_ in Just([])}
+                .assign(to: \.social, on: self)
+                .store(in: &cancellers)
         }
         
         func addSocial() {
             guard let addingMedia else { return }
             Task {
-                var order = self.social.map(\.order).last ?? 0
-                order += 1
-                try await self.storage.save(Social(id: UUID(), media: addingMedia, account: addingAccount, order: order, memberId: me.id, teamId: nil))
+                let social = Social(id: UUID(), media: addingMedia, account: addingAccount, createDate: .now, memberId: me.id, teamId: nil)
+                try await self.storage.save(social)
                 DispatchQueue.main.async {
                     self.addingAccount = ""
                     self.addingMedia = nil

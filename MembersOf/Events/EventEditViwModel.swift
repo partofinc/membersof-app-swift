@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import Models
 
 extension EventEditView {
@@ -23,7 +24,7 @@ extension EventEditView {
         @Published var selectedShips: [UUID]
                 
         let storage: Storage
-        private var shipsFetcher: CoreDataStorage.Fetcher<Membership>?
+        private var shipsCanceler: AnyCancellable?
         
         init(event: Event, storage: Storage) {
             self.storage = storage
@@ -35,10 +36,11 @@ extension EventEditView {
             self.selectedShips = event.memberships.map(\.id)
             self.isEnded = event.endDate != nil
             
-            self.shipsFetcher = storage.fetch()
-                .filter(with: .init(format: "team.id = %@", event.team.id.uuidString))
+            shipsCanceler = storage.fetch(Membership.self)
+                .filter(by: {$0.team.id == event.team.id})
+                .sort(by: [.init(\.createDate)])
+                .catch{ _ in Just([])}
                 .assign(to: \.memberships, on: self)
-                .run(sort: [.init(\.createDate)])
         }
         
         func toggle(_ ship: Membership) {

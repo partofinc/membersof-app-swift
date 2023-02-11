@@ -39,7 +39,7 @@ extension NewMembershipView {
         let sigmer: Signer
         let storage: Storage
         
-        private var teamsFetcher: CoreDataStorage.Fetcher<Team>?
+        private var teamsCanceller: AnyCancellable?
         
         var canCreate: Bool {
             guard let team = teams.first else { return false }
@@ -63,14 +63,15 @@ extension NewMembershipView {
                 selectedTeam = team
                 return
             }
-            teamsFetcher = storage.fetch()
+            teamsCanceller = storage.fetch(Team.self)
+                .sort(by: [.init(\.createDate, order: .reverse)])
+                .catch{_ in Just([])}
                 .sink { [unowned self] teams in
                     self.teams = teams
                     if !teams.contains(where: {$0.id == self.selectedTeam.id}), let team = teams.first {
                         self.selectedTeam = team
                     }
                 }
-                .run(sort: [.init(\.createDate, order: .reverse)])
         }
         
         func calculatePeriod() {
@@ -128,7 +129,7 @@ extension NewMembershipView {
                     period: period,
                     length: length,
                     createDate: .now,
-                    teamId: selectedTeam.id,
+                    team: selectedTeam,
                     pricing: self.pricing
                 )
                 try await self.storage.save(membership)

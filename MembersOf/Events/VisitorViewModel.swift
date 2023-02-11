@@ -1,6 +1,7 @@
 
 
 import Foundation
+import Combine
 import Models
 
 extension VisitorView {
@@ -13,10 +14,9 @@ extension VisitorView {
         
         let storage: Storage
         
-        fileprivate var membershipsFetcher: CoreDataStorage.Fetcher<Membership>?
-        fileprivate var subscriptionsFetcher: CoreDataStorage.Fetcher<Subscription>?
+        private var cancellers: Set<AnyCancellable> = []
         
-        @Published var subscription: Subscription?
+        @Published var subscription: Models.Subscription?
         
         @Published var starting: Date = .now
         @Published var visits: Int = 0
@@ -29,18 +29,21 @@ extension VisitorView {
             self.event = event
             self.storage = storage
             
-            membershipsFetcher = storage.fetch()
+            storage.fetch(Membership.self)
                 .filter(by: {$0.team.id == event.team.id})
+                .sort(by: [.init(\.createDate, order: .reverse)])
+                .catch{_ in Just([])}
                 .assign(to: \.memberships, on: self)
-                .run(sort: [.init(\.createDate, order: .reverse)])
-            
-            subscriptionsFetcher = storage.fetch()
-                .filter(with: .init(format: "member.id == %@", member.id.uuidString))
-                .filter(with: .init(format: "membership.team.id == %@", event.team.id.uuidString))
-                .sink(receiveValue: { [unowned self] subs in
+                .store(in: &cancellers)
+
+            storage.fetch(Subscription.self)
+                .filter(by: {$0.member.id == member.id && $0.membership.team.id == event.team.id})
+                .sort(by: [.init(\.startDate)])
+                .catch{_ in Just([])}
+                .sink { [unowned self] subs in
                     self.subscription = subs.last
-                })
-                .run(sort: [.init(\.startDate)])
+                }
+                .store(in: &cancellers)
         }
         
         func select(_ ship: Membership) {

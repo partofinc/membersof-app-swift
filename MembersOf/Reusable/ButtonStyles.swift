@@ -13,10 +13,13 @@ struct PrimaryButtonStyle: ButtonStyle {
     let cornerRadius: CGFloat
     let maxWidth: CGFloat?
     
+    @Environment(\.colorScheme) var colorScheme
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .foregroundColor(.accentColor)
-            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius, maxWidth: maxWidth)
+            .foregroundColor(.white)
+            .bold()
+            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius, maxWidth: maxWidth, colorScheme: colorScheme)
             .opacity(configuration.isPressed ? 0.2 : 1)
     }
 }
@@ -33,18 +36,27 @@ extension ButtonStyle where Self == PrimaryButtonStyle {
 
 struct PrimaryMenuStyle: MenuStyle {
     
-    let padding: CGFloat
+    let padding: CGFloat?
     let cornerRadius: CGFloat
+    let maxWidth: CGFloat?
+    
+    @Environment(\.colorScheme) var colorScheme
     
     func makeBody(configuration: Configuration) -> some View {
         Menu(configuration)
-            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius)
+            .foregroundColor(.white)
+            .bold()
+            .primaryButtonStyle(padding: padding, cornerRadius: cornerRadius, maxWidth: maxWidth, colorScheme: colorScheme)
     }
 }
 
 extension MenuStyle where Self == PrimaryMenuStyle {
     static var primarySmall: PrimaryMenuStyle {
-        .init(padding: 6, cornerRadius: 8)
+        .init(padding: 6, cornerRadius: 4, maxWidth: nil)
+    }
+    
+    static var primary: PrimaryMenuStyle {
+        .init(padding: nil, cornerRadius: 6, maxWidth: .infinity)
     }
 }
 
@@ -52,10 +64,9 @@ extension MenuStyle where Self == PrimaryMenuStyle {
 private extension View {
     
     @ViewBuilder
-    func primaryButtonStyle(padding: CGFloat?, cornerRadius: CGFloat, maxWidth: CGFloat? = nil) -> some View {
+    func primaryButtonStyle(padding: CGFloat?, cornerRadius: CGFloat, maxWidth: CGFloat? = nil, colorScheme: ColorScheme = .dark) -> some View {
         let bg = RoundedRectangle(cornerRadius: cornerRadius)
-            .fill(Color.accentColor.gradient.opacity(0.3))
-            .shadow(radius: 3)
+            .fill(LinearGradient.primary(colorScheme: colorScheme))
         if let padding {
             self
                 .padding(padding)
@@ -73,9 +84,12 @@ private extension View {
 
 struct SecondaryActive_Previews: PreviewProvider {
     static var previews: some View {
-        Button(action: { print("Pressed") }) {
-            Label("Press Me", systemImage: "star")
+        VStack {
+            Button(action: { print("Pressed") }) {
+                Label("Press Me", systemImage: "star")
+            }
+            .buttonStyle(.primary)
+            .padding()
         }
-        .buttonStyle(.plain)
     }
 }

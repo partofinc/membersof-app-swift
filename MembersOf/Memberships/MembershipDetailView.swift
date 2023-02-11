@@ -24,7 +24,7 @@ struct MembershipDetailView: View {
         }
         .navigationTitle(viewModel.membership.name)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 EditButton(editMode: $editMode)
             }
         }
@@ -95,26 +95,10 @@ struct MembershipDetailView: View {
 }
 
 struct MembershipDetailView_Previews: PreviewProvider {
+    static let storage = MockStorage()
     static var previews: some View {
         NavigationStack {
-            MembershipDetailView(viewModel:
-                    .init(
-                        .init(
-                            id: UUID(),
-                            name: "One Time",
-                            visits: 1,
-                            period: .day,
-                            length: 1,
-                            createDate: .now,
-                            teamId: UUID(),
-                            pricing: [
-                                .init(id: UUID(), currency: "USD", value: 50),
-                                .init(id: UUID(), currency: "CAD", value: 60),
-                                .init(id: UUID(), currency: "RUB", value: 5080)
-                            ]),
-                        storage: MockStorage()
-                    )
-            )
+            MembershipDetailView(viewModel: .init(storage.memberships.first!, storage: storage))
         }
     }
 }

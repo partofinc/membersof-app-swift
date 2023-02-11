@@ -12,8 +12,8 @@ enum Mock {
             brief: "The strongest jiu jitsu team in kazan. Lead by the great black belt Yanis Yanakidis",
             createDate: .now,
             social: [
-                .init(id: UUID(), media: .instagram, account: "teamstrelakzn", order: 0, memberId: nil, teamId: nil),
-                .init(id: UUID(), media: .telegram, account: "teamstrelakzn", order: 1, memberId: nil, teamId: nil)
+                .init(id: UUID(), media: .instagram, account: "teamstrelakzn", createDate: .now, memberId: nil, teamId: nil),
+                .init(id: UUID(), media: .telegram, account: "teamstrelakzn", createDate: .now, memberId: nil, teamId: nil)
             ],
             crew: [
                 .init(id: UUID(), role: .owner, order: 0, member: members[1], teamId: nil)

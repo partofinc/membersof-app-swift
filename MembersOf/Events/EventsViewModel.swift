@@ -11,12 +11,12 @@ extension EventsView {
         
         @Published private(set) var events: [Event] = []
         @Published private(set) var me: Member = .local
+        @Published private(set) var scheduled: [Schedule] = []
         
         let signer: any Signer
         let storage: any Storage
         
-        private var eventsFetcher: CoreDataStorage.Fetcher<Event>?
-        private var memberFetcher: AnyCancellable?
+        private var subs: Set<AnyCancellable> = []
         
         private let sort: [SortDescriptor<Event.Entity>] = [
             .init(\.createDate, order: .reverse),
@@ -26,22 +26,32 @@ extension EventsView {
         init(_ signer: some Signer) {
             self.signer = signer
             self.storage = signer.storage
-            
-            memberFetcher = signer.me
+                        
+            signer.me
                 .sink { [unowned self] member in
                     self.me = member
                     self.fetch()
                 }
+                .store(in: &subs)
         }
         
         private func fetch() {
-            eventsFetcher = storage.fetch()
+            storage.fetch(Event.self)
                 .filter(by: { [unowned self] event in
                     guard let crew = event.team.crew else { return false }
                     return crew.contains(where: {$0.member.id == self.me.id})
                 })
+                .sort(by: [.init(\.createDate, order: .reverse), .init(\.startDate, order: .reverse)])
+                .catch{_ in Just([])}
                 .assign(to: \.events, on: self)
-                .run(sort: sort)
+                .store(in: &subs)
+            
+            storage.fetch(Schedule.self)
+                .sort(by: [.init(\.nearestDate)])
+                .catch{_ in Just([])}
+                .assign(to: \.scheduled, on: self)
+                .store(in: &subs)
+                
         }
         
         func delete(_ event: Event) {
@@ -52,7 +62,8 @@ extension EventsView {
     }
     
     enum Sheet: Identifiable {
-        case new
+        case event
+        case schedule
         
         var id: Self { self }
     }
