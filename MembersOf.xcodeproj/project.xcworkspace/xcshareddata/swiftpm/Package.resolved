@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:partofinc/membersof-vapor.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "f022c46821d72f4f164089681e44bc729c39fffe"
+        "revision" : "5ee1f9bcbc8b312222ec870bff513f079ed65548",
+        "version" : "0.1.1"
       }
     },
     {

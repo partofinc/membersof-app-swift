@@ -18,29 +18,28 @@ extension EventEditView {
         
         @Published var name: String
         @Published var startDate: Date
-        var endDate: Date?
         @Published var memberships: [Membership]
-        @Published var isEnded: Bool
+        @Published var finished: Bool
         @Published var selectedShips: [UUID]
                 
         let storage: Storage
-        private var shipsCanceler: AnyCancellable?
+        private var subs: Set<AnyCancellable> = []
         
         init(event: Event, storage: Storage) {
             self.storage = storage
             self.event = event
             self.name = event.name
             self.startDate = event.startDate
-            self.endDate = event.endDate ?? event.estimatedEndDate
             self.memberships = event.memberships
             self.selectedShips = event.memberships.map(\.id)
-            self.isEnded = event.endDate != nil
+            self.finished = event.finished
             
-            shipsCanceler = storage.fetch(Membership.self)
+            storage.fetch(Membership.self)
                 .filter(by: {$0.team.id == event.team.id})
                 .sort(by: [.init(\.createDate)])
                 .catch{ _ in Just([])}
                 .assign(to: \.memberships, on: self)
+                .store(in: &subs)
         }
         
         func toggle(_ ship: Membership) {
@@ -63,8 +62,8 @@ extension EventEditView {
                 name: name,
                 createDate: event.createDate,
                 startDate: startDate,
-                estimatedEndDate: isEnded ? event.estimatedEndDate : endDate,
-                endDate: isEnded ? endDate : nil,
+                duration: 90.minutes.timeInterval,
+                finished: finished,
                 team: event.team,
                 memberships: memberships.filter({selectedShips.contains($0.id)})
             )

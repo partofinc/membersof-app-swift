@@ -20,24 +20,15 @@ struct NewEventView: View {
                 Section {
                     TextField("Name", text: $viewModel.name)
                         .focused($nameFocus)
-                    DatePicker("Start", selection: $viewModel.startDate)
-                        .onChange(of: viewModel.startDate) { date in
-                            viewModel.startChanged(date: date)
-                        }
-                    if viewModel.endDefined {
-                        DatePicker("End", selection: $viewModel.endDate, in: viewModel.startDate...)
-                            .onChange(of: viewModel.endDate) { date in
-                                viewModel.endChanged(date: date)
-                            }
-                        Stepper(viewModel.durationTitle, value: $viewModel.duration, step: 30*60, onEditingChanged: { _ in
-                            viewModel.durationChanged()
-                        })
-                    } else {
-                        Button {
-                            viewModel.endDefined.toggle()
-                        } label: {
-                            Label("End", systemImage: "plus")
-                        }
+                    DatePicker("Date", selection: $viewModel.startDate, displayedComponents: .date)
+                    HStack {
+                        DatePicker("Start time", selection: $viewModel.startTime, displayedComponents: [.hourAndMinute])
+                            .labelsHidden()
+                        Spacer()
+                        Text(viewModel.durationRange, format: .components(style: .condensedAbbreviated))
+                        Spacer()
+                        DatePicker("End time", selection: $viewModel.endTime, in: viewModel.endTimeRange, displayedComponents: [.hourAndMinute])
+                            .labelsHidden()
                     }
                 }
                 Section {
@@ -142,8 +133,9 @@ struct NewEventView: View {
     }
 }
 
-//struct NewEventView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NewEventView(viewModel: .init(.init(.init("CoreModel"))))
-//    }
-//}
+struct NewEventView_Previews: PreviewProvider {
+    static let signer = PreviewSigner.default
+    static var previews: some View {
+        NewEventView(viewModel: .init(signer))
+    }
+}

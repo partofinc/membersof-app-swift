@@ -18,7 +18,7 @@ struct EventEditView: View {
             TextField("Name", text: $viewModel.name)
             DatePicker("Starts", selection: $viewModel.startDate)
             DatePicker("Ends", selection: $endDate)
-            Toggle("Finished", isOn: $viewModel.isEnded)
+            Toggle("Finished", isOn: $viewModel.finished)
             Section("Memberships") {
                 NavigationLink {
                     TeamDetailView(viewModel: .init(viewModel.event.team, storage: viewModel.storage))
@@ -40,7 +40,7 @@ struct EventEditView: View {
             }
         }
         .onChange(of: endDate, perform: { newValue in
-            viewModel.endDate = endDate
+//            viewModel.endDate = endDate
         })
         .safeAreaInset(edge: .bottom, content: {
             Button("Save") {
@@ -49,9 +49,6 @@ struct EventEditView: View {
             .buttonStyle(.primary)
             .padding()
         })
-        .onAppear {
-            endDate = viewModel.endDate ?? .now
-        }
     }
 }
 

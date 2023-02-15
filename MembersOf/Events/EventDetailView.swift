@@ -85,24 +85,24 @@ struct EventDetailView: View {
                         Text(viewModel.progress.rawValue)
                             .font(.headline)
                         Spacer()
-                        Button(viewModel.endDate) {
-                            sheet = .endDate
-                        }
-                        .padding(6)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.accentColor.gradient.opacity(0.1))
-                                .shadow(radius: 3)
-                        )
+//                        Button(viewModel.endDate) {
+//                            sheet = .endDate
+//                        }
+//                        .padding(6)
+//                        .background(
+//                            RoundedRectangle(cornerRadius: 8)
+//                                .fill(Color.accentColor.gradient.opacity(0.1))
+//                                .shadow(radius: 3)
+//                        )
                     } else {
                         Menu {
-                            if let date = viewModel.event.estimatedEndDate {
-                                Button {
-                                    endDate = date
-                                } label: {
-                                    Label("In time", systemImage: "hand.thumbsup")
-                                }
-                            }
+//                            if let date = viewModel.event.estimatedEndDate {
+//                                Button {
+//                                    endDate = date
+//                                } label: {
+//                                    Label("In time", systemImage: "hand.thumbsup")
+//                                }
+//                            }
                             Button {
                                 endDate = .now
                             } label: {
@@ -121,7 +121,7 @@ struct EventDetailView: View {
                             viewModel.end(with: date)
                         })
                         Spacer()
-                        Text(viewModel.endDate)
+//                        Text(viewModel.endDate)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)

@@ -48,6 +48,7 @@
 		F16976E92893B94500AB778D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F16976E82893B94500AB778D /* Preview Assets.xcassets */; };
 		F16976F52893BAFD00AB778D /* NewMembershipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976F42893BAFD00AB778D /* NewMembershipView.swift */; };
 		F16976F72893BB1200AB778D /* NewMembershipViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976F62893BB1200AB778D /* NewMembershipViewModel.swift */; };
+		F16B60D0299CFCEF003CDDAA /* ConvenienceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16B60CF299CFCEF003CDDAA /* ConvenienceExtensions.swift */; };
 		F16CB3CC295B078D001184A7 /* StoragePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16CB3CB295B078D001184A7 /* StoragePublisher.swift */; };
 		F1954F3528A2B87900B8D3C5 /* NewVisitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1954F3428A2B87900B8D3C5 /* NewVisitorViewModel.swift */; };
 		F199A540295F0E1F00C32DFC /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = F199A53F295F0E1F00C32DFC /* Models */; };
@@ -139,6 +140,7 @@
 		F16976F42893BAFD00AB778D /* NewMembershipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMembershipView.swift; sourceTree = "<group>"; };
 		F16976F62893BB1200AB778D /* NewMembershipViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMembershipViewModel.swift; sourceTree = "<group>"; };
 		F16976F82893BC5D00AB778D /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
+		F16B60CF299CFCEF003CDDAA /* ConvenienceExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceExtensions.swift; sourceTree = "<group>"; };
 		F16CB3CB295B078D001184A7 /* StoragePublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoragePublisher.swift; sourceTree = "<group>"; };
 		F1954F3428A2B87900B8D3C5 /* NewVisitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewVisitorViewModel.swift; sourceTree = "<group>"; };
 		F199A541296319F300C32DFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				F1A27FF02938AE1A00C17E6A /* PreviewSigner.swift */,
 				F1587CDE297D720600DAFA0D /* Operators.swift */,
 				F1D1C52F2989659400E36E8D /* JSONHelper.swift */,
+				F16B60CF299CFCEF003CDDAA /* ConvenienceExtensions.swift */,
 			);
 			path = Convenience;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				F1C83151289A872E004E34F9 /* TeamDetailView.swift in Sources */,
 				F1C6491928A50A6300811CAC /* CoreModel.xcdatamodeld in Sources */,
 				F1C8314D289A621B004E34F9 /* TeamsViewModel.swift in Sources */,
+				F16B60D0299CFCEF003CDDAA /* ConvenienceExtensions.swift in Sources */,
 				F1A6C04F2937642200EF0FFF /* MockStorage.swift in Sources */,
 				F1B71D862899011E00AD2E2C /* MembershipsView.swift in Sources */,
 				F1447F7428A7E9A2002AF148 /* Storable.swift in Sources */,
@@ -770,8 +774,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:partofinc/membersof-vapor.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.1;
 			};
 		};
 		F19A66B628D86D2E00CB884B /* XCRemoteSwiftPackageReference "SwiftDate" */ = {

@@ -1,7 +1,6 @@
 
 
 import Foundation
-//import SwiftDate
 import Combine
 import Models
 
@@ -50,12 +49,6 @@ extension EventDetailView {
             return time
         }
         
-        var endDate: String {
-            let end = event.endDate ?? event.estimatedEndDate
-            guard let date = end else { return "-" }
-            return date.formatted(.dateTime.hour().minute())
-        }
-        
         func end(with date: Date) {
             
         }
@@ -67,30 +60,22 @@ extension EventDetailView {
         }
         
         private func calculateProgress() {
-            if event.endDate != nil {
-                progress = .ended
-            } else {
-                if event.startDate > .now {
-                    progress = .upcoming
-                } else {
-                    progress = .ongoing
-                }
-            }
+
         }
         
         private func calculateDuration() {
-            let now: Date = .now
-            var end: Date = event.endDate ?? now
-            let start: Date = event.startDate
-            
-            if now < start, let estimate = event.estimatedEndDate {
-                end = estimate
-            }
-            guard end > start else {
-                duration = ""
-                return
-            }
-            duration = (start..<end).formatted(.components(style: .condensedAbbreviated, fields: [.hour, .minute]))
+//            let now: Date = .now
+//            var end: Date = event.endDate ?? now
+//            let start: Date = event.startDate
+//
+//            if now < start, let estimate = event.estimatedEndDate {
+//                end = estimate
+//            }
+//            guard end > start else {
+//                duration = ""
+//                return
+//            }
+//            duration = (start..<end).formatted(.components(style: .condensedAbbreviated, fields: [.hour, .minute]))
         }
     }
     

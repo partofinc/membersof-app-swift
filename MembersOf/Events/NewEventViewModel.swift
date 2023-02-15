@@ -21,12 +21,18 @@ extension NewEventView {
         @Published private(set) var selectedMemberships: [UUID] = []
         @Published var name: String = ""
         
-        @Published var startDate: Date
-        @Published var endDate: Date
-        @Published var endDefined: Bool = false
-        @Published var durationTitle: String = ""
-        @Published var duration: Int = 90*60 //Duration of event in seconds
+        @Published var startDate: Date = .now
+        @Published var duration: TimeInterval = 90.minutes.timeInterval
         @Published var me: Member = .local
+        
+        @Published var startTime: Date = .now
+        @Published var endTime: Date = .now.addingTimeInterval(90.minutes.timeInterval)
+        var durationRange: Range<Date> {
+            startTime..<endTime
+        }
+        var endTimeRange: PartialRangeFrom<Date> {
+            startTime.addingTimeInterval(10.minutes.timeInterval)...
+        }
         
         let storage: Storage
         let signer: Signer
@@ -41,13 +47,7 @@ extension NewEventView {
             self.signer = signer
             self.storage = signer.storage
             
-            let date = Date.now.dateRoundedAt(at: .toCeil5Mins)
-            startDate = date
-            endDate = date + 90.minutes
-            
             subscribe()
-            
-            calculateDuration()
             fetchTeams()
         }
         
@@ -84,6 +84,24 @@ extension NewEventView {
                 .catch({_ in Just([])})
                 .map{ [Schedule.none] + $0 }
                 .assign(to: \.scheduled, on: self)
+                .store(in: &subs)
+            
+            $startTime
+                .sink { [unowned self] date in
+                    endTime = date.addingTimeInterval(duration)
+                }
+                .store(in: &subs)
+            
+            $endTime
+                .sink { [unowned self] date in
+                    duration = (endTime - startTime).timeInterval
+                }
+                .store(in: &subs)
+            
+            $startDate
+                .sink { [unowned self] date in
+                    updateStartTime(with: date)
+                }
                 .store(in: &subs)
         }
         
@@ -129,32 +147,14 @@ extension NewEventView {
                         id: UUID(),
                         name: name,
                         createDate: .now,
-                        startDate: startDate,
-                        estimatedEndDate: endDefined ? endDate : nil,
-                        endDate: nil,
+                        startDate: startTime,
+                        duration: duration,
+                        finished: false,
                         team: team,
                         memberships: self.memberships.filter({self.selectedMemberships.contains($0.id)})
                     )
                 )
             }
-        }
-        
-        func calculateDuration(offset: Int = 0) {
-            durationTitle = (startDate..<endDate).formatted(.components(style: .condensedAbbreviated))
-        }
-        
-        func startChanged(date: Date) {
-            endDate = date + duration.seconds
-        }
-        
-        func endChanged(date: Date) {
-            duration = Int((date - startDate).timeInterval)
-            calculateDuration(offset: 1)
-        }
-        
-        func durationChanged() {
-            endDate = startDate + duration.seconds
-            calculateDuration()
         }
         
         func fetchTeams() {
@@ -172,6 +172,12 @@ extension NewEventView {
                     self.teams = teams
                 }
                 .store(in: &subs)
+        }
+        
+        fileprivate func updateStartTime(with date: Date) {
+            guard let d = startTime.changing(date: date) else { return }
+            startTime = d
+            endTime = d.addingTimeInterval(duration)
         }
     }
 }
