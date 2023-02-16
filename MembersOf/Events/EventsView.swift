@@ -54,8 +54,8 @@ struct EventsView: View {
                                         if let day = Calendar.localized.weekdaySymbol(by: rep.weekday) {
                                             Text(day)
                                         }
-                                        Text(rep.start)
-                                        Text(rep.end)
+                                        Text(rep.start, format: .number)
+                                        Text(rep.duration, format: .number)
                                     }
                                 }
                             } label: {

@@ -10,14 +10,15 @@ import SwiftUI
 struct ScheduleRow: View {
     
     let schedule: Schedule
-    let timing: [String]
+    let timing: [(String, Date, Date)]
     
     init(schedule: Schedule) {
         self.schedule = schedule
-        var tm: [String] = []
+        var tm: [(String, Date, Date)] = []
+        let start = Calendar.localized.startOfDay(for: .now)
         for rep in schedule.repeats {
             guard let day = Calendar.localized.weekdaySymbol(by: rep.weekday) else { continue }
-            tm.append("\(day) \(rep.start)-\(rep.end)")
+            tm.append((day, start.addingTimeInterval(rep.start), start.addingTimeInterval(rep.start + rep.duration)))
         }
         self.timing = tm
     }
@@ -26,8 +27,8 @@ struct ScheduleRow: View {
         GroupBox {
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading) {
-                    ForEach(timing, id: \.self) { time in
-                        Text(time)
+                    ForEach(timing, id: \.0) { (day, start, end) in
+                        Text("\(day) \(start...end)")
                     }
                 }
                 Spacer()
@@ -49,8 +50,8 @@ struct ScheduleRow: View {
 struct ScheduleRow_Previews: PreviewProvider {
     static var previews: some View {
         ScheduleRow(schedule: .init(id: UUID(), name: "Basic GI", team: .loading, repeats: [
-            .init(weekday: 1, start: "20:00", end: "22:00"),
-            .init(weekday: 0, start: "20:00", end: "22:00")],
+            .init(weekday: 1, start: 72000, duration: 7200),
+            .init(weekday: 0, start: 72000, duration: 7200)],
             nearestDate: nil, memeberships: [])
         )
         .padding()

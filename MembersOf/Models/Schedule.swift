@@ -7,6 +7,7 @@
 
 import Foundation
 import Models
+import SwiftDate
 
 public struct Schedule: Codable, Hashable, Identifiable {
     
@@ -30,24 +31,20 @@ public struct Schedule: Codable, Hashable, Identifiable {
     }
     
     mutating private func calculateNearestDate() {
-        var components = Calendar.localized.dateComponents([.year, .month, .day, .weekday, .hour, .minute], from: .now)
+        let curentDate: Date = .now
+        let startOfDay: Date = Calendar.localized.startOfDay(for: curentDate)
+        let secondsFromDayStart = curentDate.timeIntervalSince(startOfDay)
+        
+        let components = Calendar.localized.dateComponents([.year, .month, .day, .weekday, .hour, .minute], from: .now)
     
-        var hours: Int = 0
-        var minutes: Int = 0
         var daysToAdd: Int = 14
+        var timeToAdd = secondsFromDayStart
         
         let weekday: Int
         if let c = components.weekday {
             weekday = c - 1
         } else {
             weekday = 0
-        }
-        
-        func parse(hours: inout Int, minutes: inout Int, from time: String) {
-            let array = time.components(separatedBy: ":").compactMap(Int.init)
-            guard array.count == 2 else { return }
-            hours = array[0]
-            minutes = array[1]
         }
 
         for rep in repeats {
@@ -56,9 +53,8 @@ public struct Schedule: Codable, Hashable, Identifiable {
             
             if day == weekday {
                 daysToAdd = 0
-                parse(hours: &hours, minutes: &minutes, from: time)
-                let t = String(format: "%d:%02d", components.hour!, components.minute!)
-                if time > t {
+                if time > secondsFromDayStart {
+                    timeToAdd = time
                     break
                 } else {
                     daysToAdd = 14
@@ -66,23 +62,19 @@ public struct Schedule: Codable, Hashable, Identifiable {
             }
             if day > weekday {
                 daysToAdd = day - weekday
-                parse(hours: &hours, minutes: &minutes, from: time)
+                timeToAdd = time
                 break
             }
             if day < weekday {
                 let toAdd = day + 7 - weekday
                 guard toAdd < daysToAdd else { continue }
                 daysToAdd = toAdd
-                parse(hours: &hours, minutes: &minutes, from: time)
+                timeToAdd = time
                 continue
             }
         }
         
-        components.day = components.day! + daysToAdd
-        components.hour = hours
-        components.minute = minutes
-        
-        self.nearestDate = Calendar.current.date(from: components)
+        self.nearestDate = startOfDay.addingTimeInterval(daysToAdd.days.timeInterval + timeToAdd)
     }
 }
 
@@ -91,7 +83,7 @@ extension Schedule {
     public struct Repeat: Codable, Hashable {
         
         public let weekday: Int
-        public let start: String // HH:mm
-        public let end: String
+        public let start: TimeInterval
+        public let duration: TimeInterval
     }
 }

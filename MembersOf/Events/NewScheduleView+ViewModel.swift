@@ -23,7 +23,6 @@ extension NewScheduleView {
             self.signer = signer
             self.storage = signer.storage
             subscribe()
-//            fetchTeams()
         }
         
         let days: [String] = Calendar.localized.localizedWeekdaySymbols
@@ -141,13 +140,11 @@ extension NewScheduleView {
         }
         
         fileprivate func repeats() -> [Schedule.Repeat] {
-            let formatter: DateFormatter = .init()
-            formatter.dateFormat = "HH:mm"
             return dates.compactMap { (day, time) -> Schedule.Repeat? in
                 guard let weekday = Calendar.localized.indexOfWeek(day: day) else { return nil }
-                let start = formatter.string(from: time.0)
-                let end = formatter.string(from: time.1)
-                return Schedule.Repeat(weekday: weekday, start: start, end: end)
+                let start = time.0.timeIntervalSince(Calendar.localized.startOfDay(for: time.0))
+                let duration = time.1.timeIntervalSince(time.0)
+                return Schedule.Repeat(weekday: weekday, start: start, duration: duration)
             }.sorted(by: \.weekday)
         }
     }
