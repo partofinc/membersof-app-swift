@@ -15,13 +15,15 @@ public struct Schedule: Codable, Hashable, Identifiable {
     public let team: Team
     public let repeats: [Repeat]
     public var nearestDate: Date?
+    public let memberships: [Membership]
     
-    init(id: UUID, name: String, team: Team, repeats: [Repeat], nearestDate: Date?) {
+    init(id: UUID, name: String, team: Team, repeats: [Repeat], nearestDate: Date?, memeberships: [Membership]) {
         self.id = id
         self.name = name
         self.team = team
         self.repeats = repeats
         self.nearestDate = nearestDate
+        self.memberships = memeberships
         if nearestDate == nil {
             calculateNearestDate()
         }

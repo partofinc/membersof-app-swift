@@ -10,15 +10,15 @@ extension NewEventView {
     @MainActor
     final class ViewModel: ObservableObject {
         
-        @Published private(set) var teams: [Team] = [.loading]
+        @Published var teams: [Team] = [.loading]
         @Published var team: Team = .loading
         @Published var schedule: Schedule = .none
-        @Published private(set) var scheduled: [Schedule] = []
-        @Published private(set) var places: [Place] = [.none]
+        @Published var scheduled: [Schedule] = []
+        @Published var places: [Place] = [.none]
         @Published var place: Place = .none
         
-        @Published private(set) var memberships: [Membership] = []
-        @Published private(set) var selectedMemberships: [UUID] = []
+        @Published var memberships: [Membership] = []
+        @Published var selectedMemberships: [UUID] = []
         @Published var name: String = ""
         
         @Published var startDate: Date = .now
@@ -62,13 +62,15 @@ extension NewEventView {
             
             $schedule
                 .sink { [unowned self] sched in
-                    if sched == .none {
+                    if sched.id == .zero {
                         name = ""
                     } else {
                         name = sched.name
                         if let date = sched.nearestDate {
                             startDate = date
+                            startTime = date
                         }
+                        selectedMemberships = sched.memberships.map(\.id)
                     }
                 }
                 .store(in: &subs)
@@ -105,27 +107,7 @@ extension NewEventView {
                 .store(in: &subs)
         }
         
-        func isSelected(_ membership: Membership) -> Bool {
-            selectedMemberships.contains(membership.id)
-        }
         
-        func toggle(_ membership: Membership) {
-            Task {
-                if let idx = selectedMemberships.firstIndex(of: membership.id) {
-                    selectedMemberships.remove(at: idx)
-                } else {
-                    selectedMemberships.append(membership.id)
-                }
-            }
-        }
-        
-        func selectMemberships() {
-            selectedMemberships = memberships.map(\.id)
-        }
-        
-        func deselectMemberships() {
-            selectedMemberships.removeAll()
-        }
         
         func fetchMemberships() {
             storage.fetch(Membership.self)

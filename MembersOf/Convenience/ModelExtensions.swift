@@ -22,7 +22,7 @@ extension Member {
 
 extension Schedule {
     static var none: Schedule {
-        .init(id: .zero, name: "None", team: .loading, repeats: [], nearestDate: nil)
+        .init(id: .zero, name: "None", team: .loading, repeats: [], nearestDate: nil, memeberships: [])
     }
 }
 

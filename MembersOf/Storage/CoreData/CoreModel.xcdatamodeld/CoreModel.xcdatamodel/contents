@@ -49,6 +49,7 @@
         <attribute name="visits" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="memberships" inverseEntity="Event"/>
         <relationship name="pricing" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Price" inverseName="membership" inverseEntity="Price"/>
+        <relationship name="schedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Schedule" inverseName="memberships" inverseEntity="Schedule"/>
         <relationship name="subscriptions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Subscription" inverseName="membership" inverseEntity="Subscription"/>
         <relationship name="team" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="memberships" inverseEntity="Team"/>
     </entity>
@@ -69,7 +70,7 @@
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="place" inverseEntity="Event"/>
-        <relationship name="schedules" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Schedule" inverseName="place" inverseEntity="Schedule"/>
+        <relationship name="schedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Schedule" inverseName="place" inverseEntity="Schedule"/>
         <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="places" inverseEntity="Team"/>
     </entity>
     <entity name="Price" representedClassName="PriceEntity" syncable="YES">
@@ -85,7 +86,8 @@
         <attribute name="nearestDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="repeats" optional="YES" attributeType="Binary"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="schedule" inverseEntity="Event"/>
-        <relationship name="place" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Place" inverseName="schedules" inverseEntity="Place"/>
+        <relationship name="memberships" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Membership" inverseName="schedules" inverseEntity="Membership"/>
+        <relationship name="place" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Place" inverseName="schedules" inverseEntity="Place"/>
         <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="schedules" inverseEntity="Team"/>
     </entity>
     <entity name="Social" representedClassName="SocialEntity" syncable="YES">

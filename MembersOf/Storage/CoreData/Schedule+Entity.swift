@@ -23,6 +23,7 @@ extension Schedule: Storable {
         @NSManaged var team: Team.Entity
         @NSManaged var repeats: Data?
         @NSManaged var nearestDate: Date?
+        @NSManaged var memberships: Set<Membership.Entity>?
     }
     
     init(_ entity: Entity) {
@@ -31,7 +32,7 @@ extension Schedule: Storable {
            let reps = JSONHelper.shared.decode([Repeat].self, from: r) {
             repeats = reps
         }
-        self.init(id: entity.id, name: entity.name, team: .init(entity.team), repeats: repeats, nearestDate: entity.nearestDate)
+        self.init(id: entity.id, name: entity.name, team: .init(entity.team), repeats: repeats, nearestDate: entity.nearestDate, memeberships: entity.memberships == nil ? [] : entity.memberships!.map(Membership.init))
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
@@ -41,6 +42,7 @@ extension Schedule: Storable {
         entity.team =  team.entity(context)
         entity.repeats = JSONHelper.shared.encode(value: repeats)
         entity.nearestDate = nearestDate
+        entity.memberships = Set(memberships.map{$0.entity(context)})
         return entity
     }
     

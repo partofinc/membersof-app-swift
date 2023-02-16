@@ -50,6 +50,7 @@
 		F16976F72893BB1200AB778D /* NewMembershipViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16976F62893BB1200AB778D /* NewMembershipViewModel.swift */; };
 		F16B60D0299CFCEF003CDDAA /* ConvenienceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16B60CF299CFCEF003CDDAA /* ConvenienceExtensions.swift */; };
 		F16CB3CC295B078D001184A7 /* StoragePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16CB3CB295B078D001184A7 /* StoragePublisher.swift */; };
+		F1887006299E5B7200C647EB /* NewTeamSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1887005299E5B7200C647EB /* NewTeamSectionView.swift */; };
 		F1954F3528A2B87900B8D3C5 /* NewVisitorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1954F3428A2B87900B8D3C5 /* NewVisitorViewModel.swift */; };
 		F199A540295F0E1F00C32DFC /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = F199A53F295F0E1F00C32DFC /* Models */; };
 		F19A66B828D86D2E00CB884B /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = F19A66B728D86D2E00CB884B /* SwiftDate */; };
@@ -130,7 +131,6 @@
 		F160721128ACC9E700538A4F /* Supervisor+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Supervisor+Entity.swift"; sourceTree = "<group>"; };
 		F16331B1299292CD0000EAA0 /* Place+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Place+Entity.swift"; sourceTree = "<group>"; };
 		F16331B32992A3E30000EAA0 /* NewScheduleView+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewScheduleView+ViewModel.swift"; sourceTree = "<group>"; };
-		F16331B52992B1130000EAA0 /* EventTeamSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTeamSection.swift; sourceTree = "<group>"; };
 		F16976DD2893B94100AB778D /* MembersOf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MembersOf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F16976E02893B94100AB778D /* MembersOfApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersOfApp.swift; sourceTree = "<group>"; };
 		F16976E22893B94100AB778D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -142,6 +142,7 @@
 		F16976F82893BC5D00AB778D /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		F16B60CF299CFCEF003CDDAA /* ConvenienceExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceExtensions.swift; sourceTree = "<group>"; };
 		F16CB3CB295B078D001184A7 /* StoragePublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoragePublisher.swift; sourceTree = "<group>"; };
+		F1887005299E5B7200C647EB /* NewTeamSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTeamSectionView.swift; sourceTree = "<group>"; };
 		F1954F3428A2B87900B8D3C5 /* NewVisitorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewVisitorViewModel.swift; sourceTree = "<group>"; };
 		F199A541296319F300C32DFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F1A14DA528AE569A001F00E3 /* Membership+Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Membership+Entity.swift"; sourceTree = "<group>"; };
@@ -221,7 +222,7 @@
 				F103BD50289D333C0041D2EF /* NewEventViewModel.swift */,
 				F1D1C5292987E01A00E36E8D /* NewScheduleView.swift */,
 				F16331B32992A3E30000EAA0 /* NewScheduleView+ViewModel.swift */,
-				F16331B52992B1130000EAA0 /* EventTeamSection.swift */,
+				F1887005299E5B7200C647EB /* NewTeamSectionView.swift */,
 				F1E25F1628A247F000B1511D /* EventRow.swift */,
 				F1C60BE428A252BC00F944BD /* EventDetailView.swift */,
 				F1C60BE628A252DB00F944BD /* EventDetailViewModel.swift */,
@@ -504,6 +505,7 @@
 				F152EBD628D1FE6D0066E9C8 /* Debt+Entity.swift in Sources */,
 				F1447F7228A7E8CF002AF148 /* Event+Entity.swift in Sources */,
 				F15FB69D28B3589E00BE15C3 /* Price+Entity.swift in Sources */,
+				F1887006299E5B7200C647EB /* NewTeamSectionView.swift in Sources */,
 				F1E25F1728A247F000B1511D /* EventRow.swift in Sources */,
 				F1C60BEB28A272D000F944BD /* SearchMembersView.swift in Sources */,
 				F1A6C04829320CCF00EF0FFF /* Mock.swift in Sources */,

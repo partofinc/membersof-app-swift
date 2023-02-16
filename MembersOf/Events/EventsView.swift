@@ -19,7 +19,7 @@ struct EventsView: View {
             ScrollView {
                 LazyVStack(alignment: .leading) {
                     if !viewModel.events.isEmpty {
-                        ScrollView(.horizontal) {
+                        ScrollView(.horizontal, showsIndicators: false) {
                             LazyHStack {
                                 ForEach(viewModel.events) { event in
                                     NavigationLink {
@@ -38,53 +38,54 @@ struct EventsView: View {
                                     }
                                 }
                             }
+                            .padding(.bottom)
                         }
                         .frame(height: 150)
                     }
-                    Text("Schedule")
-                        .font(.title)
-                    ForEach(viewModel.scheduled) { sched in
-                        NavigationLink {
-                            VStack {
-                                Text(sched.name)
-                                Text(sched.team.name)
-                                ForEach(sched.repeats, id: \.weekday) { rep in
-                                    if let day = Calendar.localized.weekdaySymbol(by: rep.weekday) {
-                                        Text(day)
-                                    }
-                                    Text(rep.start)
-                                    Text(rep.end)
-                                }
-                            }
-                        } label: {
-                            ScheduleRow(schedule: sched)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-                .padding()
-            }
-            .safeAreaInset(edge: .bottom) {
-                Menu {
-                    Button {
-                        sheet = .event
-                    } label: {
-                        Text("Event")
-                    }
-                    Button {
-                        sheet = .schedule
-                    } label: {
+                    if !viewModel.scheduled.isEmpty {
                         Text("Schedule")
+                            .font(.title)
+                        ForEach(viewModel.scheduled) { sched in
+                            NavigationLink {
+                                VStack {
+                                    Text(sched.name)
+                                    Text(sched.team.name)
+                                    ForEach(sched.repeats, id: \.weekday) { rep in
+                                        if let day = Calendar.localized.weekdaySymbol(by: rep.weekday) {
+                                            Text(day)
+                                        }
+                                        Text(rep.start)
+                                        Text(rep.end)
+                                    }
+                                }
+                            } label: {
+                                ScheduleRow(schedule: sched)
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
-                } label: {
-                    Label("New", systemImage: "plus")
                 }
-                .menuStyle(.primary)
                 .padding()
             }
             .navigationTitle("Events")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Button {
+                            sheet = .event
+                        } label: {
+                            Label("Event", systemImage: "calendar.day.timeline.left")
+                        }
+                        Button {
+                            sheet = .schedule
+                        } label: {
+                            Label("Schedule", systemImage: "calendar")
+                        }
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+                ToolbarItem(placement: .automatic) {
                     NavigationLink {
                         Text("History")
                     } label: {
@@ -97,7 +98,7 @@ struct EventsView: View {
                 case .event:
                     NewEventView(viewModel: .init(viewModel.signer))
                 case .schedule:
-                    NewScheduleView(viewModel: .init(storage: viewModel.storage))
+                    NewScheduleView(viewModel: .init(signer: viewModel.signer))
                 }
             }
             .animation(.easeInOut, value: viewModel.events)

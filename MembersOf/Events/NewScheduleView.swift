@@ -44,24 +44,15 @@ struct NewScheduleView: View {
                         }
                     }
                 }
-                Section {
-                    Picker("Team", selection: $viewModel.team) {
-                        ForEach(viewModel.teams, id: \.self) { team in
-                            Text(team.name).tag(team)
-                        }
-                    }
-                    Picker("Place", selection: $viewModel.place) {
-                        ForEach(viewModel.places, id: \.self) { place in
-                            Text(place.name).tag(place)
-                        }
-                    }
-                    Text("Memberships")
-                    Button {
-                        
-                    } label: {
-                        Label("Add", systemImage: "plus")
-                    }
-                }
+                NewTeamSectionView(
+                    signer: viewModel.signer,
+                    teams: $viewModel.teams,
+                    team: $viewModel.team,
+                    places: $viewModel.places,
+                    place: $viewModel.place,
+                    memberships: $viewModel.memberships,
+                    selectedMemberships: $viewModel.selectedMemberships
+                )
             }
             .navigationTitle("Schedule")
 #if os(iOS)
@@ -93,10 +84,11 @@ struct NewScheduleView: View {
     }
 }
 
-//struct NewScheduleView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NewScheduleView()
-//    }
-//}
+struct NewScheduleView_Previews: PreviewProvider {
+    static let signer = PreviewSigner.default
+    static var previews: some View {
+        NewScheduleView(viewModel: .init(signer: signer))
+    }
+}
 
 
