@@ -17,7 +17,7 @@
         <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="memberships" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Membership" inverseName="events" inverseEntity="Membership"/>
         <relationship name="place" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Place" inverseName="events" inverseEntity="Place"/>
-        <relationship name="schedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Schedule" inverseName="event" inverseEntity="Schedule"/>
+        <relationship name="schedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Schedule" inverseName="events" inverseEntity="Schedule"/>
         <relationship name="team" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="events" inverseEntity="Team"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="event" inverseEntity="Visit"/>
     </entity>
@@ -81,13 +81,12 @@
     </entity>
     <entity name="Schedule" representedClassName="ScheduleEntity" syncable="YES">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="location" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="nearestDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="repeats" optional="YES" attributeType="Binary"/>
-        <attribute name="team" attributeType="String"/>
-        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="schedule" inverseEntity="Event"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="schedule" inverseEntity="Event"/>
         <relationship name="place" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Place" inverseName="schedules" inverseEntity="Place"/>
+        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="schedules" inverseEntity="Team"/>
     </entity>
     <entity name="Social" representedClassName="SocialEntity" syncable="YES">
         <attribute name="account" attributeType="String"/>
@@ -124,6 +123,7 @@
         <relationship name="invites" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Invite" inverseName="team" inverseEntity="Invite"/>
         <relationship name="memberships" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Membership" inverseName="team" inverseEntity="Membership"/>
         <relationship name="places" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Place" inverseName="team" inverseEntity="Place"/>
+        <relationship name="schedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Schedule" inverseName="team" inverseEntity="Schedule"/>
         <relationship name="social" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Social" inverseName="team" inverseEntity="Social"/>
     </entity>
     <entity name="Visit" representedClassName="VisitEntity" syncable="YES">

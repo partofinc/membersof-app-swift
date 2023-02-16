@@ -47,8 +47,7 @@ struct EventsView: View {
                         NavigationLink {
                             VStack {
                                 Text(sched.name)
-                                Text(sched.team)
-                                Text(sched.location)
+                                Text(sched.team.name)
                                 ForEach(sched.repeats, id: \.weekday) { rep in
                                     if let day = Calendar.localized.weekdaySymbol(by: rep.weekday) {
                                         Text(day)

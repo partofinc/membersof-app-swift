@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftDate
 
 struct NewScheduleView: View {
     
@@ -30,13 +31,14 @@ struct NewScheduleView: View {
                             }
                         }
                         if viewModel.isSelected(day) {
+                            let (start, end) = viewModel.dates[day]!
                             HStack {
-                                DatePicker("Start time", selection: binding(for: day).0, displayedComponents: [.hourAndMinute])
+                                DatePicker("Start time", selection: viewModel.binding(for: day).0, displayedComponents: [.hourAndMinute])
                                     .labelsHidden()
                                 Spacer()
-                                Text("2 hours")
+                                Text(start..<end, format: .components(style: .condensedAbbreviated))
                                 Spacer()
-                                DatePicker("End time", selection: binding(for: day).1, displayedComponents: [.hourAndMinute])
+                                DatePicker("End time", selection: viewModel.binding(for: day).1, in: start.addingTimeInterval(10.minutes.timeInterval)..., displayedComponents: [.hourAndMinute])
                                     .labelsHidden()
                             }
                         }
@@ -89,22 +91,6 @@ struct NewScheduleView: View {
             }
         }
     }
-    
-    func rep(for day: String) -> Schedule.Repeat? {
-        guard let idx = Calendar.localized.indexOfWeek(day: day) else { return nil }
-        return .init(weekday: idx, start: "20:00", end: "22:00")
-    }
-    
-    private func binding(for day: String) -> Binding<(Date, Date)> {
-        Binding(
-            get: {
-                return viewModel.dates[day] ?? (.now, .now)
-            },
-            set: {
-                viewModel.dates[day] = $0
-            }
-        )
-    }
 }
 
 //struct NewScheduleView_Previews: PreviewProvider {
@@ -114,51 +100,3 @@ struct NewScheduleView: View {
 //}
 
 
-extension Calendar {
-    
-    static var localized: Self {
-        var cal = Self.current
-        cal.locale = .autoupdatingCurrent
-        return cal
-    }
-    
-    var localizedWeekdaySymbols: [String] {
-        Array(weekdaySymbols.rotatingLeft(positions: firstWeekday - 1))
-    }
-    
-    func indexOfWeek(day: String) -> Int? {
-        weekdaySymbols.firstIndex(of: day)
-    }
-    
-    func weekdaySymbol(by index: Int) -> String? {
-        guard weekdaySymbols.indices.contains(index) else { return nil }
-        return weekdaySymbols[index]
-    }
-}
-
-extension RangeReplaceableCollection {
-    
-    func rotatingLeft(positions: Int) -> SubSequence {
-        let index = self.index(startIndex, offsetBy: positions, limitedBy: endIndex) ?? endIndex
-        return self[index...] + self[..<index]
-    }
-    
-    mutating func rotateLeft(positions: Int) {
-        let index = self.index(startIndex, offsetBy: positions, limitedBy: endIndex) ?? endIndex
-        let slice = self[..<index]
-        removeSubrange(..<index)
-        insert(contentsOf: slice, at: endIndex)
-    }
-    
-    func rotatingRight(positions: Int) -> SubSequence {
-        let index = self.index(endIndex, offsetBy: -positions, limitedBy: startIndex) ?? startIndex
-        return self[index...] + self[..<index]
-    }
-    
-    mutating func rotateRight(positions: Int) {
-        let index = self.index(endIndex, offsetBy: -positions, limitedBy: startIndex) ?? startIndex
-        let slice = self[index...]
-        removeSubrange(index...)
-        insert(contentsOf: slice, at: startIndex)
-    }
-}

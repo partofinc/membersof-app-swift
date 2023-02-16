@@ -7,7 +7,7 @@
 
 import Foundation
 import CoreData
-
+import Models
 
 extension Schedule: Storable {
 
@@ -20,8 +20,7 @@ extension Schedule: Storable {
         
         @NSManaged var id: UUID
         @NSManaged var name: String
-        @NSManaged var team: String
-        @NSManaged var location: String
+        @NSManaged var team: Team.Entity
         @NSManaged var repeats: Data?
         @NSManaged var nearestDate: Date?
     }
@@ -32,15 +31,14 @@ extension Schedule: Storable {
            let reps = JSONHelper.shared.decode([Repeat].self, from: r) {
             repeats = reps
         }
-        self.init(id: entity.id, name: entity.name, location: entity.location, team: entity.team, repeats: repeats, nearestDate: entity.nearestDate)
+        self.init(id: entity.id, name: entity.name, team: .init(entity.team), repeats: repeats, nearestDate: entity.nearestDate)
     }
     
     func entity(_ context: NSManagedObjectContext) -> Entity {
         let entity = find(in: context) ?? Entity(context: context)
         entity.id = id
         entity.name = name
-        entity.team =  team
-        entity.location = location
+        entity.team =  team.entity(context)
         entity.repeats = JSONHelper.shared.encode(value: repeats)
         entity.nearestDate = nearestDate
         return entity

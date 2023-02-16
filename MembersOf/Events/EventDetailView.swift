@@ -28,12 +28,12 @@ struct EventDetailView: View {
             }
             .padding()
         }
-        .edit($editMode) {
-            EventEditView(
-                viewModel: .init(event: viewModel.event, storage: viewModel.storage),
-                sheet: $sheet
-            )
-        }
+//        .edit($editMode) {
+//            EventEditView(
+//                viewModel: .init(event: viewModel.event, storage: viewModel.storage),
+//                sheet: $sheet
+//            )
+//        }
         .navigationTitle(viewModel.event.name)
         .sheet(item: $sheet) { sheet in
             switch sheet {
@@ -48,11 +48,11 @@ struct EventDetailView: View {
                     .presentationDetents([.medium])
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                EditButton(editMode: $editMode)
-            }
-        }
+//        .toolbar {
+//            ToolbarItem(placement: .primaryAction) {
+//                EditButton(editMode: $editMode)
+//            }
+//        }
         .animation(.easeInOut, value: viewModel.visits)
         .animation(.easeInOut, value: membershipsHidden)
     }

@@ -33,25 +33,22 @@ struct ScheduleRow: View {
                 Spacer()
                 Image(systemName: "mappin")
                     .font(.footnote)
-                Text(schedule.location)
-                    .font(.footnote)
             }
         } label: {
             HStack {
                 Text(schedule.name)
                 Spacer()
-                Text(schedule.team)
             }
         }
     }
 }
 
-struct ScheduleRow_Previews: PreviewProvider {
-    static var previews: some View {
-        ScheduleRow(schedule: .init(id: UUID(), name: "Basic GI", location: "Migros MMM", team: "Kimura Jiu Jitsu", repeats: [
-            .init(weekday: 1, start: "20:00", end: "22:00"),
-            .init(weekday: 0, start: "20:00", end: "22:00")],
-            nearestDate: nil)
-        )
-    }
-}
+//struct ScheduleRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ScheduleRow(schedule: .init(id: UUID(), name: "Basic GI", location: "Migros MMM", team: "Kimura Jiu Jitsu", repeats: [
+//            .init(weekday: 1, start: "20:00", end: "22:00"),
+//            .init(weekday: 0, start: "20:00", end: "22:00")],
+//            nearestDate: nil)
+//        )
+//    }
+//}

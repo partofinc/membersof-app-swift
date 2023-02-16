@@ -6,20 +6,19 @@
 //
 
 import Foundation
+import Models
 
 public struct Schedule: Codable, Hashable, Identifiable {
     
     public let id: UUID
     public let name: String
-    public let location: String
-    public let team: String
+    public let team: Team
     public let repeats: [Repeat]
     public var nearestDate: Date?
     
-    init(id: UUID, name: String, location: String, team: String, repeats: [Repeat], nearestDate: Date?) {
+    init(id: UUID, name: String, team: Team, repeats: [Repeat], nearestDate: Date?) {
         self.id = id
         self.name = name
-        self.location = location
         self.team = team
         self.repeats = repeats
         self.nearestDate = nearestDate
@@ -57,7 +56,6 @@ public struct Schedule: Codable, Hashable, Identifiable {
                 daysToAdd = 0
                 parse(hours: &hours, minutes: &minutes, from: time)
                 let t = String(format: "%d:%02d", components.hour!, components.minute!)
-                print(t)
                 if time > t {
                     break
                 } else {

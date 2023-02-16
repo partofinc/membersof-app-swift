@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 import Models
+import SwiftDate
+import SwiftUI
 
 extension NewScheduleView {
     
@@ -36,6 +38,8 @@ extension NewScheduleView {
         @Published private(set) var selectedMemberships: [UUID] = []
         
         private var subs: Set<AnyCancellable> = []
+        private var lastTime: (Date, Date) = (.now, .now + 90.minutes)
+        private var lastDuration: TimeInterval = 90.minutes.timeInterval
         
         private func subscribe() {
             
@@ -58,12 +62,29 @@ extension NewScheduleView {
                 dates.removeValue(forKey: day)
             } else {
                 selectedDays.insert(day)
-                dates[day] = (.now, .now)
+                dates[day] = lastTime
             }
         }
         
         func isSelected(_ day: String) -> Bool {
             selectedDays.contains(day)
+        }
+        
+        func binding(for day: String) -> Binding<(Date, Date)> {
+            Binding(
+                get: {
+                    return self.dates[day] ?? self.lastTime
+                },
+                set: {
+                    var modified = $0
+                    if let existing = self.dates[day], existing.0 != modified.0 {
+                        modified.1 = modified.0.addingTimeInterval(self.lastDuration)
+                    }
+                    self.lastDuration = (modified.1 - modified.0).timeInterval
+                    self.lastTime = modified
+                    self.dates[day] = modified
+                }
+            )
         }
     }
 }

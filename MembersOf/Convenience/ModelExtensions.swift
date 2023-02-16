@@ -22,7 +22,7 @@ extension Member {
 
 extension Schedule {
     static var none: Schedule {
-        .init(id: .zero, name: "None", location: "", team: "", repeats: [], nearestDate: nil)
+        .init(id: .zero, name: "None", team: .loading, repeats: [], nearestDate: nil)
     }
 }
 
@@ -32,15 +32,15 @@ extension Place {
     }
 }
 
-extension Array where Element == Supervisor.Role {
-    static var all: Self {[
+extension [Supervisor.Role] {
+    static var all: [Element] {[
         .owner,
         .admin,
         .manager
     ]}
 }
 
-extension Array where Element == Social.Media {
+extension [Social.Media] {
     static var all: [Element] {[
             .instagram,
             .telegram,
