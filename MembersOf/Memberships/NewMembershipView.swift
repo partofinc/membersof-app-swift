@@ -117,19 +117,25 @@ struct NewMembershipView: View {
                         .keyboardType(.decimalPad)
                     #endif
                         .focused($isPriceEditing)
+                }
+                HStack {
                     Button {
                         viewModel.addTier()
                     } label: {
-                        Image(systemName: "checkmark.circle")
+                        Label("Save", systemImage: "checkmark")
                     }
                     .buttonStyle(.plain)
                     .foregroundColor(.accentColor)
+                    .frame(maxWidth: .infinity)
                     .disabled(viewModel.price == nil)
-                }
-                Button {
-                    viewModel.cancelTier()
-                } label: {
-                    Label("Cancel", systemImage: "xmark")
+                    Button(role: .destructive) {
+                        viewModel.cancelTier()
+                    } label: {
+                        Label("Cancel", systemImage: "xmark")
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundColor(.red)
+                    .frame(maxWidth: .infinity)
                 }
             } else {
                 Button {

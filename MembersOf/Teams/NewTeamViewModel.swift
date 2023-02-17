@@ -68,11 +68,7 @@ extension NewTeamView {
                 crew: [supervisor]
             )
             Task {
-                do {
-                    try await storage.save(team)
-                } catch {
-                    print(error)
-                }
+                try await storage.save(team)
             }
             return team
         }

@@ -25,9 +25,9 @@ struct NewTeamView: View {
                         .focused($editingName)
                     TextField("Introduction", text: $viewModel.brief, axis: .vertical)
                 } footer: {
-                    Text("Briefly describe yor team")
+                    Text("Briefly describe your team")
                 }
-                Section("social media") {
+                Section("Social media") {
                     ForEach(viewModel.socials) { social in
                         HStack {
                             Text(social.media.rawValue.capitalized)
@@ -43,25 +43,26 @@ struct NewTeamView: View {
                         }
                     }
                     if let media = viewModel.media {
+                        NewSocialMediaRow(media: media, account: $viewModel.account)
                         HStack {
-                            Text(media.rawValue)
-                            TextField("Account", text: $viewModel.account)
-                                .textContentType(.username)
-                            #if os(iOS)
-                                .keyboardType(.emailAddress)
-                                .textInputAutocapitalization(.never)
-                            #endif
-                                .autocorrectionDisabled()
-                                .multilineTextAlignment(.trailing)
-                                .focused($addingSocial)
                             Button {
                                 viewModel.addSocial()
                             } label: {
-                                Image(systemName: "checkmark.circle")
+                                Label("Save", systemImage: "checkmark")
                             }
                             .buttonStyle(.plain)
                             .foregroundColor(.accentColor)
+                            .frame(maxWidth: .infinity)
                             .disabled(viewModel.account.count < 3)
+                            Button(role: .destructive) {
+                                viewModel.media = nil
+                                viewModel.account = ""
+                            } label: {
+                                Label("Cancel", systemImage: "xmark")
+                            }
+                            .buttonStyle(.plain)
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity)
                         }
                     } else if !viewModel.medias.isEmpty {
                         Menu {
@@ -78,6 +79,7 @@ struct NewTeamView: View {
                 }
             }
         }
+        .animation(.easeInOut, value: viewModel.socials)
         .onAppear {
             editingName.toggle()
         }

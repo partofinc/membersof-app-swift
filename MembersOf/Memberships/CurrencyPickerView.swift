@@ -20,7 +20,7 @@ struct CurrencyPickerView: View {
                 self.currency = currency
             } label: {
                 HStack {
-                    Image(systemName: isSelected(currency) ? "checkmark.circle" : "circle.dotted")
+                    Image(systemName: isSelected(currency) ? "checkmark.circle" : "circle")
                     Text(currency.code)
                     Text(currency.symbol)
                     Spacer()
@@ -39,6 +39,14 @@ struct CurrencyPickerView: View {
             }
             .buttonStyle(.primary)
             .padding()
+            .background(.ultraThinMaterial)
+        }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Cancel") {
+                    dismiss()
+                }
+            }
         }
     }
     

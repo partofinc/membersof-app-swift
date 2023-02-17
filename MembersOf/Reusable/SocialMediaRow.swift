@@ -52,16 +52,7 @@ struct SocialMediaRow: View {
 struct NewSocialMediaRow: View {
     
     let media: Social.Media
-    let style: SocialMediaRow.Style
     @Binding var account: String
-    let onSubmit: () -> Void
-    
-    init(media: Social.Media, style: SocialMediaRow.Style = .plain, account: Binding<String>, onSubmit: @escaping () -> Void = {}) {
-        self.media = media
-        self.style = style
-        self._account = account
-        self.onSubmit = onSubmit
-    }
     
     @FocusState private var focus
     
@@ -78,14 +69,6 @@ struct NewSocialMediaRow: View {
                 .keyboardType(.emailAddress)
                 .focused($focus)
             #endif
-            Button {
-                onSubmit()
-            } label: {
-                Image(systemName: "checkmark.circle")
-            }
-            .buttonStyle(.plain)
-            .foregroundColor(.accentColor)
-            .disabled(account.count < 3)
         }
         .onAppear {
             focus = true

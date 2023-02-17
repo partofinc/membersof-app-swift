@@ -152,9 +152,7 @@ struct ProfileView: View {
                 }
             }
             if let media = viewModel.addingMedia {
-                NewSocialMediaRow(media: media, account: $viewModel.addingAccount) {
-                    viewModel.addSocial()
-                }
+                NewSocialMediaRow(media: media, account: $viewModel.addingAccount)
             } else if !viewModel.missingMedia.isEmpty {
                 Menu {
                     ForEach(viewModel.missingMedia) { media in

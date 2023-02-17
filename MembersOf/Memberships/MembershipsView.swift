@@ -20,16 +20,7 @@ struct MembershipsView: View {
                         NavigationLink {
                             MembershipDetailView(viewModel: .init(ship, storage: viewModel.storage))
                         } label: {
-                            HStack {
-                                Text(ship.name)
-                                Spacer()
-                            }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.orange.opacity(0.4).gradient)
-                                    .shadow(radius: 5)
-                            )
+                            MembershipRow(membership: ship)
                         }
                         .buttonStyle(.plain)
                     }

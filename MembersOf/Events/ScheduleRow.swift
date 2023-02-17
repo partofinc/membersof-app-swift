@@ -41,7 +41,7 @@ struct ScheduleRow: View {
             HStack {
                 Text(schedule.name)
                 Spacer()
-                Text("Kimura Jiu Jitsu")
+                Text(schedule.team.name)
             }
         }
     }

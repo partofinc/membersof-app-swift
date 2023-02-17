@@ -116,13 +116,11 @@ extension TeamDetailsEditView {
             account = ""
         }
         
-        func save() async {
-            do {
+        func save() {
+            Task {
                 try await storage.delete(socialsToDelete)
                 let team = Team(id: team.id, name: name, brief: brief, createDate: team.createDate, social: socials, crew: crew)
                 try await storage.save(team)
-            } catch {
-                print(error)
             }
         }
     }

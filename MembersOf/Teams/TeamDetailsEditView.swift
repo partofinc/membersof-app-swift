@@ -34,13 +34,12 @@ struct TeamDetailsEditView: View {
         }
         .safeAreaInset(edge: .bottom) {
             Button("Save") {
-                Task {
-                    await viewModel.save()
-                    editMode.toggle()
-                }
+                viewModel.save()
+                editMode.toggle()
             }
             .buttonStyle(.primary)
             .padding()
+            .background(.ultraThinMaterial)
         }
         .sheet(item: $sheet) { sheet in
             switch sheet {
@@ -56,6 +55,7 @@ struct TeamDetailsEditView: View {
                 .presentationDetents([.medium])
             }
         }
+        .animation(.easeInOut, value: viewModel.socials)
     }
     
     @ViewBuilder

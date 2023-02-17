@@ -7,10 +7,6 @@
 
 import Foundation
 
-extension Locale.Currency: Identifiable {
-    public var id: String { identifier }
-}
-
 extension CurrencyPickerView {
     
     @MainActor
@@ -36,11 +32,11 @@ extension CurrencyPickerView {
         fileprivate func calculate() {
             Task {
                 let locales = Locale.availableIdentifiers.map(Locale.init)
-                self.list = Locale.Currency.isoCurrencies.compactMap { currency in
+                self.list = Locale.Currency.isoCurrencies.compactMap { currency -> Currency? in
                     guard let locale = locales.first(where: {$0.currency == currency}),
                           let symbol = locale.currencySymbol,
-                          let name = locale.localizedString(forCurrencyCode: currency.id) else { return nil }
-                    return .init(code: currency.id, symbol: symbol, name: name)
+                          let name = locale.localizedString(forCurrencyCode: currency.identifier) else { return nil }
+                    return .init(code: currency.identifier, symbol: symbol, name: name)
                 }
             }
         }

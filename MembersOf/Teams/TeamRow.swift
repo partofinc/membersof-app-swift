@@ -13,15 +13,25 @@ struct TeamRow: View {
     let team: Team
     
     var body: some View {
-        HStack {
+        VStack(alignment: .leading) {
             Text(team.name)
-            Spacer()
+                .font(.title3)
+            HStack {
+                if let owner = team.crew.first(where: {$0.role == .owner}) {
+                    Text(owner.member.fullName)
+                }
+                Spacer()
+                Image(systemName: "person")
+                Text("67")
+            }
+            .font(.footnote)
         }
+        .foregroundColor(.white)
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.blue.opacity(0.4).gradient)
-                .shadow(radius: 5)
+                .fill(LinearGradient(colors: [.teal, .cyan], startPoint: .topLeading, endPoint: .bottomTrailing))
+                .shadow(radius: 3)
         )
     }
 }
@@ -30,6 +40,7 @@ struct ClubRow_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             TeamRow(team: Mock.teams.first!)
+                .padding()
         }
     }
 }
